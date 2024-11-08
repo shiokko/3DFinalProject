@@ -60,3 +60,9 @@
 2. 確認鬼魂的生前身份（如年齡、性別等），可通過信物推測。
 
 當玩家**找到三樣關鍵信物**，便可 100% 確認鬼魂種類，順利通關。
+
+## 使用Assets
+
+- **AllSky：** https://assetstore.unity.com/packages/2d/textures-materials/sky/allsky-free-10-sky-skybox-set-146014
+- **Conifers [BOTD]：** https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076
+- **Rock and Boulders 2：** https://assetstore.unity.com/packages/3d/props/exterior/rock-and-boulders-2-6947
