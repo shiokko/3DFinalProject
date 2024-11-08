@@ -66,3 +66,4 @@
 - **AllSky：** https://assetstore.unity.com/packages/2d/textures-materials/sky/allsky-free-10-sky-skybox-set-146014
 - **Conifers [BOTD]：** https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076
 - **Rock and Boulders 2：** https://assetstore.unity.com/packages/3d/props/exterior/rock-and-boulders-2-6947
+- **SeedMesh vegetation Shaders：** https://assetstore.unity.com/packages/vfx/shaders/seedmesh-vegetation-shaders-232690 
