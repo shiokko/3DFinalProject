@@ -49,7 +49,7 @@ public class FirstPersonRaycast : MonoBehaviour
 
             if (indicator == null)
             {
-                indicator = Instantiate(RayIndicatorOn);
+                indicator = Instantiate(RayIndicatorOff);
             }
 
             indicator.transform.position = hit.point;
