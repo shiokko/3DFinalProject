@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    // declare some const for value passing
-    // since lantern is indexed as 0, we start at 1
-    //private const int CHARM = 1;
-    //private const int DIVINATION_BLOCK = 2;
-    //private const int INCENSE = 3;
-    //private const int WOOD_SWORD = 4;
-
     [Header("Init inventory")]
     [SerializeField]
     private int InitCharmNum = 0;

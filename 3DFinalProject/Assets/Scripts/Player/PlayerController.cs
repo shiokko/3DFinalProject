@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class PlayerController : MonoBehaviour
     private float InvincibleTime = 10f;
     [SerializeField]
     private float PrayTime = 5f;
+
+    [Header("UI interface")]
+    [SerializeField]
+    private GameObject InvincibleBar;
+    [SerializeField]
+    private GameObject PrayBar;
 
     private bool canPray;
     private bool isPraying;
@@ -23,9 +30,11 @@ public class PlayerController : MonoBehaviour
         canPray = false;
         isPraying = false;
         prayCountDown = PrayTime;
+        PrayBar.SetActive(false);
 
         isInvincible = false;
         invCountDown = InvincibleTime;
+        InvincibleBar.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,10 +56,18 @@ public class PlayerController : MonoBehaviour
         {
             if (isPraying)
             {
+                // enable UI slide bar
+                if (PrayBar.activeSelf == false)
+                {
+                    PrayBar.SetActive(true);
+                    PrayBar.GetComponent<BarController>().InitBar(PrayTime, PrayTime);
+                }
+
                 // start counting down
                 prayCountDown -= Time.deltaTime;
+                PrayBar.GetComponent<BarController>().SetVal(prayCountDown);
 
-                if(prayCountDown <= 0)
+                if (prayCountDown <= 0)
                 {
                     // pray over
                     // call function here to lower the ghost's anger
@@ -58,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
                     isPraying = false;
                     prayCountDown = PrayTime;
+                    PrayBar.SetActive(false);
                 }
             }
         }
@@ -70,6 +88,7 @@ public class PlayerController : MonoBehaviour
             canPray = false;
             isPraying = false;
             prayCountDown = PrayTime;
+            PrayBar.SetActive(false);
         }
     }
 
@@ -77,14 +96,24 @@ public class PlayerController : MonoBehaviour
     {
         if(isInvincible == true)
         {
+            // enable UI slide bar
+            if(InvincibleBar.activeSelf == false)
+            {
+                InvincibleBar.SetActive(true);
+                InvincibleBar.GetComponent<BarController>().InitBar(InvincibleTime, InvincibleTime);
+            }
+
             // count down
             invCountDown -= Time.deltaTime;
+            InvincibleBar.GetComponent<BarController>().SetVal(invCountDown);
 
-            if(invCountDown <= 0)
+            if (invCountDown <= 0)
             {
                 // inv mode over
                 isInvincible = false;
                 invCountDown = InvincibleTime;
+
+                InvincibleBar.SetActive(false);
             }
         }
     }
