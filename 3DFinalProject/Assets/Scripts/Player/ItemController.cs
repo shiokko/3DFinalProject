@@ -5,9 +5,11 @@ using UnityEngine;
 public class ItemController : MonoBehaviour
 {
     // declare some const for value passing
-    private const int CHARM = 0;
-    private const int DIVINATION_BLOCK = 1;
-    private const int INCENSE = 2;
+    // since lantern is indexed as 0, we start at 1
+    //private const int CHARM = 1;
+    //private const int DIVINATION_BLOCK = 2;
+    //private const int INCENSE = 3;
+    //private const int WOOD_SWORD = 4;
 
     [Header("Init inventory")]
     [SerializeField]
@@ -18,28 +20,29 @@ public class ItemController : MonoBehaviour
     private int initIncenseNum = 0;
 
     [SerializeField]
-    private int curItem = 0;  // default to not taking anything
+    private int curItemIndex = 0;  // default to not taking anything
 
-    private int[] itemCount = new int[3];  // get currently how many items there are
+    private int[] itemCount = new int[5];  // get currently how many items there are
 
     // Start is called before the first frame update
     void Start()
     {
-        curItem = 0;
+        curItemIndex = 0;
 
-        itemCount[CHARM] = InitCharmNum;
-        itemCount[DIVINATION_BLOCK] = InitDivinationBlockNum;
-        itemCount[INCENSE] = initIncenseNum;
+        itemCount[(int)Items.CHARM] = InitCharmNum;
+        itemCount[(int)Items.DIVINATION_BLOCK] = InitDivinationBlockNum;
+        itemCount[(int)Items.INCENSE] = initIncenseNum;
+        itemCount[(int)Items.WOOD_SWORD] = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        int prevItem = curItem;
+        int prevItemIndex = curItemIndex;
 
         GetInputs();
 
-        if (prevItem != curItem)
+        if (prevItemIndex != curItemIndex)
         {
             SelectItem();
         }
@@ -47,27 +50,34 @@ public class ItemController : MonoBehaviour
 
     private void GetInputs()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        // for item switching
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            if (curItem >= transform.childCount - 1)
+            if (curItemIndex >= transform.childCount - 1)
             {
-                curItem = transform.childCount - 1;
+                curItemIndex = transform.childCount - 1;
             }
             else
             {
-                curItem++;
+                curItemIndex++;
             }
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            if (curItem <= 0)
+            if (curItemIndex <= 0)
             {
-                curItem = 0;
+                curItemIndex = 0;
             }
             else
             {
-                curItem--;
+                curItemIndex--;
             }
+        }
+
+        // for item usage
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            UseItem();
         }
     }
 
@@ -83,9 +93,9 @@ public class ItemController : MonoBehaviour
                 continue;
             }
 
-            if (i == curItem)
+            if (i == curItemIndex)
             {
-                if (itemCount[i - 1] > 0)  // skip lantern's index
+                if (itemCount[i] > 0)  // skip lantern's index
                 {
                     item.gameObject.SetActive(true);
                 }
@@ -103,18 +113,65 @@ public class ItemController : MonoBehaviour
         }
     }
 
+    private void UseItem()
+    {
+        if(curItemIndex == 0)  // only holding lantern, nothing can be used
+        {
+            return;
+        }
+
+        bool successfullyUsed = false;
+
+        if(curItemIndex == (int)Items.CHARM)
+        {
+            // make player invincible
+            GameObject.Find("PlayerCapsule").GetComponent<PlayerController>().SetInvincible();
+            successfullyUsed = true;
+        }
+        else if(curItemIndex == (int)Items.DIVINATION_BLOCK)
+        {
+            // call function in ask god
+        }
+        else if(curItemIndex == (int)Items.INCENSE)
+        {
+            // try to start praying at pray area
+            bool startPraying = GameObject.Find("PlayerCapsule").GetComponent<PlayerController>().SetPraying();
+
+            if (startPraying)
+            {
+                successfullyUsed = true;
+            }
+        }
+        else if (curItemIndex == (int)Items.WOOD_SWORD)
+        {
+            // call function in kill ghost
+        }
+
+        if (successfullyUsed)
+        {
+            itemCount[curItemIndex] --;
+            curItemIndex = 0;
+        }
+    }
+
 
     // Public function here
 
     // for First Person Raycast
     public void IncrementItemCount(int index)
     {
-        if(index < 0 || index >= itemCount.Length)
+        if(index <= 0 || index >= itemCount.Length)
         {
-            Debug.Log("index out of range in IncrementItemCount");
+            Debug.Log("index out of range in IncrementItemCount, passed wrong params");
             return;
         }
 
         itemCount[index] ++;
+    }
+
+    // for After 請神 get the sword
+    public void GetWoodSword()
+    {
+        itemCount[(int)Items.WOOD_SWORD] = 1;
     }
 }

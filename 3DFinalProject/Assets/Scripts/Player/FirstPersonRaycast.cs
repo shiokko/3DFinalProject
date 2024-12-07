@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class FirstPersonRaycast : MonoBehaviour
 {
-    // declare some const for value passing
-    private const int CHARM = 0;
-    private const int DIVINATION_BLOCK = 1;
-    private const int INCENSE = 2;
-
     [SerializeField]
     private Camera cam;
 
@@ -52,7 +47,7 @@ public class FirstPersonRaycast : MonoBehaviour
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    if (Input.GetKeyDown(KeyCode.F))
                     {
                         TakeItem(hit.collider.gameObject);
                     }
@@ -69,7 +64,7 @@ public class FirstPersonRaycast : MonoBehaviour
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    if (Input.GetKeyDown(KeyCode.F))
                     {
                         TakeItem(hit.collider.gameObject);
                     }
@@ -97,17 +92,17 @@ public class FirstPersonRaycast : MonoBehaviour
         if (hit.name == "Charm(Clone)") 
         {
             // pass the result index of getting charm to item controller
-            ItemHolder.GetComponent<ItemController>().IncrementItemCount(CHARM);
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.CHARM);
         }
         else if (hit.name == "Incense(Clone)")
         {
             // pass the result index of getting incense to item controller
-            ItemHolder.GetComponent<ItemController>().IncrementItemCount(INCENSE);
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.INCENSE);
         }
         else if (hit.name == "DivinationBlock(Clone)")
         {
             // pass the result index of getting divination block to item controller
-            ItemHolder.GetComponent<ItemController>().IncrementItemCount(DIVINATION_BLOCK);
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.DIVINATION_BLOCK);
         }
 
         Destroy(hit);

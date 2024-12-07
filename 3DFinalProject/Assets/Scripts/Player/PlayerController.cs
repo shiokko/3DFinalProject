@@ -4,88 +4,115 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // declare some const for value passing
-    private const int CHARM = 1;
-    private const int DIVINATION_BLOCK = 2;
-    private const int INCENSE = 3;
+    [Header("Parameters")]
+    [SerializeField]
+    private float InvincibleTime = 10f;
+    [SerializeField]
+    private float PrayTime = 5f;
 
-    [Header("Init inventory")]
-    [SerializeField]
-    private int InitCharmNum = 0;
-    [SerializeField]
-    private int InitDivinationBlockNum = 0;
-    [SerializeField]
-    private int initIncenseNum = 0;
+    private bool canPray;
+    private bool isPraying;
+    private float prayCountDown;
 
-    [SerializeField]
-    private int curItem = 0;  // default to not taking anything
+    private bool isInvincible;
+    private float invCountDown;
 
     // Start is called before the first frame update
     void Start()
     {
-        curItem = 0;
+        canPray = false;
+        isPraying = false;
+        prayCountDown = PrayTime;
+
+        isInvincible = false;
+        invCountDown = InvincibleTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        int prevItem = curItem;
-
-        GetInputs();
-
-        if(prevItem != curItem)
-        {
-            SelectItem();
-        }
+        CheckInvincible();
     }
 
-    private void GetInputs()
+    private void OnTriggerEnter(Collider other)
     {
-        if(Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (other.name == "PrayArea")
         {
-            if(curItem >= transform.childCount - 1)
-            {
-                curItem = transform.childCount - 1;
-            }
-            else
-            {
-                curItem ++;
-            }
-        } else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            canPray = true;
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.name == "PrayArea")
         {
-            if (curItem <= 0)
+            if (isPraying)
             {
-                curItem = 0;
-            }
-            else
-            {
-                curItem --;
+                // start counting down
+                prayCountDown -= Time.deltaTime;
+
+                if(prayCountDown <= 0)
+                {
+                    // pray over
+                    // call function here to lower the ghost's anger
+
+
+                    isPraying = false;
+                    prayCountDown = PrayTime;
+                }
             }
         }
     }
 
-    private void SelectItem()
+    private void OnTriggerExit(Collider other)
     {
-        int i = 0;
-        foreach (Transform item in transform)
+        if (other.name == "PrayArea")
         {
-            if(i == 0)
-            {
-                // not holding anything except lantern
-                i ++;
-                continue;
-            }
-
-            if(i == curItem)
-            {
-                item.gameObject.SetActive(true);
-            }
-            else
-            {
-                item.gameObject.SetActive(false);
-            }
-
-            i ++;
+            canPray = false;
+            isPraying = false;
+            prayCountDown = PrayTime;
         }
+    }
+
+    private void CheckInvincible()
+    {
+        if(isInvincible == true)
+        {
+            // count down
+            invCountDown -= Time.deltaTime;
+
+            if(invCountDown <= 0)
+            {
+                // inv mode over
+                isInvincible = false;
+                invCountDown = InvincibleTime;
+            }
+        }
+    }
+
+    // public function here
+    // for item controller
+    public void SetInvincible()
+    {
+        isInvincible = true;
+        invCountDown = InvincibleTime;
+    }
+
+    public bool SetPraying()
+    {
+        if (canPray)
+        {
+            isPraying = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // for ghost to see if player is invincible
+    public bool GetIsInvincible()
+    {
+        return isInvincible;
     }
 }
