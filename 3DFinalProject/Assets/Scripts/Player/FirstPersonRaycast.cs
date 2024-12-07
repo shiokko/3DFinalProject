@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FirstPersonRaycast : MonoBehaviour
 {
+    // declare some const for value passing
+    private const int CHARM = 0;
+    private const int DIVINATION_BLOCK = 1;
+    private const int INCENSE = 2;
+
     [SerializeField]
     private Camera cam;
 
@@ -19,6 +24,10 @@ public class FirstPersonRaycast : MonoBehaviour
     private GameObject RayIndicatorOn;
     [SerializeField]
     private GameObject RayIndicatorOff;
+
+    [Header("References")]
+    [SerializeField]
+    private GameObject ItemHolder;
 
     private GameObject indicator;
 
@@ -36,20 +45,39 @@ public class FirstPersonRaycast : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, handLength, LayerToDetect))
         {
-            //if (hit.collider.gameObject.tag != "")
-            //{
-            //    RayIndicatorOn.SetActive(false);
-            //    RayIndicatorOff.SetActive(true);
-            //}
-            //else
-            //{
-            //    RayIndicatorOn.SetActive(true);
-            //    RayIndicatorOff.SetActive(false);
-            //}
-
+            // hit something
             if (indicator == null)
             {
-                indicator = Instantiate(RayIndicatorOff);
+                if (hit.collider.gameObject.tag == "CanTakeItem")
+                {
+                    indicator = Instantiate(RayIndicatorOn);
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        TakeItem(hit.collider.gameObject);
+                    }
+                }
+                else
+                {
+                    indicator = Instantiate(RayIndicatorOff);
+                }
+            }
+            else
+            {
+                Destroy(indicator);
+                if (hit.collider.gameObject.tag == "CanTakeItem")
+                {
+                    indicator = Instantiate(RayIndicatorOn);
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        TakeItem(hit.collider.gameObject);
+                    }
+                }
+                else
+                {
+                    indicator = Instantiate(RayIndicatorOff);
+                }
             }
 
             indicator.transform.position = hit.point;
@@ -62,5 +90,26 @@ public class FirstPersonRaycast : MonoBehaviour
                 indicator = null;
             }
         }
+    }
+
+    private void TakeItem(GameObject hit)
+    {
+        if (hit.name == "Charm(Clone)") 
+        {
+            // pass the result index of getting charm to item controller
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount(CHARM);
+        }
+        else if (hit.name == "Incense(Clone)")
+        {
+            // pass the result index of getting incense to item controller
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount(INCENSE);
+        }
+        else if (hit.name == "DivinationBlock(Clone)")
+        {
+            // pass the result index of getting divination block to item controller
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount(DIVINATION_BLOCK);
+        }
+
+        Destroy(hit);
     }
 }

@@ -319,8 +319,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7461577403151863694}
   m_Layer: 0
-  m_Name: ChineseLantern_temp
-  m_TagString: Untagged
+  m_Name: ChineseLantern
+  m_TagString: CanTakeItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
