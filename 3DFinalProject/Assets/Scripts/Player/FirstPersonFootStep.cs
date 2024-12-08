@@ -64,4 +64,8 @@ public class FirstPersonFootStep : MonoBehaviour
             footStepTimer = curOffset;
         }
     }
+    public Vector3 GetPlayerPosition()
+    {
+        return transform.position;
+    }
 }
