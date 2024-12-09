@@ -422,6 +422,14 @@ MonoBehaviour:
     type: 3}
   DivinationBlockPrefab: {fileID: 4765245185705945406, guid: d8d5f830275aca64eacc0bda82c0a056,
     type: 3}
+  Comb: {fileID: 0}
+  Fan: {fileID: 0}
+  Toy: {fileID: 0}
+  Jade: {fileID: 0}
+  crutch: {fileID: 0}
+  GoldIngot: {fileID: 0}
+  StrawHat: {fileID: 0}
+  BrokenBowl: {fileID: 0}
   ForbiddenWidthFromPlayer: 12
   ForbiddenLengthFromPlayer: 12
   borderOffset: 3
