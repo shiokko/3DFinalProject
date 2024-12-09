@@ -21,6 +21,25 @@ public class ObjectDistributer : MonoBehaviour
     private GameObject IncensePrefab;
     [SerializeField]
     private GameObject DivinationBlockPrefab;
+    [SerializeField]
+
+
+    [Header("Remnant Prefabs")]
+    private GameObject Comb;
+    [SerializeField]
+    private GameObject Fan;
+    [SerializeField]
+    private GameObject Toy;
+    [SerializeField]
+    private GameObject Jade;
+    [SerializeField]
+    private GameObject crutch;
+    [SerializeField]
+    private GameObject GoldIngot;
+    [SerializeField]
+    private GameObject StrawHat;
+    [SerializeField]
+    private GameObject BrokenBowl;
 
     [Header("Parameters")]
     [SerializeField]

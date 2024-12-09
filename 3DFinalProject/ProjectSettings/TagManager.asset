@@ -7,7 +7,6 @@ TagManager:
   - CinemachineTarget
   - env
   - CanTakeItem
-  - remnent
   layers:
   - Default
   - TransparentFX
