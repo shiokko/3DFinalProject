@@ -1,4 +1,3 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +18,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject PrayBar;
 
-    private StarterAssetsInputs _input;
-
     private bool canPray;
     private bool isPraying;
     private float prayCountDown;
@@ -31,8 +28,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _input = GetComponent<StarterAssetsInputs>();
-
         canPray = false;
         isPraying = false;
         prayCountDown = PrayTime;
@@ -47,12 +42,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckInvincible();
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            _input.cursorInputForLook = !_input.cursorInputForLook;
-            _input.look = Vector2.zero;
-        }
     }
 
     private void OnTriggerEnter(Collider other)

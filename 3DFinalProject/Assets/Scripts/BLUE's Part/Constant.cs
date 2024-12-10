@@ -8,7 +8,7 @@ enum Items
 }
 
 // for passing between player and god
-enum Remnent
+enum Remnants
 {
     COMB = 0,
     FAN,
@@ -18,4 +18,11 @@ enum Remnent
     GOLD,
     HAT,
     BOWL,
+}
+
+enum GlobalVar
+{
+    NUM_REMNANT_TYPE = 8,
+    NUM_REMNANT_CATEGORY = 3,
+    NUM_ITEM_TYPE = 5,
 }

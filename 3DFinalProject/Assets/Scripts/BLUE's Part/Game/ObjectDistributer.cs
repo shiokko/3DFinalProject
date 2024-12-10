@@ -26,7 +26,7 @@ public class ObjectDistributer : MonoBehaviour
 
     [Header("Remnant Prefabs")]
     [SerializeField]
-    private GameObject[] RemnantsPrefabs;
+    private GameObject[] RemnantsPrefabs = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
 
     [Header("Parameters")]
     [SerializeField]
@@ -35,8 +35,6 @@ public class ObjectDistributer : MonoBehaviour
     private float ForbiddenLengthFromPlayer = 12f;  // set a length to prevent items spawn from player
     [SerializeField]
     private float borderOffset = 3f;  // set an offset for each spawned item to avoid spawn in walls
-    [SerializeField]
-    private int NumRemnantCategory = 3;
     [SerializeField]
     private int NumWrongRemnants = 2;
     [SerializeField]
@@ -61,11 +59,11 @@ public class ObjectDistributer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        correctRemnantsID = new int[NumRemnantCategory];
+        correctRemnantsID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
         // call this from Game Manager:
         // _DeepCopyArray(correctRemnantsID, GM.GetComponent<GameManager>().GetCorrectRemnants());
-        int[] fakeData = new int[3];
-        fakeData[0] = (int)Remnent.COMB; fakeData[1] = (int)Remnent.TOY; fakeData[2] = (int)Remnent.GOLD;
+        int[] fakeData = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+        fakeData[0] = (int)Remnants.COMB; fakeData[1] = (int)Remnants.TOY; fakeData[2] = (int)Remnants.GOLD;
 
         _DeepCopyArray(correctRemnantsID, fakeData);
 
@@ -137,10 +135,10 @@ public class ObjectDistributer : MonoBehaviour
     private void DistributeRemnants()
     {
         // first, pick a random Category to spawn in ghost temple
-        int inTempleCategoryID = Random.Range(0, NumRemnantCategory);
+        int inTempleCategoryID = Random.Range(0, (int)GlobalVar.NUM_REMNANT_CATEGORY);
 
         // start spawning each correct remnant
-        for (int i = 0; i < NumRemnantCategory; i++)  // for each category
+        for (int i = 0; i < (int)GlobalVar.NUM_REMNANT_CATEGORY; i++)  // for each category
         {
             if (i == inTempleCategoryID)  // spawn in ghost temple
             {
@@ -162,7 +160,7 @@ public class ObjectDistributer : MonoBehaviour
             {
                 bool isWrong = true;
 
-                for (int j = 0; j < NumRemnantCategory; j++)  // check for each category
+                for (int j = 0; j < (int)GlobalVar.NUM_REMNANT_CATEGORY; j++)  // check for each category
                 {
                     if (WrongRemnantID == correctRemnantsID[j])
                     {
