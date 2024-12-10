@@ -18,8 +18,16 @@ public class Ask_God : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.F)) {
+        if (Input.GetKey(KeyCode.P)) {
             Flowchart.BroadcastFungusMessage("Ask");
+        }
+        if (Input.GetKey(KeyCode.O))
+        {
+            Flowchart.BroadcastFungusMessage("write");
+        }
+        if (Input.GetKey(KeyCode.G))
+        {
+            GameObject.Find("GameManager").GetComponent<renment>().finish();
         }
     }
 

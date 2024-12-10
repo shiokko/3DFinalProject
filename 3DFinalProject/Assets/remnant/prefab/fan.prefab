@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1968433300985022414}
+  - component: {fileID: -939799094374010985}
   m_Layer: 0
   m_Name: fan
-  m_TagString: Untagged
+  m_TagString: remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +33,19 @@ Transform:
   - {fileID: 7075826880882042352}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-939799094374010985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6172407314267062989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d3339e120282047a598c002555b73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 12
 --- !u!1 &7396546571045639897
 GameObject:
   m_ObjectHideFlags: 0
