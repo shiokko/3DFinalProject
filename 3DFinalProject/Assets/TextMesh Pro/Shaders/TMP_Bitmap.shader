@@ -3,7 +3,11 @@ Shader "TextMeshPro/Bitmap" {
 Properties {
 	_MainTex		("Font Atlas", 2D) = "white" {}
 	_FaceTex		("Font Texture", 2D) = "white" {}
+<<<<<<< HEAD
 	[HDR]_FaceColor	("Text Color", Color) = (1,1,1,1)
+=======
+	_FaceColor		("Text Color", Color) = (1,1,1,1)
+>>>>>>> main
 
 	_VertexOffsetX	("Vertex OffsetX", float) = 0
 	_VertexOffsetY	("Vertex OffsetY", float) = 0
@@ -18,14 +22,21 @@ Properties {
 	_StencilWriteMask("Stencil Write Mask", Float) = 255
 	_StencilReadMask("Stencil Read Mask", Float) = 255
 
+<<<<<<< HEAD
 	_CullMode("Cull Mode", Float) = 0
+=======
+>>>>>>> main
 	_ColorMask("Color Mask", Float) = 15
 }
 
 SubShader{
 
 	Tags { "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> main
 	Stencil
 	{
 		Ref[_Stencil]
@@ -34,8 +45,13 @@ SubShader{
 		ReadMask[_StencilReadMask]
 		WriteMask[_StencilWriteMask]
 	}
+<<<<<<< HEAD
 
 
+=======
+	
+	
+>>>>>>> main
 	Lighting Off
 	Cull [_CullMode]
 	ZTest [unity_GUIZTestMode]
@@ -114,7 +130,11 @@ SubShader{
 			// Clamp _ClipRect to 16bit.
 			float4 clampedRect = clamp(_ClipRect, -2e10, 2e10);
 			OUT.mask = float4(vert.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + pixelSize.xy));
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> main
 			return OUT;
 		}
 

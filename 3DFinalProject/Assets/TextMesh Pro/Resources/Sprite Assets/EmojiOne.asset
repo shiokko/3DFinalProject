@@ -25,7 +25,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ColorMask: 15
+<<<<<<< HEAD
     - _CullMode: 0
+=======
+>>>>>>> main
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -51,6 +54,7 @@ MonoBehaviour:
   material: {fileID: 2103686}
   materialHashCode: 0
   m_Version: 1.1.0
+<<<<<<< HEAD
   m_FaceInfo:
     m_FamilyName: 
     m_StyleName: 
@@ -71,6 +75,8 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
+=======
+>>>>>>> main
   spriteSheet: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
@@ -146,11 +152,19 @@ MonoBehaviour:
     m_Name: 1f609
     m_HashCode: 57188264
   - m_ElementType: 2
+<<<<<<< HEAD
     m_Unicode: 0
     m_GlyphIndex: 12
     m_Scale: 1
     m_Name: .notdef
     m_HashCode: -600915428
+=======
+    m_Unicode: 128536
+    m_GlyphIndex: 12
+    m_Scale: 1
+    m_Name: 1f618
+    m_HashCode: 57188168
+>>>>>>> main
   - m_ElementType: 2
     m_Unicode: 129315
     m_GlyphIndex: 13
