@@ -30,7 +30,7 @@ public class GhostController : MonoBehaviour
     public int GetStatus() { return status; }
     public void SetStatus(int rage)//update隨時更新
     {
-        if (rage >= 76) this.status = 3;
+        if (rage >= 100) this.status = 3;
         if (rage < 75) this.status = 2;
         if (rage < 50) this.status = 1;
         if (rage < 25) this.status = 0;
@@ -51,7 +51,7 @@ public class GhostController : MonoBehaviour
     private void Behavior()
     {
         int status = this.GetStatus();
-        Vector3 PlayerPosition = Player.GetPlayerPosition();
+        Vector3 PlayerPosition = Player.transform.position;
         if (status == 0)//跟隨
         {
 
@@ -62,6 +62,7 @@ public class GhostController : MonoBehaviour
         }
         if (status == 2)//罵人
         {
+
         }
         if (status == 3) //殺人
         {
