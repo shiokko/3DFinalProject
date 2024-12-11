@@ -7,7 +7,6 @@ Shader "TextMeshPro/Mobile/Distance Field (Surface)" {
 
 Properties {
 	_FaceTex			("Fill Texture", 2D) = "white" {}
-<<<<<<< HEAD
 	[HDR]_FaceColor		("Fill Color", Color) = (1,1,1,1)
 	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
 
@@ -17,17 +16,6 @@ Properties {
 	_OutlineSoftness	("Outline Softness", Range(0,1)) = 0
 
 	[HDR]_GlowColor		("Color", Color) = (0, 1, 0, 0.5)
-=======
-	_FaceColor			("Fill Color", Color) = (1,1,1,1)
-	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
-
-	_OutlineColor		("Outline Color", Color) = (0,0,0,1)
-	_OutlineTex			("Outline Texture", 2D) = "white" {}
-	_OutlineWidth		("Outline Thickness", Range(0, 1)) = 0
-	_OutlineSoftness		("Outline Softness", Range(0,1)) = 0
-
-	_GlowColor			("Color", Color) = (0, 1, 0, 0.5)
->>>>>>> main
 	_GlowOffset			("Offset", Range(-1,1)) = 0
 	_GlowInner			("Inner", Range(0,1)) = 0.05
 	_GlowOuter			("Outer", Range(0,1)) = 0.05
@@ -49,19 +37,12 @@ Properties {
 	_ScaleX				("Scale X", float) = 1.0
 	_ScaleY				("Scale Y", float) = 1.0
 	_PerspectiveFilter	("Perspective Correction", Range(0, 1)) = 0.875
-<<<<<<< HEAD
 	_Sharpness			("Sharpness", Range(-1,1)) = 0
 
 	_VertexOffsetX		("Vertex OffsetX", float) = 0
 	_VertexOffsetY		("Vertex OffsetY", float) = 0
 
 	_CullMode			("Cull Mode", Float) = 0
-=======
-
-	_VertexOffsetX		("Vertex OffsetX", float) = 0
-	_VertexOffsetY		("Vertex OffsetY", float) = 0
-	
->>>>>>> main
 	//_MaskCoord		("Mask Coords", vector) = (0,0,0,0)
 	//_MaskSoftness		("Mask Softness", float) = 0
 }
@@ -95,11 +76,7 @@ SubShader {
 		float2	uv2_FaceTex;
 		float2  uv2_OutlineTex;
 		float2	param;					// Weight, Scale
-<<<<<<< HEAD
 		float3	viewDirEnv;
-=======
-		float3	viewDirEnv;		
->>>>>>> main
 	};
 
 	#include "TMPro_Surface.cginc"

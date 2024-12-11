@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 ﻿// Simplified SDF shader:
-=======
-// Simplified SDF shader:
->>>>>>> main
 // - No Shading Option (bevel / bump / env map)
 // - No Glow Option
 // - Softness is applied on both side of the outline
@@ -10,7 +6,6 @@
 Shader "TextMeshPro/Mobile/Distance Field - Masking" {
 
 Properties {
-<<<<<<< HEAD
 	[HDR]_FaceColor		("Face Color", Color) = (1,1,1,1)
 	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
 
@@ -19,16 +14,6 @@ Properties {
 	_OutlineSoftness	("Outline Softness", Range(0,1)) = 0
 
 	[HDR]_UnderlayColor	("Border Color", Color) = (0,0,0,.5)
-=======
-	_FaceColor			("Face Color", Color) = (1,1,1,1)
-	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
-
-	_OutlineColor		("Outline Color", Color) = (0,0,0,1)
-	_OutlineWidth		("Outline Thickness", Range(0,1)) = 0
-	_OutlineSoftness	("Outline Softness", Range(0,1)) = 0
-
-	_UnderlayColor		("Border Color", Color) = (0,0,0,.5)
->>>>>>> main
 	_UnderlayOffsetX 	("Border OffsetX", Range(-1,1)) = 0
 	_UnderlayOffsetY 	("Border OffsetY", Range(-1,1)) = 0
 	_UnderlayDilate		("Border Dilate", Range(-1,1)) = 0
@@ -49,10 +34,7 @@ Properties {
 	_ScaleX				("Scale X", float) = 1
 	_ScaleY				("Scale Y", float) = 1
 	_PerspectiveFilter	("Perspective Correction", Range(0, 1)) = 0.875
-<<<<<<< HEAD
 	_Sharpness			("Sharpness", Range(-1,1)) = 0
-=======
->>>>>>> main
 
 	_VertexOffsetX		("Vertex OffsetX", float) = 0
 	_VertexOffsetY		("Vertex OffsetY", float) = 0
@@ -65,31 +47,19 @@ Properties {
 	_MaskEdgeColor		("Edge Color", Color) = (1,1,1,1)
 	_MaskEdgeSoftness	("Edge Softness", Range(0, 1)) = 0.01
 	_MaskWipeControl	("Wipe Position", Range(0, 1)) = 0.5
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> main
 	_StencilComp		("Stencil Comparison", Float) = 8
 	_Stencil			("Stencil ID", Float) = 0
 	_StencilOp			("Stencil Operation", Float) = 0
 	_StencilWriteMask	("Stencil Write Mask", Float) = 255
 	_StencilReadMask	("Stencil Read Mask", Float) = 255
-<<<<<<< HEAD
 
 	_CullMode			("Cull Mode", Float) = 0
-=======
-	
->>>>>>> main
 	_ColorMask			("Color Mask", Float) = 15
 }
 
 SubShader {
-<<<<<<< HEAD
 	Tags
-=======
-	Tags 
->>>>>>> main
 	{
 		"Queue"="Transparent"
 		"IgnoreProjector"="True"
@@ -101,11 +71,7 @@ SubShader {
 	{
 		Ref [_Stencil]
 		Comp [_StencilComp]
-<<<<<<< HEAD
 		Pass [_StencilOp]
-=======
-		Pass [_StencilOp] 
->>>>>>> main
 		ReadMask [_StencilReadMask]
 		WriteMask [_StencilWriteMask]
 	}
@@ -170,15 +136,9 @@ SubShader {
 
 			float2 pixelSize = vPosition.w;
 			pixelSize /= float2(_ScaleX, _ScaleY) * abs(mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy));
-<<<<<<< HEAD
 
 			float scale = rsqrt(dot(pixelSize, pixelSize));
 			scale *= abs(input.texcoord1.y) * _GradientScale * (_Sharpness + 1);
-=======
-			
-			float scale = rsqrt(dot(pixelSize, pixelSize));
-			scale *= abs(input.texcoord1.y) * _GradientScale * 1.5;
->>>>>>> main
 			if(UNITY_MATRIX_P[3][3] == 0) scale = lerp(abs(scale) * (1 - _PerspectiveFilter), scale, abs(dot(UnityObjectToWorldNormal(input.normal.xyz), normalize(WorldSpaceViewDir(vert)))));
 
 			float weight = lerp(_WeightNormal, _WeightBold, bold) / 4.0;
@@ -258,17 +218,10 @@ SubShader {
 		#endif
 
 		// Alternative implementation to UnityGet2DClipping with support for softness.
-<<<<<<< HEAD
 		//#if UNITY_UI_CLIP_RECT
 			half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
 			c *= m.x * m.y;
 		//#endif
-=======
-		#if UNITY_UI_CLIP_RECT	
-			half2 m = saturate((_ClipRect.zw - _ClipRect.xy - abs(input.mask.xy)) * input.mask.zw);
-			c *= m.x * m.y;
-		#endif
->>>>>>> main
 
 		float a = abs(_MaskInverse - tex2D(_MaskTex, input.texcoord0.zw).a);
 		float t = a + (1 - _MaskWipeControl) * _MaskEdgeSoftness - _MaskWipeControl;
