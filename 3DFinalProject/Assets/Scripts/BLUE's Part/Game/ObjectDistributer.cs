@@ -13,6 +13,8 @@ public class ObjectDistributer : MonoBehaviour
     private GameObject GhostTempleFloor;
     [SerializeField]
     private Transform Player;
+    [SerializeField]
+    private GameObject GM;
 
     [Header("Prefabs to spawn")]
     [SerializeField]
@@ -21,25 +23,10 @@ public class ObjectDistributer : MonoBehaviour
     private GameObject IncensePrefab;
     [SerializeField]
     private GameObject DivinationBlockPrefab;
-    [SerializeField]
-
 
     [Header("Remnant Prefabs")]
-    private GameObject Comb;
     [SerializeField]
-    private GameObject Fan;
-    [SerializeField]
-    private GameObject Toy;
-    [SerializeField]
-    private GameObject Jade;
-    [SerializeField]
-    private GameObject crutch;
-    [SerializeField]
-    private GameObject GoldIngot;
-    [SerializeField]
-    private GameObject StrawHat;
-    [SerializeField]
-    private GameObject BrokenBowl;
+    private GameObject[] RemnantsPrefabs = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
 
     [Header("Parameters")]
     [SerializeField]
@@ -48,6 +35,8 @@ public class ObjectDistributer : MonoBehaviour
     private float ForbiddenLengthFromPlayer = 12f;  // set a length to prevent items spawn from player
     [SerializeField]
     private float borderOffset = 3f;  // set an offset for each spawned item to avoid spawn in walls
+    [SerializeField]
+    private int NumWrongRemnants = 2;
     [SerializeField]
     private int CharmNum = 10;
     [SerializeField]
@@ -64,19 +53,31 @@ public class ObjectDistributer : MonoBehaviour
     private Vector3[] ghostTempleArea = new Vector3[2]
 ;    private Vector3[] forbiddenArea = new Vector3[2];
 
+    // the correct remnants
+    private int[] correctRemnantsID;
+
     // Start is called before the first frame update
     void Start()
     {
+        correctRemnantsID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+        // call this from Game Manager:
+        // _DeepCopyArray(correctRemnantsID, GM.GetComponent<GameManager>().GetCorrectRemnants());
+        int[] fakeData = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+        fakeData[0] = (int)Remnants.COMB; fakeData[1] = (int)Remnants.TOY; fakeData[2] = (int)Remnants.GOLD;
+
+        _DeepCopyArray(correctRemnantsID, fakeData);
+
         CalculateAreas();
         //Debuger();
 
         DistributeItems();
+        DistributeRemnants();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void CalculateAreas()
@@ -131,6 +132,56 @@ public class ObjectDistributer : MonoBehaviour
         SpawnGodTempleItems(DivinationBlockPrefab, DivinationBlockNum);
     }
 
+    private void DistributeRemnants()
+    {
+        // first, pick a random Category to spawn in ghost temple
+        int inTempleCategoryID = Random.Range(0, (int)GlobalVar.NUM_REMNANT_CATEGORY);
+
+        // start spawning each correct remnant
+        for (int i = 0; i < (int)GlobalVar.NUM_REMNANT_CATEGORY; i++)  // for each category
+        {
+            if (i == inTempleCategoryID)  // spawn in ghost temple
+            {
+                SpawnGhostTempleItems(RemnantsPrefabs[correctRemnantsID[i]], 1);
+            }
+            else                         // spawn elsewhere
+            {
+                SpawnOutsideItems(RemnantsPrefabs[correctRemnantsID[i]], 1);
+            }
+        }
+
+        // start spawning wrong remnants
+        for (int i = 0; i < NumWrongRemnants; i++)
+        {
+            int WrongRemnantID = Random.Range(0, RemnantsPrefabs.Length);
+
+            // check if it's the wrong remnant
+            while (true)
+            {
+                bool isWrong = true;
+
+                for (int j = 0; j < (int)GlobalVar.NUM_REMNANT_CATEGORY; j++)  // check for each category
+                {
+                    if (WrongRemnantID == correctRemnantsID[j])
+                    {
+                        isWrong = false;
+                    }
+                }
+
+                if (isWrong)
+                {
+                    break;
+                }
+                else
+                {
+                    WrongRemnantID = Random.Range(0, RemnantsPrefabs.Length);
+                }
+            }
+
+            SpawnOutsideItems(RemnantsPrefabs[WrongRemnantID], 1);
+        }
+    }
+
     private void SpawnOutsideItems(GameObject _prefab, int _prefabNum)
     {
         float spawnX;
@@ -159,15 +210,36 @@ public class ObjectDistributer : MonoBehaviour
 
         for (int i = 0; i < _prefabNum; i++)
         {
-            spawnX = Random.Range(spawnArea[0].x + borderOffset, spawnArea[1].x - borderOffset);
-            spawnZ = Random.Range(spawnArea[0].z + borderOffset, spawnArea[1].z - borderOffset);
+            // add border offset to avoid spawn in walls, inward borders
+            // templeTL(BR) stands for god temple top left(botton right)
+            float templeTL_x = godTempleArea[0].x + borderOffset;
+            float templeTL_z = godTempleArea[0].z + borderOffset;
+            float templeBR_x = godTempleArea[1].x - borderOffset;
+            float templeBR_z = godTempleArea[1].z - borderOffset;
 
-            while (!CheckInGodTemple(spawnX, spawnZ))
-            {
-                // re-choose a spawn point
-                spawnX = Random.Range(spawnArea[0].x + borderOffset, spawnArea[1].x - borderOffset);
-                spawnZ = Random.Range(spawnArea[0].z + borderOffset, spawnArea[1].z - borderOffset);
-            }
+            spawnX = Random.Range(templeTL_x, templeBR_x);
+            spawnZ = Random.Range(templeTL_z, templeBR_z);
+
+            Instantiate(_prefab, new Vector3(spawnX, MaxFloorHeight + borderOffset, spawnZ), transform.rotation);
+        }
+    }
+
+    private void SpawnGhostTempleItems(GameObject _prefab, int _prefabNum)
+    {
+        float spawnX;
+        float spawnZ;
+
+        for (int i = 0; i < _prefabNum; i++)
+        {
+            // add border offset to avoid spawn in walls, inward borders
+            // templeTL(BR) stands for god temple top left(botton right)
+            float templeTL_x = ghostTempleArea[0].x + borderOffset;
+            float templeTL_z = ghostTempleArea[0].z + borderOffset;
+            float templeBR_x = ghostTempleArea[1].x - borderOffset;
+            float templeBR_z = ghostTempleArea[1].z - borderOffset;
+
+            spawnX = Random.Range(templeTL_x, templeBR_x);
+            spawnZ = Random.Range(templeTL_z, templeBR_z);
 
             Instantiate(_prefab, new Vector3(spawnX, MaxFloorHeight + borderOffset, spawnZ), transform.rotation);
         }
@@ -228,16 +300,55 @@ public class ObjectDistributer : MonoBehaviour
             return false;
         }
     }
+
+    private bool CheckInGhostTemple(float spawnX, float spawnZ)
+    {
+        // add border offset to avoid spawn in walls, inward borders
+        // templeTL(BR) stands for ghost temple top left(botton right)
+        float templeTL_x = ghostTempleArea[0].x + borderOffset;
+        float templeTL_z = ghostTempleArea[0].z + borderOffset;
+        float templeBR_x = ghostTempleArea[1].x - borderOffset;
+        float templeBR_z = ghostTempleArea[1].z - borderOffset;
+
+        if (spawnX > templeTL_x && spawnZ > templeTL_z && spawnX < templeBR_x && spawnZ < templeBR_z)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void _DeepCopyArray(int[] target, int[] original)
+    {
+        if(target.Length != original.Length)
+        {
+            Debug.Log("Wrong array size pass from GM to Obj distributer");
+            return;
+        }
+
+        for (int i = 0; i < target.Length; i++)
+        {
+            target[i] = original[i];
+        }
+    }
     private void Debuger()
     {
         //Debug.Log("World pos: " + WorldSpace.transform.position);
         //Debug.Log("World bound: " + WorldSpace.GetComponent<MeshRenderer>().bounds.size);
-        Debug.Log("God temple pos: " + GodTempleFloor.transform.position);
-        Debug.Log("God temple bound: " + GodTempleFloor.GetComponent<MeshRenderer>().bounds.size);
-        //Debug.Log("Ghost temple pos: " + GhostTempleFloor.transform.position);
-        //Debug.Log("Ghost temple bound: " + GhostTempleFloor.GetComponent<MeshRenderer>().bounds.size);
+        //Debug.Log("God temple pos: " + GodTempleFloor.transform.position);
+        //Debug.Log("God temple bound: " + GodTempleFloor.GetComponent<MeshRenderer>().bounds.size);
+        Debug.Log("Ghost temple pos: " + GhostTempleFloor.transform.position);
+        Debug.Log("Ghost temple bound: " + GhostTempleFloor.GetComponent<MeshRenderer>().bounds.size);
+        float templeTL_x = godTempleArea[0].x + borderOffset;
+        float templeTL_z = godTempleArea[0].z + borderOffset;
+        float templeBR_x = godTempleArea[1].x - borderOffset;
+        float templeBR_z = godTempleArea[1].z - borderOffset;
+        Debug.Log("top left: " + templeTL_x + ", " + templeTL_z);
+        Debug.Log("bottom right: " + templeBR_x + ", " + templeBR_z);
         //Debug.Log("Player pos: " + Player.transform.position);
-        Debug.Log("God temple top left: " + godTempleArea[0]);
-        Debug.Log("God temple bottom right: " + godTempleArea[1]);
+        //Debug.Log("God temple top left: " + godTempleArea[0]);
+        //Debug.Log("God temple bottom right: " + godTempleArea[1]);
     }
 }
