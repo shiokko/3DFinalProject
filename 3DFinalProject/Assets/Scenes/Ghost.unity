@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 51803492}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -156.56, y: 1.39, z: -156.05}
+  m_LocalPosition: {x: -156.23, y: 5.55, z: -156.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1369,10 +1369,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 59
   handLength: 5
-  RayIndicatorOn: {fileID: 2463815097291259632, guid: 0b9e2abbacd72644da5644dbe47d7450,
+  RayIndicatorOn: {fileID: 3283210341898843933, guid: 0b9e2abbacd72644da5644dbe47d7450,
     type: 3}
-  RayIndicatorOff: {fileID: 2463815097291259632, guid: 0b9e2abbacd72644da5644dbe47d7450,
+  RayIndicatorOff: {fileID: 7378494205020230744, guid: e69ee6f9e239a7a4f90b70b246c78a6b,
     type: 3}
+  ItemHolder: {fileID: 0}
+  Backpack: {fileID: 0}
 --- !u!114 &2796450948533619143
 MonoBehaviour:
   m_ObjectHideFlags: 3
