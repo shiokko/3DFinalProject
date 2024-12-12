@@ -318,9 +318,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7461577403151863694}
+  - component: {fileID: -1221664331112366515}
   m_Layer: 0
   m_Name: ChineseLantern
-  m_TagString: CanTakeItem
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,3 +344,16 @@ Transform:
   - {fileID: 7574111519320335634}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1221664331112366515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8584997408956616324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412ed9c9620757e429dba85ac93f79a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  i_ID: 0

@@ -6,12 +6,10 @@ TagManager:
   tags:
   - CinemachineTarget
   - env
-  - CanTakeItem
   - Laser
   - Enemy
-  - remnant
-  - prayarea
-  - finish
+  - Remnant
+  - Item
   layers:
   - Default
   - TransparentFX

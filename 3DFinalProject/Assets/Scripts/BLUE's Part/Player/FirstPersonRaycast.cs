@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FirstPersonRaycast : MonoBehaviour
@@ -45,7 +44,7 @@ public class FirstPersonRaycast : MonoBehaviour
             // hit something
             if (indicator == null)
             {
-                if (hit.collider.gameObject.tag == "CanTakeItem")
+                if (hit.collider.gameObject.tag == "Remnant" || hit.collider.gameObject.tag == "Item")
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
@@ -62,7 +61,7 @@ public class FirstPersonRaycast : MonoBehaviour
             else
             {
                 Destroy(indicator);
-                if (hit.collider.gameObject.tag == "CanTakeItem")
+                if (hit.collider.gameObject.tag == "Remnant" || hit.collider.gameObject.tag == "Item")
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
@@ -91,44 +90,15 @@ public class FirstPersonRaycast : MonoBehaviour
 
     private void TakeItem(GameObject hit)
     {
-        switch (hit.name)
+        if(hit.tag == "Item")
         {
-            case "Charm(Clone)":
-                ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.CHARM);
-                break;
-            case "Incense(Clone)":
-                ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.INCENSE);
-                break;
-            case "DivinationBlock(Clone)":
-                ItemHolder.GetComponent<ItemController>().IncrementItemCount((int)Items.DIVINATION_BLOCK);
-                break;
-
-            case "comb(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.COMB);
-                break;
-            case "fan(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.FAN);
-                break;
-            case "toy(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.TOY);
-                break;
-            case "jade(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.JADE);
-                break;
-            case "crutches(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.CRUTCH);
-                break;
-            case "gold(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.GOLD);
-                break;
-            case "hat(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.HAT);
-                break;
-            case "bowl(Clone)":
-                Backpack.GetComponent<BackpackController>().IncrementRemnantCount((int)Remnants.BOWL);
-                break;
+            ItemHolder.GetComponent<ItemController>().IncrementItemCount(hit.GetComponent<ItemID>().i_ID);
         }
-
+        else if (hit.tag == "Remnant")
+        {
+            Backpack.GetComponent<BackpackController>().IncrementRemnantCount(hit.GetComponent<RemnantID>().r_ID);
+        }
+        
         Destroy(hit);
     }
 }

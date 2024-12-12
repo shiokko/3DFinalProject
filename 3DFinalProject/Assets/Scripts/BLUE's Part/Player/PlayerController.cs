@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +24,9 @@ public class PlayerController : MonoBehaviour
     private bool isInvincible;
     private float invCountDown;
 
+    private bool canPurify;
+    private bool isPurifying;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,9 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
         invCountDown = InvincibleTime;
         InvincibleBar.SetActive(false);
+
+        canPurify = false;
+        isPurifying = false;
     }
 
     // Update is called once per frame
@@ -50,7 +55,12 @@ public class PlayerController : MonoBehaviour
         {
             canPray = true;
         }
+        else if (other.name == "PurifyArea")
+        {
+            canPurify = true;
+        }
     }
+
     private void OnTriggerStay(Collider other)
     {
         if(other.name == "PrayArea")
@@ -80,6 +90,15 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else if (other.name == "PurifyArea")
+        {
+            if(isPurifying)
+            {
+                // call end game methods here
+                Debug.Log("kill the ghost!");
+                isPurifying = false;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -90,6 +109,11 @@ public class PlayerController : MonoBehaviour
             isPraying = false;
             prayCountDown = PrayTime;
             PrayBar.SetActive(false);
+        }
+        else if (other.name == "PurifyArea")
+        {
+            canPurify = false;
+            isPurifying = false;
         }
     }
 
@@ -132,6 +156,19 @@ public class PlayerController : MonoBehaviour
         if (canPray)
         {
             isPraying = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool SetPurifying()
+    {
+        if (canPurify)
+        {
+            isPurifying = true;
             return true;
         }
         else

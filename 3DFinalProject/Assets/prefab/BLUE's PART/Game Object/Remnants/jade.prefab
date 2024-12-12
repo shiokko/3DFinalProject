@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8990552434111408565}
   - component: {fileID: 5125035591177727856}
   - component: {fileID: 3107853427850470057}
+  - component: {fileID: 2058525833580060916}
   m_Layer: 0
-  m_Name: jade
-  m_TagString: CanTakeItem
+  m_Name: Jade
+  m_TagString: Remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,6 +83,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2058525833580060916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286456309941170131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d3339e120282047a598c002555b73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r_ID: 3
 --- !u!1 &4282728126140964840
 GameObject:
   m_ObjectHideFlags: 0

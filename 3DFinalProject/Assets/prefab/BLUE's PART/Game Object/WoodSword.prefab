@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7638898490066636401}
   - component: {fileID: 5197100360002517773}
   - component: {fileID: 608790004936351537}
+  - component: {fileID: -6392603364791521148}
   m_Layer: 0
   m_Name: WoodSword
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,3 +85,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-6392603364791521148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2210491869783994364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412ed9c9620757e429dba85ac93f79a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  i_ID: 4

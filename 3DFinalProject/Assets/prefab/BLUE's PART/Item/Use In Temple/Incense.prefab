@@ -95,9 +95,10 @@ GameObject:
   - component: {fileID: 6289683608317131123}
   - component: {fileID: 8500305269691093456}
   - component: {fileID: 4805013050669569812}
+  - component: {fileID: -6053046005529199985}
   m_Layer: 0
   m_Name: Incense
-  m_TagString: CanTakeItem
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,6 +168,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &-6053046005529199985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545565400863617197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412ed9c9620757e429dba85ac93f79a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  i_ID: 3
 --- !u!1 &6489756297073656784
 GameObject:
   m_ObjectHideFlags: 0

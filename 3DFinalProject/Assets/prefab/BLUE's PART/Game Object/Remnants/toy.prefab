@@ -366,9 +366,10 @@ GameObject:
   - component: {fileID: 6179729959654202117}
   - component: {fileID: 6002976015643011455}
   - component: {fileID: 5506574868290845969}
+  - component: {fileID: -6056261385112896382}
   m_Layer: 0
-  m_Name: toy
-  m_TagString: CanTakeItem
+  m_Name: Toy
+  m_TagString: Remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -437,6 +438,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6056261385112896382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814352077222835419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d3339e120282047a598c002555b73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r_ID: 2
 --- !u!1 &4216895275786515364
 GameObject:
   m_ObjectHideFlags: 0

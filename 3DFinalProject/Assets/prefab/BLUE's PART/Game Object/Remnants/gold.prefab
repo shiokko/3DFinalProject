@@ -94,9 +94,10 @@ GameObject:
   - component: {fileID: 920936241098057692}
   - component: {fileID: 1784551172520177655}
   - component: {fileID: 1437461639003813403}
+  - component: {fileID: 5240837702046525731}
   m_Layer: 0
-  m_Name: gold
-  m_TagString: CanTakeItem
+  m_Name: Gold
+  m_TagString: Remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,3 +166,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5240837702046525731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613012555987348418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d3339e120282047a598c002555b73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r_ID: 5

@@ -17,7 +17,10 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     private GameObject Backpack;
     [SerializeField]
+    private GameObject Player;
+    [SerializeField]
     private TextMeshProUGUI CurrentMessage;
+    
 
     private int curItemIndex = 0;  // default to not taking anything
 
@@ -143,7 +146,7 @@ public class ItemController : MonoBehaviour
         if(curItemIndex == (int)Items.CHARM)
         {
             // make player invincible
-            GameObject.Find("PlayerCapsule").GetComponent<PlayerController>().SetInvincible();
+            Player.GetComponent<PlayerController>().SetInvincible();
             successfullyUsed = true;
         }
         else if(curItemIndex == (int)Items.DIVINATION_BLOCK)
@@ -153,7 +156,7 @@ public class ItemController : MonoBehaviour
         else if(curItemIndex == (int)Items.INCENSE)
         {
             // try to start praying at pray area
-            bool startPraying = GameObject.Find("PlayerCapsule").GetComponent<PlayerController>().SetPraying();
+            bool startPraying = Player.GetComponent<PlayerController>().SetPraying();
 
             if (startPraying)
             {
@@ -162,7 +165,13 @@ public class ItemController : MonoBehaviour
         }
         else if (curItemIndex == (int)Items.WOOD_SWORD)
         {
-            // call function in kill ghost
+            // try to use wood sword to purify ghost
+            bool startPurifying = Player.GetComponent<PlayerController>().SetPurifying();
+
+            if (startPurifying)
+            {
+                successfullyUsed = true;
+            }
         }
 
         if (successfullyUsed)
