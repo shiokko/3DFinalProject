@@ -5,6 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Reference")]
+    [SerializeField]
+    private GameObject GM;
+    [SerializeField]
+    private GameObject FungusTrigger;
+    [SerializeField]
+    private GameObject ItemHolder;
+
     [Header("Parameters")]
     [SerializeField]
     private float InvincibleTime = 10f;
@@ -24,8 +32,14 @@ public class PlayerController : MonoBehaviour
     private bool isInvincible;
     private float invCountDown;
 
+    private bool canAskGod;
+    private bool isAskingGod;
+
     private bool canPurify;
     private bool isPurifying;
+
+    private bool wantEnchanted;
+    private int guessedGhostID;
 
     // Start is called before the first frame update
     void Start()
@@ -39,31 +53,47 @@ public class PlayerController : MonoBehaviour
         invCountDown = InvincibleTime;
         InvincibleBar.SetActive(false);
 
+        canAskGod = false;
+        isAskingGod = false;
+
         canPurify = false;
         isPurifying = false;
+
+        wantEnchanted = false;
+        guessedGhostID = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckInvincible();
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            wantEnchanted = true;
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "PrayArea")
+        if (other.tag == "PrayArea")
         {
             canPray = true;
         }
-        else if (other.name == "PurifyArea")
+        else if (other.tag == "PurifyArea")
         {
             canPurify = true;
+        }
+        else if (other.tag == "AskArea")
+        {
+            canAskGod = true;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.name == "PrayArea")
+        if(other.tag == "PrayArea")
         {
             if (isPraying)
             {
@@ -90,30 +120,61 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        else if (other.name == "PurifyArea")
+        else if (other.tag == "PurifyArea")
         {
             if(isPurifying)
             {
                 // call end game methods here
-                Debug.Log("kill the ghost!");
-                isPurifying = false;
+                if(guessedGhostID != -1)
+                {
+                    GM.GetComponent<GameManager>().EndGame(guessedGhostID);
+
+                    isPurifying = false;
+                }
+            }
+        }
+        else if (other.tag == "EnchantArea")
+        {
+            if (wantEnchanted)
+            {
+                guessedGhostID = other.gameObject.GetComponent<GodID>().g_ID; // ghost id is the same meaning as god id and deadbody id
+
+                // give the wood sword to item holder so camera can see it
+                ItemHolder.GetComponent<ItemController>().GetWoodSword();
+
+                wantEnchanted = false;
+            }
+        }
+        else if (other.tag == "AskArea")
+        {
+            if (isAskingGod)
+            {
+                // activate fungus related dialogue
+                FungusTrigger.GetComponent<FungusTrigger>().BroadCastAsk();
+
+                isAskingGod = false;
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "PrayArea")
+        if (other.tag == "PrayArea")
         {
             canPray = false;
             isPraying = false;
             prayCountDown = PrayTime;
             PrayBar.SetActive(false);
         }
-        else if (other.name == "PurifyArea")
+        else if (other.tag == "PurifyArea")
         {
             canPurify = false;
             isPurifying = false;
+        }
+        else if (other.tag == "AskArea")
+        {
+            canAskGod = false;
+            isAskingGod = false;
         }
     }
 
@@ -156,6 +217,19 @@ public class PlayerController : MonoBehaviour
         if (canPray)
         {
             isPraying = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool SetAskGod()
+    {
+        if (canAskGod)
+        {
+            isAskingGod = true;
             return true;
         }
         else

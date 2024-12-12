@@ -6,10 +6,13 @@ TagManager:
   tags:
   - CinemachineTarget
   - env
-  - Laser
-  - Enemy
   - Remnant
   - Item
+  - finish
+  - PrayArea
+  - PurifyArea
+  - EnchantArea
+  - AskArea
   layers:
   - Default
   - TransparentFX

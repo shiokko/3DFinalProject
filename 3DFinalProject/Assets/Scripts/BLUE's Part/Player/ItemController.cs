@@ -1,3 +1,5 @@
+using StarterAssets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,7 +22,8 @@ public class ItemController : MonoBehaviour
     private GameObject Player;
     [SerializeField]
     private TextMeshProUGUI CurrentMessage;
-    
+
+    private StarterAssetsInputs _input;
 
     private int curItemIndex = 0;  // default to not taking anything
 
@@ -30,6 +33,8 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _input = Player.GetComponent<StarterAssetsInputs>();
+
         curItemIndex = 0;
         CurrentMessage.enabled = true;
         CurrentMessage.text = "Current Taking: Nothing";
@@ -37,7 +42,7 @@ public class ItemController : MonoBehaviour
         itemCount[(int)Items.CHARM] = InitCharmNum;
         itemCount[(int)Items.DIVINATION_BLOCK] = InitDivinationBlockNum;
         itemCount[(int)Items.INCENSE] = initIncenseNum;
-        itemCount[(int)Items.WOOD_SWORD] = 1;
+        itemCount[(int)Items.WOOD_SWORD] = 0;
 
         itemNames[0] = "Nothing";
         itemNames[(int)Items.CHARM] = "Charm";
@@ -151,7 +156,22 @@ public class ItemController : MonoBehaviour
         }
         else if(curItemIndex == (int)Items.DIVINATION_BLOCK)
         {
-            // call function in ask god
+            // call function to ask god, first we let player controller know we are using divination block
+            // then, player controller activates funhus functions
+            bool startAsking = Player.GetComponent<PlayerController>().SetAskGod();
+
+            if (startAsking)
+            {
+                // show mouse and disable screen rotation
+                _input.cursorInputForLook = false;
+                _input.cursorLocked = false;
+                _input.look = Vector2.zero;
+                _input.move = Vector2.zero;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                successfullyUsed = true;
+            }
         }
         else if(curItemIndex == (int)Items.INCENSE)
         {
@@ -196,7 +216,7 @@ public class ItemController : MonoBehaviour
         itemCount[index] ++;
         if(curItemIndex == index)
         {
-            CurrentMessage.text = "Current Taking: " + itemNames[index] + ", Remaining:" + itemCount[index];
+            SelectItem();
         }
     }
 
@@ -204,5 +224,11 @@ public class ItemController : MonoBehaviour
     public void GetWoodSword()
     {
         itemCount[(int)Items.WOOD_SWORD] = 1;
+        Debug.Log("Wood Sword Get!!!");
+
+        if (curItemIndex == (int)Items.WOOD_SWORD)
+        {
+            SelectItem();
+        }
     }
 }
