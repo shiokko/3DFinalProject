@@ -36,13 +36,14 @@ public class GhostController : MonoBehaviour
         if (rage < 25) this.status = 0;
     }
     private void RageUp()
-    {//在50以上自然增加到100
+    {//在50以上自然增加到100，應該要新增根據實際秒數而非幀數
         if (this.GetRage() >= 50 && this.GetRage() < 100)
             this.rage++;
+        rage++;
     }
     public void Kill() //在獵殺模式碰到玩家時call此function
     {
-
+        //if player != 無敵 EndGame()
     }
     public void BeAngry() //當玩家做翻屍體時，增加25怒氣
     {
@@ -51,6 +52,7 @@ public class GhostController : MonoBehaviour
     private void Behavior()
     {
         int status = this.GetStatus();
+        //this.RageUp();
         Vector3 PlayerPosition = Player.transform.position;
         if (status == 0)//跟隨
         {
@@ -58,7 +60,21 @@ public class GhostController : MonoBehaviour
         }
         if (status == 1)//嚇人
         {
+            int randomValue = Random.Range(0, 3);
 
+            // 根據隨機數輸出對應的字符串
+            if (randomValue == 0) //吹氣
+            {
+                Debug.Log("HU");
+            }
+            else if (randomValue == 1) //奸笑
+            {
+                Debug.Log("HEHE");
+            }
+            else //both
+            {
+                Debug.Log("HU and HEHE");
+            }
         }
         if (status == 2)//罵人
         {
@@ -78,4 +94,13 @@ public class GhostController : MonoBehaviour
             transform.LookAt(PlayerPosition);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))//
+        {
+            Debug.Log("touch");
+            this.Kill();
+        }
+    }
+
 }
