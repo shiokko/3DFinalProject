@@ -9,21 +9,9 @@ public class GhostController : MonoBehaviour
     private int status;// 0 = 跟隨，1 = 嚇人，2 = 罵人，3=獵殺，-1 = 遊蕩(只有剛開始)
     private float rage;//怒氣值
     private float scareCooldown = 5f;//嚇人&罵人CD
-    public FirstPersonFootStep Player;
-    void Start()
-    {
-        StartCoroutine(BehaviorRoutine());
-        StartCoroutine(RageUpRoutine());
-        this.status = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        this.SetStatus(this.rage);
-    }
-    public void CalmDown()
-    { //拜拜時call這個function
+    public FirstPersonRaycast Player;
+    public void CalmDown()//拜拜時call這個function
+    { 
         this.rage = 25;
     }
     public float GetRage()
@@ -34,24 +22,40 @@ public class GhostController : MonoBehaviour
     public void SetStatus(float rage)//update隨時更新
     {
         if (rage >= 100) this.status = 3;
-        if (rage < 75) this.status = 2;
-        if (rage < 50) this.status = 1;
-        if (rage < 25) this.status = 0;
+        if (rage < 100) this.status = 2;//50~99
+        if (rage < 50) this.status = 1;//25~49
+        if (rage < 25) this.status = 0;//0~24
     }
     private void RageUp()
     {//在50以上自然增加到100，應該要新增根據實際秒數而非幀數
         if (this.GetRage() >= 50 && this.GetRage() < 100)
             this.rage++;
-        rage+=2;
+        //rage+=10;
     }
     public void Kill() //在獵殺模式碰到玩家時call此function
     {
-        //if(Player.GetIsInvisible)
+        /*if (!Player.GetIsInvincible()) //player 不是無敵
+        {
+            //EndGame();
+        }*/
+            Debug.Log("GameOver");
+        
     }
     public void BeAngry() //當玩家做翻屍體時，增加25怒氣
     {
         this.rage += 25;
     }
+    private void Start()
+    {
+        StartCoroutine(BehaviorRoutine()); // 啟動行為邏輯協程
+        StartCoroutine(RageUpRoutine());  // 每秒增加怒氣
+    }
+
+    private void Update()
+    {
+        this.SetStatus(this.GetRage()); // 持續更新狀態
+    }
+
     private IEnumerator BehaviorRoutine()
     {
         while (true)
@@ -59,80 +63,89 @@ public class GhostController : MonoBehaviour
             int status = this.GetStatus();
             Vector3 PlayerPosition = Player.transform.position;
 
-            if (status == 1) // 嚇人
+            switch (status)
             {
-                int randomValue = Random.Range(0, 3);
+                case 1: // 嚇人
+                    yield return ScarePlayer();
+                    break;
 
-                // 根據隨機數輸出對應的字符串
-                if (randomValue == 0) // 吹氣
-                {
-                    Debug.Log("HU");
-                }
-                else if (randomValue == 1) // 奸笑
-                {
-                    Debug.Log("HEHE");
-                }
-                else // both
-                {
-                    Debug.Log("HU and HEHE");
-                }
+                case 2: // 罵人
+                    yield return YellAtPlayer();
+                    break;
 
-                yield return new WaitForSeconds(scareCooldown); // 等待冷卻時間
-            }
-
-            if (status == 2) // 罵人
-            {
-                int randomValue = Random.Range(0, 3);
-
-                
-                if (randomValue == 0) // 
-                {
-                    Debug.Log("FK");
-                }
-                else if (randomValue == 1) //
-                {
-                    Debug.Log("GD");
-                }
-                else 
-                {
-                    Debug.Log("FKYM");
-                }
-
-                yield return new WaitForSeconds(scareCooldown);
-            }
-
-            if (status == 3) // 殺人
-            {
-                Vector3 direction = (PlayerPosition - transform.position).normalized;
-
-                // 移速
-                float speed = 3f;
-
-                transform.position += direction * speed * Time.deltaTime;
-
-                // 面相玩家移動
-                transform.LookAt(PlayerPosition);
+                case 3: // 獵殺
+                    HuntPlayer(PlayerPosition);
+                    break;
             }
 
             yield return null; // 等待下一幀
         }
     }
+
+    private IEnumerator ScarePlayer()
+    {
+        int randomValue = Random.Range(0, 3);
+
+        if (randomValue == 0)
+        {
+            Debug.Log("HU");
+        }
+        else if (randomValue == 1)
+        {
+            Debug.Log("HEHE");
+        }
+        else
+        {
+            Debug.Log("HU and HEHE");
+        }
+
+        yield return new WaitForSeconds(scareCooldown); // 冷卻時間
+    }
+
+    private IEnumerator YellAtPlayer()
+    {
+        int randomValue = Random.Range(0, 3);
+
+        if (randomValue == 0)
+        {
+            Debug.Log("FK");
+        }
+        else if (randomValue == 1)
+        {
+            Debug.Log("GD");
+        }
+        else
+        {
+            Debug.Log("FKYM");
+        }
+
+        yield return new WaitForSeconds(scareCooldown); // 冷卻時間
+    }
+
+    private void HuntPlayer(Vector3 playerPosition)
+    {
+        Vector3 direction = (playerPosition - transform.position).normalized;
+        float speed = 3f;
+
+        transform.position += direction * speed * Time.deltaTime; // 朝向玩家移動
+        transform.LookAt(playerPosition); // 面向玩家
+    }
+
     private IEnumerator RageUpRoutine()
     {
         while (true)
         {
-            this.RageUp(); // 每秒增加怒氣
-            Debug.Log(this.status);
+            this.RageUp(); // 增加怒氣
             yield return new WaitForSeconds(1f); // 每秒執行一次
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))//
+        if (collision.gameObject.CompareTag("Player"))//目前player的collider tag還沒改成Player
         {
             Debug.Log("touch");
             this.Kill();
         }
     }
-
 }
