@@ -45,6 +45,7 @@ public class GhostController : MonoBehaviour
     private void Update()
     {
         SetStatus(rage); // 持續更新狀態
+        SetDistanceToPlayer();
     }
 
     private IEnumerator BehaviorRoutine()
@@ -186,5 +187,16 @@ public class GhostController : MonoBehaviour
     { 
         return status; 
     }
-    
+    public bool IsClose()
+    {
+        if (distance < 10)
+        {
+            return true;
+        }
+        return false;
+    }
+    public float GetDistanceToPlayer() 
+    {
+        return distance;
+    }
 }
