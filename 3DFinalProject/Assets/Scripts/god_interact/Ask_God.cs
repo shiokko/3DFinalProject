@@ -62,7 +62,9 @@ public class Ask_God : MonoBehaviour
             return 1; // 0° 或 360° -> 东
         }
     }
-    void positive() { }
+    void positive() { 
+    
+    }
     void negative() { }
 
     void FindDeadBody(int dir) {
@@ -87,8 +89,6 @@ public class Ask_God : MonoBehaviour
             positive();
         else
             negative();
-
-
     }
     void FindRenmant(int dir)
     {

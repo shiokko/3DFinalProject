@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     {
         bonusScore = 0;
         gameOver = false;
+
+        CreateCorrectAns();
     }
 
     // Update is called once per frame
@@ -43,11 +45,15 @@ public class GameManager : MonoBehaviour
     {
         // for correct remnants
         correctRemnantID[0] = remnantsInSex[(int)Random.Range(0, remnantsInSex.Length)];
-        correctRemnantID[1] = remnantsInSex[(int)Random.Range(0, remnantsInAge.Length)];
-        correctRemnantID[2] = remnantsInSex[(int)Random.Range(0, remnantsInHierarchy.Length)];
+        correctRemnantID[1] = remnantsInAge[(int)Random.Range(0, remnantsInAge.Length)];
+        correctRemnantID[2] = remnantsInHierarchy[(int)Random.Range(0, remnantsInHierarchy.Length)];
 
         // for correct ghost
         correctGhostID = (int)Random.Range(1, (int)GlobalVar.NUM_GHOST_TYPE + 1);
+
+        // for demo usage
+        Debug.Log("Correct ghost ID: " + correctGhostID);
+        Debug.Log("Correct Remnant Id: " + correctRemnantID[0] + ", " + correctRemnantID[1] + ", " + correctRemnantID[2]);
     }
 
 
@@ -56,7 +62,8 @@ public class GameManager : MonoBehaviour
     // for player controller to call after using the wood sword
     public void EndGame(int purifiedGhostID)
     {
-        if(purifiedGhostID == correctGhostID)
+        bonusScore = 0;
+        if (purifiedGhostID == correctGhostID)
         {
             Flowchart.BroadcastFungusMessage("win");
         }
@@ -67,16 +74,19 @@ public class GameManager : MonoBehaviour
 
         if (correctRemnantID[0] == _flowchart.GetIntegerVariable("sex"))
         {
+            Debug.Log("sex");
             bonusScore++;
         }
 
         if (correctRemnantID[1] == _flowchart.GetIntegerVariable("age"))
         {
+            Debug.Log("age");
             bonusScore++;
         }
 
-        if (correctRemnantID[1] == _flowchart.GetIntegerVariable("state"))
+        if (correctRemnantID[2] == _flowchart.GetIntegerVariable("state"))
         {
+            Debug.Log("state");
             bonusScore++;
         }
 
