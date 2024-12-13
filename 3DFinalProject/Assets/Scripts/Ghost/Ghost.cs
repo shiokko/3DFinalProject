@@ -5,46 +5,26 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
-    // Start is called before the first frame update
     private int status;// 0 = 跟隨，1 = 嚇人，2 = 罵人，3=獵殺，-1 = 遊蕩(只有剛開始)
     private float rage;//怒氣值
     private float scareCooldown = 5f;//嚇人&罵人CD
-    public FirstPersonRaycast Player;
-    public void CalmDown()//拜拜時call這個function
-    { 
-        this.rage = 25;
-    }
-    public float GetRage()
-    {
-        return rage;
-    }
-    public int GetStatus() { return status; }
+    public GameObject Player;
+    
     private void SetStatus(float rage)//update隨時更新
     {
-        if (rage >= 100) this.status = 3;
-        if (rage < 100) this.status = 2;//50~99
-        if (rage < 50) this.status = 1;//25~49
-        if (rage < 25) this.status = 0;//0~24
+        if (rage >= 100) status = 3;
+        if (rage < 100) status = 2;//50~99
+        if (rage < 50) status = 1;//25~49
+        if (rage < 25) status = 0;//0~24
     }
     private void RageUp()
     {//在50以上自然增加到100，應該要新增根據實際秒數而非幀數
-        if (this.rage >= 50 && this.rage < 100)
-            this.rage++;
+        if (rage >= 50 && rage < 100)
+            rage++;
         //rage+=10;
     }
-    public void Kill() //在獵殺模式碰到玩家時call此function
-    {
-        /*if (!Player.GetIsInvincible()) //player 不是無敵
-        {
-            //EndGame();
-        }*/
-            Debug.Log("GameOver");
-        
-    }
-    public void BeAngry() //當玩家做翻屍體時，增加25怒氣
-    {
-        this.rage += 25;
-    }
+    
+    
     private void Start()
     {
         StartCoroutine(BehaviorRoutine()); // 啟動行為邏輯協程
@@ -54,14 +34,13 @@ public class GhostController : MonoBehaviour
 
     private void Update()
     {
-        this.SetStatus(this.rage); // 持續更新狀態
+        SetStatus(rage); // 持續更新狀態
     }
 
     private IEnumerator BehaviorRoutine()
     {
         while (true)
         {
-            int status = this.GetStatus();
             Vector3 PlayerPosition = Player.transform.position;
 
             switch (status)
@@ -125,23 +104,20 @@ public class GhostController : MonoBehaviour
 
     private IEnumerator HuntPlayer()
     {
-        while (true)
+        while (status == 3)
         {
-            int status = this.GetStatus();
-            if (status == 3) // 獵殺模式
-            {
-                Vector3 PlayerPosition = Player.transform.position;
-                Vector3 direction = (PlayerPosition - transform.position).normalized;
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 direction = (PlayerPosition - transform.position).normalized;
 
-                // 移速
-                float speed = 3f;
+                    // 移速
+            float speed = 3f;
 
-                // 每一幀逐漸移動到玩家方向
-                transform.position += direction * speed * Time.deltaTime;
+                    // 每一幀逐漸移動到玩家方向
+            transform.position += direction * speed * Time.deltaTime;
 
-                // 面向玩家移動
-                transform.LookAt(PlayerPosition);
-            }
+            // 面向玩家移動
+            transform.LookAt(PlayerPosition);
+            
 
             yield return null; // 等待下一幀
         }
@@ -151,7 +127,7 @@ public class GhostController : MonoBehaviour
     {
         while (true)
         {
-            this.RageUp(); // 增加怒氣
+            RageUp(); // 增加怒氣
             yield return new WaitForSeconds(1f); // 每秒執行一次
         }
     }
@@ -161,12 +137,12 @@ public class GhostController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))//目前player的collider tag還沒改成Player
         {
             Debug.Log("touch");
-            this.Kill();
+            Kill();
         }
     }
     private IEnumerator MoveRoutine()//每秒順移
     {
-        while (this.status != 3)//獵殺模式除外
+        while (status != 3)//獵殺模式除外
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * 20f;
@@ -176,5 +152,30 @@ public class GhostController : MonoBehaviour
 
             yield return new WaitForSeconds(3f); // 每3秒順移一次
         }
+    }
+    public void BeAngry() //當玩家做翻屍體時，增加25怒氣
+    {
+        rage += 25;
+    }
+    public void Kill() //在獵殺模式碰到玩家時call此function
+    {
+        /*if (!Player.GetIsInvincible()) //player 不是無敵
+        {
+            //EndGame();
+        }*/
+        Debug.Log("GameOver");
+
+    }
+    public void CalmDown()//拜拜時call這個function
+    {
+        rage = 50;
+    }
+    public float GetRage()
+    {
+        return rage;
+    }
+    public int GetStatus() 
+    { 
+        return status; 
     }
 }
