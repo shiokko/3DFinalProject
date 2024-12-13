@@ -19,7 +19,7 @@ public class GhostController : MonoBehaviour
         return rage;
     }
     public int GetStatus() { return status; }
-    public void SetStatus(float rage)//update隨時更新
+    private void SetStatus(float rage)//update隨時更新
     {
         if (rage >= 100) this.status = 3;
         if (rage < 100) this.status = 2;//50~99
