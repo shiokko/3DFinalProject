@@ -75,7 +75,7 @@ public class GhostController : MonoBehaviour
                     break;
 
                 case 3: // 獵殺
-                    HuntPlayer(PlayerPosition);
+                    yield return HuntPlayer();
                     break;
             }
 
@@ -123,13 +123,28 @@ public class GhostController : MonoBehaviour
         yield return new WaitForSeconds(scareCooldown); // 冷卻時間
     }
 
-    private void HuntPlayer(Vector3 playerPosition)
+    private IEnumerator HuntPlayer()
     {
-        Vector3 direction = (playerPosition - transform.position).normalized;
-        float speed = 3f;
+        while (true)
+        {
+            int status = this.GetStatus();
+            if (status == 3) // 獵殺模式
+            {
+                Vector3 PlayerPosition = Player.transform.position;
+                Vector3 direction = (PlayerPosition - transform.position).normalized;
 
-        transform.position += direction * speed * Time.deltaTime; // 朝向玩家移動
-        transform.LookAt(playerPosition); // 面向玩家
+                // 移速
+                float speed = 3f;
+
+                // 每一幀逐漸移動到玩家方向
+                transform.position += direction * speed * Time.deltaTime;
+
+                // 面向玩家移動
+                transform.LookAt(PlayerPosition);
+            }
+
+            yield return null; // 等待下一幀
+        }
     }
 
     private IEnumerator RageUpRoutine()//
