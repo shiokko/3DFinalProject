@@ -28,7 +28,7 @@ public class GhostController : MonoBehaviour
     }
     private void RageUp()
     {//在50以上自然增加到100，應該要新增根據實際秒數而非幀數
-        if (this.GetRage() >= 50 && this.GetRage() < 100)
+        if (this.rage >= 50 && this.rage < 100)
             this.rage++;
         //rage+=10;
     }
@@ -49,11 +49,12 @@ public class GhostController : MonoBehaviour
     {
         StartCoroutine(BehaviorRoutine()); // 啟動行為邏輯協程
         StartCoroutine(RageUpRoutine());  // 每秒增加怒氣
+        StartCoroutine(MoveRoutine());
     }
 
     private void Update()
     {
-        this.SetStatus(this.GetRage()); // 持續更新狀態
+        this.SetStatus(this.rage); // 持續更新狀態
     }
 
     private IEnumerator BehaviorRoutine()
@@ -131,7 +132,7 @@ public class GhostController : MonoBehaviour
         transform.LookAt(playerPosition); // 面向玩家
     }
 
-    private IEnumerator RageUpRoutine()
+    private IEnumerator RageUpRoutine()//
     {
         while (true)
         {
@@ -146,6 +147,19 @@ public class GhostController : MonoBehaviour
         {
             Debug.Log("touch");
             this.Kill();
+        }
+    }
+    private IEnumerator MoveRoutine()//每秒順移
+    {
+        while (this.status != 3)//獵殺模式除外
+        {
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * 20f;
+            randomDirection.y = 0; // 保持在水平面
+
+            transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
+
+            yield return new WaitForSeconds(3f); // 每3秒順移一次
         }
     }
 }
