@@ -146,7 +146,7 @@ public class GhostController : MonoBehaviour
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * 20f;
-            randomDirection.y = 0; // 保持在水平面
+            randomDirection.y = 2; // 保持在水平面
 
             transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
 

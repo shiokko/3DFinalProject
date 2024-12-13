@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e719aaf11c74d040a7ff34a49d88298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 2525803250639831181}
+  Player: {fileID: 149091464878683670}
 --- !u!136 &51803494
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -240,8 +240,7 @@ Transform:
   m_LocalPosition: {x: -156.23, y: 5.55, z: -156.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1738368125}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &100159109
@@ -1240,7 +1239,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1133853218}
-  m_Father: {fileID: 51803497}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2271,3 +2270,4 @@ SceneRoots:
   - {fileID: 1981854359}
   - {fileID: 51803497}
   - {fileID: 1361066607}
+  - {fileID: 1738368125}
