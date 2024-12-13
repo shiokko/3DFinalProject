@@ -161,7 +161,7 @@ public class BackpackController : MonoBehaviour
     // for First Person Raycast
     public void IncrementRemnantCount(int index)
     {
-        if (index <= 0 || index >= remnantCount.Length)
+        if (index < 0 || index >= remnantCount.Length)
         {
             Debug.Log("index out of range in IncrementRemnantCount, passed wrong params");
             return;
