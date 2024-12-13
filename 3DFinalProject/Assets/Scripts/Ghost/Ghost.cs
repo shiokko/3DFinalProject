@@ -16,6 +16,8 @@ public class GhostController : MonoBehaviour
     private float speed = 3f;
     [SerializeField]
     private float distance;
+    [SerializeField]
+    private float savedDistance = 20f;
     private void SetStatus(float rage)//update隨時更新
     {
         if (rage >= 100) status = 3;
@@ -46,6 +48,10 @@ public class GhostController : MonoBehaviour
     {
         SetStatus(rage); // 持續更新狀態
         SetDistanceToPlayer();
+        if (GetDistanceToPlayer() < 5f)
+        {
+            TeleportAwayFromPlayer();
+        }
     }
 
     private IEnumerator BehaviorRoutine()
@@ -153,7 +159,7 @@ public class GhostController : MonoBehaviour
         while (status != 3)//獵殺模式除外
         {
             Vector3 PlayerPosition = Player.transform.position;
-            Vector3 randomDirection = Random.insideUnitSphere.normalized * 20f;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
             randomDirection.y = 0; // 保持在水平面
 
             transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
@@ -161,6 +167,18 @@ public class GhostController : MonoBehaviour
 
             yield return new WaitForSeconds(3f); // 每3秒順移一次
         }
+    }
+    private void TeleportAwayFromPlayer()
+    {
+        if (status != 3)
+        {
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            randomDirection.y = 0; // 保持在水平面
+
+            transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
+        }
+        Debug.Log("Teleporte");
     }
     public void BeAngry() //當玩家做翻屍體時，增加25怒氣
     {
