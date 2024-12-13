@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
-    private int status;// 0 = 跟隨，1 = 嚇人，2 = 罵人，3=獵殺，-1 = 遊蕩(只有剛開始)
-    private float rage;//怒氣值
-    private float scareCooldown = 5f;//嚇人&罵人CD
     public GameObject Player;
-    
+    [SerializeField]
+    private int status;// 0 = 跟隨，1 = 嚇人，2 = 罵人，3=獵殺，-1 = 遊蕩(只有剛開始)
+    [SerializeField]
+    private float rage;//怒氣值
+    [SerializeField]
+    private float scareCooldown = 5f;//嚇人&罵人CD
+    [SerializeField]
+    private float speed = 3f;
+    [SerializeField]
+    private float distance;
     private void SetStatus(float rage)//update隨時更新
     {
         if (rage >= 100) status = 3;
@@ -23,8 +29,12 @@ public class GhostController : MonoBehaviour
             rage++;
         //rage+=10;
     }
-    
-    
+    private void SetDistanceToPlayer()
+    {
+        distance = Vector3.Distance(transform.position, Player.transform.position);
+    }
+
+
     private void Start()
     {
         StartCoroutine(BehaviorRoutine()); // 啟動行為邏輯協程
@@ -109,10 +119,7 @@ public class GhostController : MonoBehaviour
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 direction = (PlayerPosition - transform.position).normalized;
 
-                    // 移速
-            float speed = 3f;
-
-                    // 每一幀逐漸移動到玩家方向
+            // 每一幀逐漸移動到玩家方向
             transform.position += direction * speed * Time.deltaTime;
 
             // 面向玩家移動
@@ -140,15 +147,16 @@ public class GhostController : MonoBehaviour
             Kill();
         }
     }
-    private IEnumerator MoveRoutine()//每秒順移
+    private IEnumerator MoveRoutine()//每3秒順移
     {
         while (status != 3)//獵殺模式除外
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * 20f;
-            randomDirection.y = 2; // 保持在水平面
+            randomDirection.y = 0; // 保持在水平面
 
             transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
+            SetDistanceToPlayer();
 
             yield return new WaitForSeconds(3f); // 每3秒順移一次
         }
@@ -178,4 +186,5 @@ public class GhostController : MonoBehaviour
     { 
         return status; 
     }
+    
 }
