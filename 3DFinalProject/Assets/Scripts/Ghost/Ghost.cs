@@ -6,30 +6,38 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     public GameObject Player;
+    public enum Status
+    {
+        Follow = 0,
+        Scare = 1,
+        YellAt = 2,
+        Hunt = 3
+    }
     [SerializeField]
-    private int status;// 0 = 跟隨，1 = 嚇人，2 = 罵人，3=獵殺，-1 = 遊蕩(只有剛開始)
+    private Status status;
     [SerializeField]
-    private float rage;//怒氣值
+    private float rage;
     [SerializeField]
-    private float scareCooldown = 5f;//嚇人&罵人CD
+    private float scareCooldown = 5f;//CD for Yell & Scare
     [SerializeField]
     private float speed = 3f;
     [SerializeField]
     private float distance;
     [SerializeField]
     private float savedDistance = 20f;
-    private void SetStatus(float rage)//update隨時更新
+    private void SetStatus(float rage)//update should call
     {
-        if (rage >= 100) status = 3;
-        if (rage < 100) status = 2;//50~99
-        if (rage < 50) status = 1;//25~49
-        if (rage < 25) status = 0;//0~24
+        if (rage >= 100) status = Status.Hunt;
+        if (rage < 100) status = Status.YellAt;//50~99
+        if (rage < 50) status = Status.Scare;//25~49
+        if (rage < 25) status = Status.Follow;//0~24
     }
-    private void RageUp()
-    {//在50以上自然增加到100，應該要新增根據實際秒數而非幀數
+    private void RageUp()//Incresingly up to 100 when rage > 50
+    {
         if (rage >= 50 && rage < 100)
             rage++;
-        //rage+=10;
+        //rage += 1;
+        Debug.Log(status);
     }
     private void SetDistanceToPlayer()
     {
@@ -39,14 +47,14 @@ public class GhostController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(BehaviorRoutine()); // 啟動行為邏輯協程
-        StartCoroutine(RageUpRoutine());  // 每秒增加怒氣
+        StartCoroutine(BehaviorRoutine()); 
+        StartCoroutine(RageUpRoutine());  
         StartCoroutine(MoveRoutine());
     }
 
     private void Update()
     {
-        SetStatus(rage); // 持續更新狀態
+        SetStatus(rage); 
         SetDistanceToPlayer();
         if (GetDistanceToPlayer() < 5f)
         {
@@ -62,20 +70,19 @@ public class GhostController : MonoBehaviour
 
             switch (status)
             {
-                case 1: // 嚇人
+                case Status.Scare: 
                     yield return ScarePlayer();
                     break;
 
-                case 2: // 罵人
+                case Status.YellAt: 
                     yield return YellAtPlayer();
                     break;
-
-                case 3: // 獵殺
+                case Status.Hunt:
                     yield return HuntPlayer();
                     break;
             }
 
-            yield return null; // 等待下一幀
+            yield return null; // wait next frame
         }
     }
 
@@ -96,7 +103,7 @@ public class GhostController : MonoBehaviour
             Debug.Log("HU and HEHE");
         }
 
-        yield return new WaitForSeconds(scareCooldown); // 冷卻時間
+        yield return new WaitForSeconds(scareCooldown); // CD
     }
 
     private IEnumerator YellAtPlayer()
@@ -116,84 +123,89 @@ public class GhostController : MonoBehaviour
             Debug.Log("FKYM");
         }
 
-        yield return new WaitForSeconds(scareCooldown); // 冷卻時間
+        yield return new WaitForSeconds(scareCooldown); // CD
     }
 
     private IEnumerator HuntPlayer()
     {
-        while (status == 3)
+        while (status == Status.Hunt)
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 direction = (PlayerPosition - transform.position).normalized;
 
-            // 每一幀逐漸移動到玩家方向
+           
             transform.position += direction * speed * Time.deltaTime;
 
-            // 面向玩家移動
+            // Look At Player
             transform.LookAt(PlayerPosition);
             
 
-            yield return null; // 等待下一幀
+            yield return null; // wait for next frame
         }
     }
 
-    private IEnumerator RageUpRoutine()//
+    private IEnumerator RageUpRoutine()//rage up 1 point / second
     {
         while (true)
         {
-            RageUp(); // 增加怒氣
-            yield return new WaitForSeconds(1f); // 每秒執行一次
+            RageUp();
+            yield return new WaitForSeconds(1f); 
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))//目前player的collider tag還沒改成Player
+        if (collision.gameObject.tag == "Player" && status == Status.Hunt)
         {
             Debug.Log("touch");
             Kill();
         }
+        else if (collision.gameObject.tag == "Player" && status != Status.Hunt)
+        {
+            TeleportAwayFromPlayer();
+            Debug.Log("Teleport because status != Hunt");
+        }
+        //Debug.Log("Touch");
     }
-    private IEnumerator MoveRoutine()//每3秒順移
+    private IEnumerator MoveRoutine()//Move every 3s
     {
-        while (status != 3)//獵殺模式除外
+        while (status != Status.Hunt)//except for Hunt
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = 0; // 保持在水平面
+            randomDirection.y = Player.transform.position.y;
 
-            transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
+            transform.position = PlayerPosition + randomDirection; // Move near Player
             SetDistanceToPlayer();
 
-            yield return new WaitForSeconds(3f); // 每3秒順移一次
+            yield return new WaitForSeconds(3f);
         }
     }
     private void TeleportAwayFromPlayer()
     {
-        if (status != 3)
+        if (status != Status.Hunt)
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = 0; // 保持在水平面
-
-            transform.position = PlayerPosition + randomDirection; // 順移到玩家附近
-        }
-        Debug.Log("Teleporte");
+            randomDirection.y = Player.transform.position.y;
+            Debug.Log("Teleporte");
+            transform.position = PlayerPosition + randomDirection; 
+        }   
     }
-    public void BeAngry() //當玩家做翻屍體時，增加25怒氣
+    public void BeAngry() //Rage up 25 point when Player touch the deadbody
     {
         rage += 25;
     }
-    public void Kill() //在獵殺模式碰到玩家時call此function
+    public void Kill() //Call this function when Ghost in status Hunt and touch Player
     {
-        /*if (!Player.GetIsInvincible()) //player 不是無敵
+        /*if (!Player.GetIsInvincible()) //player isn't invincible
         {
             //EndGame();
         }*/
         Debug.Log("GameOver");
 
     }
-    public void CalmDown()//拜拜時call這個function
+    public void CalmDown() //
     {
         rage = 50;
     }
@@ -201,7 +213,7 @@ public class GhostController : MonoBehaviour
     {
         return rage;
     }
-    public int GetStatus() 
+    public Status GetStatus() 
     { 
         return status; 
     }
