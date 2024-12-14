@@ -231,7 +231,7 @@ public class GhostController : MonoBehaviour
     { 
         return status; 
     }
-    public bool IsClose()
+    public bool IsClose()// for waning hint
     {
         if (distance < 10)
         {
