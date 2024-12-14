@@ -25,6 +25,8 @@ public class GhostController : MonoBehaviour
     private float distance;
     [SerializeField]
     private float savedDistance = 20f;
+    [SerializeField]
+    private float appearHight = 3f;
     private void SetStatus(float rage)//update should call
     {
         if (rage >= 100) status = Status.Hunt;
@@ -36,7 +38,7 @@ public class GhostController : MonoBehaviour
     {
         if (rage >= 50 && rage < 100)
             rage++;
-        //rage += 1;
+        //rage += 10;
         Debug.Log(status);
     }
     private void SetDistanceToPlayer()
@@ -173,7 +175,7 @@ public class GhostController : MonoBehaviour
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = Player.transform.position.y;
+            randomDirection.y = appearHight;
 
             transform.position = PlayerPosition + randomDirection; // Move near Player
             SetDistanceToPlayer();
@@ -187,7 +189,7 @@ public class GhostController : MonoBehaviour
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = Player.transform.position.y;
+            randomDirection.y = appearHight;
             Debug.Log("Teleporte");
             transform.position = PlayerPosition + randomDirection; 
         }   
