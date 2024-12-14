@@ -22,11 +22,11 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float speed = 3f;
     [SerializeField]
-    private float distance;
-    [SerializeField]
     private float savedDistance = 20f;
     [SerializeField]
-    private float appearHight = 3f;
+    private float appearHight = 3f; 
+    
+    private float distance;
     private void SetStatus(float rage)//update should call
     {
         if (rage >= 100) status = Status.Hunt;
@@ -61,6 +61,21 @@ public class GhostController : MonoBehaviour
         if (GetDistanceToPlayer() < 5f)
         {
             TeleportAwayFromPlayer();
+        }
+    }
+    private void TeleportAwayFromPlayer()
+    {
+        if (status != Status.Hunt)
+        {
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            while (randomDirection.y < 3 || randomDirection.y > 5)
+            {
+                randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            }
+            randomDirection.y = appearHight;
+            Debug.Log("Teleporte");
+            transform.position = PlayerPosition + randomDirection;
         }
     }
 
@@ -135,6 +150,7 @@ public class GhostController : MonoBehaviour
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 direction = (PlayerPosition - transform.position).normalized;
 
+
            
             transform.position += direction * speed * Time.deltaTime;
 
@@ -155,6 +171,26 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    
+    private IEnumerator MoveRoutine()//Move every 3s
+    {
+        while (status != Status.Hunt)//except for Hunt
+        {
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            while (randomDirection.y < 3 || randomDirection.y > 5)
+            {
+                randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            }
+            randomDirection.y = appearHight;
+
+            transform.position = PlayerPosition + randomDirection; // Move near Player
+            SetDistanceToPlayer();
+
+            yield return new WaitForSeconds(3f);
+        }
+    }
+    
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player" && status == Status.Hunt)
@@ -169,31 +205,7 @@ public class GhostController : MonoBehaviour
         }
         //Debug.Log("Touch");
     }
-    private IEnumerator MoveRoutine()//Move every 3s
-    {
-        while (status != Status.Hunt)//except for Hunt
-        {
-            Vector3 PlayerPosition = Player.transform.position;
-            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = appearHight;
 
-            transform.position = PlayerPosition + randomDirection; // Move near Player
-            SetDistanceToPlayer();
-
-            yield return new WaitForSeconds(3f);
-        }
-    }
-    private void TeleportAwayFromPlayer()
-    {
-        if (status != Status.Hunt)
-        {
-            Vector3 PlayerPosition = Player.transform.position;
-            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
-            randomDirection.y = appearHight;
-            Debug.Log("Teleporte");
-            transform.position = PlayerPosition + randomDirection; 
-        }   
-    }
     public void BeAngry() //Rage up 25 point when Player touch the deadbody
     {
         rage += 25;
