@@ -266,15 +266,24 @@ public class PlayerController : MonoBehaviour
 
     // for Fungus trigger call to throw  Divination Block
 
-    public void Throw(bool ans)
+    public void Throw(bool correct)
     {
-        GameObject DivinationBlockA = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(-0.5f, 0, 0), Quaternion.identity);
-        GameObject DivinationBlockB = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(0.5f, 0, 0), Quaternion.identity);
+        GameObject DivinationBlockA = Instantiate(DivinationBlockPrefab, 
+                                                  DivinationBlockSpawnPoint.transform.position + new Vector3(-0.5f, 0, 0), 
+                                                  Quaternion.identity);
+        GameObject DivinationBlockB = Instantiate(DivinationBlockPrefab, 
+                                                  DivinationBlockSpawnPoint.transform.position + new Vector3(0.5f, 0, 0), 
+                                                  Quaternion.identity);
 
-        if (ans)
+        // destroy DivinationBlocks after 10 seconds
+        Destroy(DivinationBlockA, 10);
+        Destroy(DivinationBlockB, 10);
+
+        if (correct)
             DivinationBlockA.GetComponent<DivinationBlockController>().face = 1;
         else
             DivinationBlockA.GetComponent<DivinationBlockController>().face = 0;
+
         DivinationBlockB.GetComponent<DivinationBlockController>().face = 0;
 
         AddRandomAngularVelocity(DivinationBlockA);
