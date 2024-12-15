@@ -265,6 +265,21 @@ public class PlayerController : MonoBehaviour
 
 
     // for Fungus trigger call to throw  Divination Block
+
+    public void Throw(bool ans)
+    {
+        GameObject DivinationBlockA = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(-0.5f, 0, 0), Quaternion.identity);
+        GameObject DivinationBlockB = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(0.5f, 0, 0), Quaternion.identity);
+
+        if (ans)
+            DivinationBlockA.GetComponent<DivinationBlockController>().face = 1;
+        else
+            DivinationBlockA.GetComponent<DivinationBlockController>().face = 0;
+        DivinationBlockB.GetComponent<DivinationBlockController>().face = 0;
+
+        AddRandomAngularVelocity(DivinationBlockA);
+        AddRandomAngularVelocity(DivinationBlockB);
+    }
     void AddRandomAngularVelocity(GameObject obj)
     {
         Rigidbody rb = obj.GetComponent<Rigidbody>();
@@ -274,19 +289,5 @@ public class PlayerController : MonoBehaviour
             Random.Range(-angularVelocityRange.y, angularVelocityRange.y) * 10,
             Random.Range(-angularVelocityRange.z, angularVelocityRange.z) * 4
         );
-    }
-    public void Throw(bool ans)
-    {
-        GameObject bueA = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(-0.5f, 0, 0), Quaternion.identity);
-        GameObject bueB = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(0.5f, 0, 0), Quaternion.identity);
-
-        if (ans)
-            bueA.GetComponent<DivinationBlockController>().face = 1;
-        else
-            bueA.GetComponent<DivinationBlockController>().face = 0;
-        bueB.GetComponent<DivinationBlockController>().face = 0;
-
-        AddRandomAngularVelocity(bueA);
-        AddRandomAngularVelocity(bueB);
     }
 }
