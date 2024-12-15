@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     private GameObject FungusTrigger;
     [SerializeField]
     private GameObject ItemHolder;
+    [SerializeField]
+    private GameObject DivinationBlockSpawnPoint;
+    [SerializeField]
+    private GameObject DivinationBlockPrefab;
 
     [Header("Parameters")]
     [SerializeField]
@@ -40,6 +44,8 @@ public class PlayerController : MonoBehaviour
 
     private bool wantEnchanted;
     private int guessedGhostID;
+
+    private Vector3 angularVelocityRange = new Vector3(2, 2, 2);
 
     // Start is called before the first frame update
     void Start()
@@ -255,5 +261,32 @@ public class PlayerController : MonoBehaviour
     public bool GetIsInvincible()
     {
         return isInvincible;
+    }
+
+
+    // for Fungus trigger call to throw  Divination Block
+    void AddRandomAngularVelocity(GameObject obj)
+    {
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+        rb.angularVelocity = new Vector3(
+            Random.Range(-angularVelocityRange.x, angularVelocityRange.x) * 4,
+            Random.Range(-angularVelocityRange.y, angularVelocityRange.y) * 10,
+            Random.Range(-angularVelocityRange.z, angularVelocityRange.z) * 4
+        );
+    }
+    public void Throw(bool ans)
+    {
+        GameObject bueA = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(-0.5f, 0, 0), Quaternion.identity);
+        GameObject bueB = Instantiate(DivinationBlockPrefab, DivinationBlockSpawnPoint.transform.position + new Vector3(0.5f, 0, 0), Quaternion.identity);
+
+        if (ans)
+            bueA.GetComponent<DivinationBlockController>().face = 1;
+        else
+            bueA.GetComponent<DivinationBlockController>().face = 0;
+        bueB.GetComponent<DivinationBlockController>().face = 0;
+
+        AddRandomAngularVelocity(bueA);
+        AddRandomAngularVelocity(bueB);
     }
 }

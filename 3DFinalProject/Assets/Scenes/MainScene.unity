@@ -15773,7 +15773,6 @@ GameObject:
   - component: {fileID: 1638556278}
   - component: {fileID: 1638556277}
   - component: {fileID: 1638556276}
-  - component: {fileID: 1638556285}
   m_Layer: 2
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -15815,6 +15814,9 @@ MonoBehaviour:
   GM: {fileID: 1551008108}
   FungusTrigger: {fileID: 68052296}
   ItemHolder: {fileID: 388867810}
+  DivinationBlockSpawnPoint: {fileID: 1538658584}
+  DivinationBlockPrefab: {fileID: 8168929803205838037, guid: 9b490319f6b56ad408784c9d09d36d68,
+    type: 3}
   InvincibleTime: 10
   PrayTime: 5
   InvincibleBar: {fileID: 1086265304}
@@ -16144,22 +16146,6 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
---- !u!114 &1638556285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638556274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f06aa4089ed2f42b3647113c5a2516, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DivinationBlock: {fileID: 8168929803205838037, guid: 9b490319f6b56ad408784c9d09d36d68,
-    type: 3}
-  SpawnPoint: {fileID: 1538658584}
-  angularVelocityRange: {x: 2, y: 2, z: 2}
 --- !u!1 &1641517972
 GameObject:
   m_ObjectHideFlags: 0
