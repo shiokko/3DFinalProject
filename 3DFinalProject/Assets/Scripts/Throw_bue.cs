@@ -12,10 +12,10 @@ public class Throw_bue : MonoBehaviour
     private GameObject SpawnPoint;
 
     public Vector3 angularVelocityRange = new Vector3(2, 2, 2);
-    void Start()
-    {
-        Throw(true);
-    }
+    //void Start()
+    //{
+    //    Throw(true);
+    //}
 
 
     void AddRandomAngularVelocity(GameObject obj)

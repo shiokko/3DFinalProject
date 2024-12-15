@@ -70,10 +70,12 @@ public class FungusTrigger : MonoBehaviour
     }
 
     private void positive() {
+        Player.GetComponent<Throw_bue>().Throw(true);
         Debug.Log("positive");
     }
 
     private void negative() {
+        Player.GetComponent<Throw_bue>().Throw(false);
         Debug.Log("negative");
     }
 
