@@ -5,28 +5,40 @@ using UnityEngine;
 
 public class GhostController : MonoBehaviour
 {
-    public GameObject Player;
-    public enum Status
+    [Header("References")]
+    [SerializeField]
+    private GameObject Player;
+
+
+    [Header("Parameters")]
+    [SerializeField]
+    private Status status;
+    [SerializeField]
+    private float rage;
+    [SerializeField]
+    private float scareCooldown = 5f;  //CD for Yell & Scare
+    [SerializeField]
+    private float speed = 3f;
+    [SerializeField]
+    private float savedDistance = 20f;
+    [SerializeField]
+    private float appearHight = 3f;
+    [SerializeField]
+    private float rageUp1stStage = 0.5f;
+    [SerializeField]
+    private float rageUp2ndStage = 1f;
+
+
+    private float distance;
+
+    private enum Status
     {
         Follow = 0,
         Scare = 1,
         YellAt = 2,
         Hunt = 3
     }
-    [SerializeField]
-    private Status status;
-    [SerializeField]
-    private float rage;
-    [SerializeField]
-    private float scareCooldown = 5f;//CD for Yell & Scare
-    [SerializeField]
-    private float speed = 3f;
-    [SerializeField]
-    private float savedDistance = 20f;
-    [SerializeField]
-    private float appearHight = 3f; 
-    
-    private float distance;
+
     private void SetStatus(float rage)//update should call
     {
         if (rage >= 100) status = Status.Hunt;
@@ -34,17 +46,22 @@ public class GhostController : MonoBehaviour
         if (rage < 50) status = Status.Scare;//25~49
         if (rage < 25) status = Status.Follow;//0~24
     }
+
     private void RageUp()//Incresingly up to 100 when rage > 50
     {
-        if (rage >= 50 && rage < 100)
-            rage++;
-        //rage += 10;
+        if(rage >= 25)
+        {
+            rage += rageUp1stStage;
+        }else if (rage >= 50 && rage < 100)
+        {
+            rage += rageUp2ndStage;
+        }
     }
+
     private void SetDistanceToPlayer()
     {
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
-
 
     private void Start()
     {
@@ -218,17 +235,16 @@ public class GhostController : MonoBehaviour
         Debug.Log("GameOver");
 
     }
-    public void CalmDown() //
+    public void CalmDown()
     {
-        rage = 50;
+        if(rage > 50)
+        {
+            rage = 50;
+        }
     }
     public float GetRage()
     {
         return rage;
-    }
-    public Status GetStatus() 
-    { 
-        return status; 
     }
     public bool IsClose()// for waning hint
     {

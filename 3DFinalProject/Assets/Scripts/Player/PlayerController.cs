@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // pray over
                     // call function here to lower the ghost's anger
-
+                    GameObject.Find("Ghost").GetComponent<GhostController>().CalmDown();
 
                     isPraying = false;
                     prayCountDown = PrayTime;
