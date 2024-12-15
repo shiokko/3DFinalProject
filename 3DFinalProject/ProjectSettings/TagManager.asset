@@ -12,6 +12,7 @@ TagManager:
   - remnant
   - prayarea
   - finish
+  - Ghost
   layers:
   - Default
   - TransparentFX
