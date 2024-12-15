@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bue_controll : MonoBehaviour
+public class DivinationBlockController: MonoBehaviour
 {
     // Start is called before the first frame update
 

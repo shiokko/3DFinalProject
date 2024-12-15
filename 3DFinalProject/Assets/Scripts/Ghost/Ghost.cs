@@ -39,7 +39,6 @@ public class GhostController : MonoBehaviour
         if (rage >= 50 && rage < 100)
             rage++;
         //rage += 10;
-        Debug.Log(status);
     }
     private void SetDistanceToPlayer()
     {
