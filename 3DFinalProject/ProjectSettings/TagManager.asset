@@ -6,12 +6,14 @@ TagManager:
   tags:
   - CinemachineTarget
   - env
-  - CanTakeItem
-  - Laser
-  - Enemy
-  - remnant
-  - prayarea
+  - Remnant
+  - Item
   - finish
+  - PrayArea
+  - PurifyArea
+  - EnchantArea
+  - AskArea
+  - Ground
   - Ghost
   layers:
   - Default
