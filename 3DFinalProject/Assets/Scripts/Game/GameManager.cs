@@ -19,17 +19,21 @@ public class GameManager : MonoBehaviour
 
     private bool gameOver;
 
-    private int[] correctRemnantID = new int[3];
+    private int[] correctRemnantID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     private int correctGhostID;
 
     private int bonusScore;
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         bonusScore = 0;
         gameOver = false;
 
         CreateCorrectAns();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -58,6 +62,18 @@ public class GameManager : MonoBehaviour
 
 
     // public functios here
+
+    // for obj distributer to distribute the correct remnants
+    public int[] GetCorrectRemnants()
+    {
+        return correctRemnantID;        
+    }
+
+    // for obj distributer to distribute the correct deadbody
+    public int GetCorrectDeadbody()
+    {
+        return correctGhostID;
+    }
 
     // for player controller to call after using the wood sword
     public void EndGame(int purifiedGhostID)

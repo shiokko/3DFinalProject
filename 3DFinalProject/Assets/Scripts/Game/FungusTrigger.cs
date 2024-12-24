@@ -80,7 +80,7 @@ public class FungusTrigger : MonoBehaviour
     }
 
     private void FindDeadBody(int dir) {
-        GameObject deadbody = GameObject.Find("deadbody");
+        GameObject deadbody = GameObject.FindGameObjectWithTag("Deadbody");
         Vector3 direction = deadbody.transform.position - this.transform.position;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360;
