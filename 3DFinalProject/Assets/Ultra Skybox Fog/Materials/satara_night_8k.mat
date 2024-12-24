@@ -34,14 +34,14 @@ Material:
     m_Ints: []
     m_Floats:
     - <noninit>: 0
-    - _Exposure: 0.61
+    - _Exposure: 0
     - _FogBottom: 0
     - _FogEnd: 0.527
     - _FogIntens: 0.811
     - _FogStart: 0
     - _MieIntens: 0.11
     - _MieSize: 0.291
-    - _Rotation: 0
+    - _Rotation: 95
     - _SunDir: 95
     m_Colors:
     - <noninit>: {r: 0, g: 2.0182498, b: 1e-45, a: 1.2904559e-15}
