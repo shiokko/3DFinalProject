@@ -6,46 +6,73 @@ using UnityEngine.UI;
 
 public class SlotManager : MonoBehaviour
 {
-    [SerializeField] 
-    private RectTransform slotRect; // The RectTransform of the slot
-    [SerializeField] 
-    private GameObject countPrefab; // Prefab for the count text
-    [SerializeField] 
-    private int itemCount = 0; // Starting count of items
+    [Header("Self")]
+    [SerializeField]
+    private Image _image;
 
-    private TextMeshProUGUI countText; // Reference to the instantiated count text
+    [Header("Dependencies")]
+    [SerializeField]
+    private TextMeshProUGUI CountText;
+    [SerializeField]
+    private Sprite[] SpriteChoice = new Sprite[2];
+
+
+    private int itemCount = 0;   // Starting count of items
+
+    private int currentSpriteID = 0;  // starting by selecting nothing
+
 
     void Start()
     {
-        // Instantiate the count text and anchor it to the bottom-right of the slot
-        GameObject countObject = Instantiate(countPrefab, slotRect.parent);
-        countObject.transform.SetParent(countObject.transform.root);
-        countText = countObject.GetComponent<TextMeshProUGUI>();
-
-        // Position the count text relative to the slot's position
-        RectTransform countRect = countObject.GetComponent<RectTransform>();
-        Vector3 slotPosition = slotRect.position; // World-space position of the slot
-
-        // Set the count text position to bottom-right corner of the slot
-        countRect.position = slotPosition; // Start with the slot's position
-        countRect.anchoredPosition += new Vector2(slotRect.rect.width / 2, -slotRect.rect.height / 2); // Adjust to bottom-right
+        //countText = countTextGameObj.GetComponent<TextMeshPro>();
 
         UpdateCountText();
     }
 
+    // Update the count text
+    private void UpdateCountText()
+    {
+        if(itemCount == 0)
+        {
+            CountText.color = Color.red;
+        }
+        else
+        {
+            CountText.color = Color.white;
+        }
+        CountText.text = itemCount.ToString();
+    }
+
+    // public functions here
     // Decrease the count and update the display
+    public void IncreaseItemCount()
+    {
+        itemCount++;
+        UpdateCountText();
+    }
+
     public void DecreaseItemCount()
     {
-        if (itemCount > 0)
+        if(itemCount > 0)
         {
             itemCount--;
             UpdateCountText();
         }
     }
 
-    // Update the count text
-    private void UpdateCountText()
+    // toggle select indicator
+    public void ToggleSprite()
     {
-        countText.text = itemCount.ToString();
+        if (currentSpriteID == 0)
+        {
+            currentSpriteID = 1;
+            _image.sprite = SpriteChoice[currentSpriteID];
+        }
+        else
+        {
+            currentSpriteID = 0;
+            _image.sprite = SpriteChoice[currentSpriteID];
+        }
     }
+
 }
