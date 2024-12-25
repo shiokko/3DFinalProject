@@ -1,4 +1,3 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using Fungus;
@@ -12,13 +11,11 @@ public class FungusTrigger : MonoBehaviour
     [SerializeField]
     private GameObject Player;
 
-    private StarterAssetsInputs _input;
-
     private int remnantID;
 
     void Start()
     {
-        _input = Player.GetComponent<StarterAssetsInputs>();
+
     }
 
     // Update is called once per frame
@@ -26,10 +23,8 @@ public class FungusTrigger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            _input.cursorInputForLook = false;
-            _input.cursorLocked = false;
+            // show cursor and disable playe movement
+            Player.GetComponent<PlayerController>().ResetCanMove();
 
             Flowchart.BroadcastFungusMessage("write");
         }
@@ -144,10 +139,8 @@ public class FungusTrigger : MonoBehaviour
     // for controlling inputs, lock the mouse, enable screen rotation
     public void FungusModeOver()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        _input.cursorInputForLook = true;
-        _input.cursorLocked = true;
+        // hide mouse and enable screen rotation
+        Player.GetComponent<PlayerController>().SetCanMove();
     }
 
     public void SetRenmant_ID(int R) { 

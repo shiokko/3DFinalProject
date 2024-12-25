@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Flowchart _flowchart;
 
+    [Header("Parameters")]
     [SerializeField]
     private int[] remnantsInSex;
     [SerializeField]

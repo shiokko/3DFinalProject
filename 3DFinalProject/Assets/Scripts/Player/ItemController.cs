@@ -1,7 +1,5 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class ItemController : MonoBehaviour
@@ -22,8 +20,6 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     private GameObject[] ItemsUIslots = new GameObject[(int)GlobalVar.NUM_ITEM_TYPE];
 
-    private StarterAssetsInputs _input;
-
     private int curItemIndex = 0;  // default to not taking anything
     private int prevItemIndex;
 
@@ -32,8 +28,6 @@ public class ItemController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _input = Player.GetComponent<StarterAssetsInputs>();
-
         curItemIndex = 0;
         prevItemIndex = 0;
 
@@ -175,12 +169,7 @@ public class ItemController : MonoBehaviour
             if (startAsking)
             {
                 // show mouse and disable screen rotation
-                _input.cursorInputForLook = false;
-                _input.cursorLocked = false;
-                _input.look = Vector2.zero;
-                _input.move = Vector2.zero;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                Player.GetComponent<PlayerController>().ResetCanMove();
 
                 successfullyUsed = true;
             }
