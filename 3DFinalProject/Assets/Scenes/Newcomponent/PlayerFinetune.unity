@@ -2107,6 +2107,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1282435102}
   - {fileID: 1771956548}
   - {fileID: 191100681}
   - {fileID: 794044215}
@@ -9381,7 +9382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -172.99994, y: -119.840576}
+  m_AnchoredPosition: {x: -159, y: -242}
   m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1086265306
@@ -12578,6 +12579,95 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281686871}
   m_Mesh: {fileID: 4711208715938537054, guid: 04c13e2a25cd0f349a56394acbb1dee2, type: 3}
+--- !u!1 &1282435101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1282435102}
+  - component: {fileID: 1282435105}
+  - component: {fileID: 1282435104}
+  - component: {fileID: 1282435103}
+  m_Layer: 5
+  m_Name: Compass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1282435102
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282435101}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 244551419}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 849.426, y: 356.68973}
+  m_SizeDelta: {x: 221.1405, y: 222.9428}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1282435103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282435101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4f35947e284bd147a42b7b7fd2b81e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 101054529}
+--- !u!114 &1282435104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282435101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 7b98444e8e69b25408e29742012dd06c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1282435105
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282435101}
+  m_CullTransparentMesh: 1
 --- !u!1 &1298493404
 GameObject:
   m_ObjectHideFlags: 0
@@ -22467,7 +22557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 25
   indentLevel: 0
-  text: "\u9B3C\u5EDF\u5728\u5357\u65B9\u55CE"
+  text: "\u9B3C\u5EDF\u5728\u5EDF\u7684\u5357\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 2876830431567736368}
   hideIfVisited: 0
@@ -23147,7 +23237,7 @@ MonoBehaviour:
   scrollPos: {x: 442.67236, y: 48.76974}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 453
+  blockViewHeight: 501
   zoom: 0.64000034
   scrollViewRect:
     serializedVersion: 2
@@ -23156,8 +23246,9 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 9164815051405869196}
-  selectedCommands: []
+  - {fileID: 147054820119507462}
+  selectedCommands:
+  - {fileID: 8391913385392609841}
   variables:
   - {fileID: 5151440774559288305}
   - {fileID: 711021269795068440}
@@ -23189,7 +23280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 27
   indentLevel: 0
-  text: "\u9B3C\u5EDF\u5728\u897F\u65B9\u55CE"
+  text: "\u9B3C\u5EDF\u5728\u5EDF\u7684\u897F\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 26458547686570705}
   hideIfVisited: 0
@@ -24396,7 +24487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 17
   indentLevel: 0
-  text: "\u5C4D\u9AD4\u5728\u5317\u65B9\u55CE"
+  text: "\u5C4D\u9AD4\u5728\u5EDF\u7684\u5317\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 1763574421852903917}
   hideIfVisited: 0
@@ -24833,7 +24924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 8
   indentLevel: 0
-  text: "\u4FE1\u7269\u5728\u6771\u65B9\u55CE"
+  text: "\u4FE1\u7269\u5728\u5EDF\u7684\u6771\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 3830597258623771266}
   hideIfVisited: 0
@@ -25984,7 +26075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 15
   indentLevel: 0
-  text: "\u5C4D\u9AD4\u5728\u897F\u65B9\u55CE"
+  text: "\u5C4D\u9AD4\u5728\u5EDF\u7684\u897F\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 1705296722163495208}
   hideIfVisited: 0
@@ -26478,7 +26569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 24
   indentLevel: 0
-  text: "\u9B3C\u5EDF\u5728\u5317\u65B9\u55CE"
+  text: "\u9B3C\u5EDF\u5728\u5EDF\u7684\u5317\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 3108543888190744460}
   hideIfVisited: 0
@@ -26503,7 +26594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 16
   indentLevel: 0
-  text: "\u5C4D\u9AD4\u5728\u5357\u65B9\u55CE"
+  text: "\u5C4D\u9AD4\u5728\u5EDF\u7684\u5357\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 5668886213156456059}
   hideIfVisited: 0
@@ -28215,7 +28306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 14
   indentLevel: 0
-  text: "\u5C4D\u9AD4\u5728\u6771\u65B9\u55CE"
+  text: "\u5C4D\u9AD4\u5728\u5EDF\u7684\u6771\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 51111159522239320}
   hideIfVisited: 0
@@ -28287,7 +28378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 26
   indentLevel: 0
-  text: "\u9B3C\u5EDF\u5728\u6771\u65B9\u55CE"
+  text: "\u9B3C\u5EDF\u5728\u5EDF\u7684\u6771\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 3944593436680325028}
   hideIfVisited: 0
@@ -28978,7 +29069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 10
   indentLevel: 0
-  text: "\u4FE1\u7269\u5728\u5357\u65B9\u55CE"
+  text: "\u4FE1\u7269\u5728\u5EDF\u7684\u5357\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 4066531688711268375}
   hideIfVisited: 0
@@ -29095,7 +29186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 9
   indentLevel: 0
-  text: "\u4FE1\u7269\u5728\u897F\u65B9\u55CE"
+  text: "\u4FE1\u7269\u5728\u5EDF\u7684\u897F\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 3143287592436233971}
   hideIfVisited: 0
@@ -29591,7 +29682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 11
   indentLevel: 0
-  text: "\u4FE1\u7269\u5728\u5317\u65B9\u55CE"
+  text: "\u4FE1\u7269\u5728\u5EDF\u7684\u5317\u65B9\u55CE"
   description: 
   targetBlock: {fileID: 4935662768948185437}
   hideIfVisited: 0
@@ -30664,7 +30755,7 @@ MonoBehaviour:
   suppressAllAutoSelections: 0
 --- !u!114 &9164815051405869193
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
