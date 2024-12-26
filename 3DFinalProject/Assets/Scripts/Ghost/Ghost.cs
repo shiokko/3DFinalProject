@@ -28,7 +28,8 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rageUp2ndStage = 1f;
 
-
+    [SerializeField]
+    private GhostAudio ghostAudio;
     private float distance;
 
     private enum Status
@@ -49,7 +50,7 @@ public class GhostController : MonoBehaviour
 
     private void RageUp()//Incresingly up to 100 when rage > 50
     {
-        if(rage >= 25)
+        if(rage >= 25 && rage < 50)
         {
             rage += rageUp1stStage;
         }else if (rage >= 50 && rage < 100)
@@ -65,6 +66,11 @@ public class GhostController : MonoBehaviour
 
     private void Start()
     {
+        ghostAudio = GetComponent<GhostAudio>();
+        if (ghostAudio == null)
+        {
+            Debug.LogError("GhostAudio component is missing on this object!");
+        }
         StartCoroutine(BehaviorRoutine()); 
         StartCoroutine(RageUpRoutine());  
         StartCoroutine(MoveRoutine());
@@ -125,14 +131,17 @@ public class GhostController : MonoBehaviour
 
         if (randomValue == 0)
         {
+            ghostAudio.PlayCry();
             Debug.Log("HU");
         }
         else if (randomValue == 1)
         {
+            ghostAudio.PlayFlow();
             Debug.Log("HEHE");
         }
         else
         {
+            ghostAudio.PlayLaugh();
             Debug.Log("HU and HEHE");
         }
 
@@ -145,14 +154,17 @@ public class GhostController : MonoBehaviour
 
         if (randomValue == 0)
         {
+            ghostAudio.PlayScream();
             Debug.Log("FK");
         }
         else if (randomValue == 1)
         {
+            ghostAudio.PlayBadwords1();
             Debug.Log("GD");
         }
         else
         {
+            ghostAudio.PlayBadwords2();
             Debug.Log("FKYM");
         }
 
