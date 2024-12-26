@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     private bool wantEnchanted;
     private int guessedGhostID;
 
+    private bool firstTouchDeadbody;
+
     private Vector3 angularVelocityRange = new Vector3(2, 2, 2);
 
     // Start is called before the first frame update
@@ -75,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
         wantEnchanted = false;
         guessedGhostID = -1;
+
+        firstTouchDeadbody = true;
     }
 
     // Update is called once per frame
@@ -109,6 +113,15 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "AskArea")
         {
             canAskGod = true;
+        }
+        else if (other.tag == "Deadbody")
+        {
+            if (firstTouchDeadbody)
+            {
+                GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
+
+                firstTouchDeadbody = false;
+            }
         }
     }
 
