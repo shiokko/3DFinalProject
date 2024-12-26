@@ -221,6 +221,7 @@ public class GhostController : MonoBehaviour
     
     public void OnCollisionEnter(Collision collision)
     {
+        //Debug.Log("Collision");
         if (collision.gameObject.tag == "Player" && status == Status.Hunt)
         {
             Debug.Log("touch");
@@ -245,7 +246,6 @@ public class GhostController : MonoBehaviour
             //EndGame();
         }*/
         Debug.Log("GameOver");
-
     }
     public void CalmDown()
     {
