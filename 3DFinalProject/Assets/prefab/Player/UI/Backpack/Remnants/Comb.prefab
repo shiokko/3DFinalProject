@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 684387343999368171}
   - component: {fileID: 3667127996374118889}
   - component: {fileID: 3692042802778170737}
+  - component: {fileID: 7229508972562945095}
   m_Layer: 5
   m_Name: Comb
   m_TagString: Untagged
@@ -75,3 +76,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7229508972562945095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206665448656354731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba067fbd6c6f0a4ca83da7fd729cba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r_ID: 0
+  _image: {fileID: 3692042802778170737}

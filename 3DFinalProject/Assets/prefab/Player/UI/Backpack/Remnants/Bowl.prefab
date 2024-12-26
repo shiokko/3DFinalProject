@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3026304203180567890}
   - component: {fileID: 902354987504056301}
   - component: {fileID: 6804072272048996044}
+  - component: {fileID: 2209581030040049535}
   m_Layer: 5
   m_Name: Bowl
   m_TagString: Untagged
@@ -75,3 +76,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2209581030040049535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369786356689193193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba067fbd6c6f0a4ca83da7fd729cba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  r_ID: 7
+  _image: {fileID: 6804072272048996044}

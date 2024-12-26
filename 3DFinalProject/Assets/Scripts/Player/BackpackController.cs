@@ -12,9 +12,9 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject Backpack;
     [SerializeField]
-    private GameObject[] UIgrids = new GameObject[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+    private GameObject[] UIGrids = new GameObject[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     [SerializeField]
-    private GameObject[] PrefabsUIremnants = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
+    private GameObject[] PrefabsUIRemnantSlots = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
 
     private bool backpackMode;
 
@@ -72,17 +72,17 @@ public class BackpackController : MonoBehaviour
         {
             // category sex:
             // add prefab to backpack, as a child of corresponding grid category
-            Instantiate(PrefabsUIremnants[index], UIgrids[0].transform);
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[0].transform);
         }
         else if (index <= (int)Remnants.CRUTCH)
         {
             // category age:
-            Instantiate(PrefabsUIremnants[index], UIgrids[1].transform);
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[1].transform);
         }
         else if (index <= (int)Remnants.BOWL)
         {
             // category Hierarchy:
-            Instantiate(PrefabsUIremnants[index], UIgrids[2].transform);
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[2].transform);
         }
     }
 }
