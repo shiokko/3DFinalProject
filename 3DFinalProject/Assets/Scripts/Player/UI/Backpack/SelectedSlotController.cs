@@ -26,7 +26,7 @@ public class SelectedSlotController : MonoBehaviour, IDropHandler
         Instantiate(PrefabsRemnantsUIsprite[currentSelectRemnantID], transform);
     }
 
-    // public functionfor fungus
+    // public function for backpack to get the selected R_ID
     public int GetSelectedRemnantID()
     {
         return currentSelectRemnantID;

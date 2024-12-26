@@ -10,6 +10,8 @@ public class FungusTrigger : MonoBehaviour
     private Flowchart _flowchart;
     [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private GameObject Backpack;
 
     private int remnantID;
 
@@ -40,8 +42,6 @@ public class FungusTrigger : MonoBehaviour
             FindGhostTemple(Q2);
         else if (Q1 == 3)
             FindRenmant(Q2);
-        else
-            IsRenmantCorrect();
     }
 
     private int GetCardinalDirection(float angle)
@@ -118,10 +118,19 @@ public class FungusTrigger : MonoBehaviour
         negative();
     }
 
+    private void RemnantCorrectEntry()
+    {
+        // before telling whether the remnant is correct, force user to choose one remnant to ask
+        Backpack.GetComponent<BackpackController>().SetBackpackMode();
+        Backpack.GetComponent<BackpackController>().SetIsChoosing();
+    }
+
     private void IsRenmantCorrect()
     {
-        bool temp = GameObject.Find("GameManager").GetComponent<GameManager>().IsCorrect(remnantID);
-        if (temp)
+        remnantID = Backpack.GetComponent<BackpackController>().GetSelectedRemnantID();
+
+        bool isCorrect = GameObject.Find("GameManager").GetComponent<GameManager>().IsCorrect(remnantID);
+        if (isCorrect)
             positive();
         else 
             negative();
@@ -134,6 +143,16 @@ public class FungusTrigger : MonoBehaviour
     public void BroadCastAsk()
     {
         Flowchart.BroadcastFungusMessage("Ask");
+    }
+
+    public void BroadCastRemnantSelected()
+    {
+        Flowchart.BroadcastFungusMessage("AskCorrectRemnant");
+    }
+
+    public void BroadCastPunishment()
+    {
+        Flowchart.BroadcastFungusMessage("Punishment");
     }
 
     // for controlling inputs, lock the mouse, enable screen rotation

@@ -10,18 +10,24 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject Player;
     [SerializeField]
-    private GameObject Backpack;
+    private GameObject BackpackUI;
+    [SerializeField]
+    private GameObject SelectedSlot;
+    [SerializeField]
+    private GameObject FungusTrigger;
     [SerializeField]
     private GameObject[] UIGrids = new GameObject[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     [SerializeField]
     private GameObject[] PrefabsUIRemnantSlots = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
 
     private bool backpackMode;
+    private bool isChoosing;
 
     // Start is called before the first frame update
     void Start()
     {
         backpackMode = false;
+        isChoosing = false;
     }
 
     // Update is called once per frame
@@ -40,13 +46,30 @@ public class BackpackController : MonoBehaviour
             // show backpack UI
             if (backpackMode)
             {
-                Backpack.SetActive(true);
+                BackpackUI.SetActive(true);
                 Player.GetComponent<PlayerController>().ResetCanMove();
             }
             else
             {
-                Backpack.SetActive(false);
+                BackpackUI.SetActive(false);
                 Player.GetComponent<PlayerController>().SetCanMove();
+
+                if (isChoosing)
+                {
+                    // FungusTrigger enable the backpack mode,
+                    // and right now, player has chosen the desired remnant then tabbing out of backpack mode
+                    if(SelectedSlot.GetComponent<SelectedSlotController>().GetSelectedRemnantID() == -1)
+                    {
+                        FungusTrigger.GetComponent<FungusTrigger>().BroadCastPunishment();
+                    }
+                    else
+                    {
+                        // to check if player really select a remnant to ask
+                        FungusTrigger.GetComponent<FungusTrigger>().BroadCastRemnantSelected();
+                    }
+
+                    isChoosing = false;
+                }
             }
         }
     }
@@ -84,5 +107,27 @@ public class BackpackController : MonoBehaviour
             // category Hierarchy:
             Instantiate(PrefabsUIRemnantSlots[index], UIGrids[2].transform);
         }
+    }
+
+    // for FungusTrigger to open backpack, forcing user to choose remnant before asking
+    public void SetBackpackMode()
+    {
+        backpackMode = true;
+
+        // UI part
+        BackpackUI.SetActive(true);
+        Player.GetComponent<PlayerController>().ResetCanMove();
+    }
+
+    // for FungusTrigger to set when player really wants to take remnant out of backpack to "ask"
+    public void SetIsChoosing()
+    {
+        isChoosing = true;
+    }
+
+    // for FungusTrigger to get selected remnant id
+    public int GetSelectedRemnantID()
+    {
+        return SelectedSlot.GetComponent<SelectedSlotController>().GetSelectedRemnantID();
     }
 }
