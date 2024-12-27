@@ -13,6 +13,9 @@ public class GhostController : MonoBehaviour
     private GameObject ghostface; // ghost face Prefab
     [SerializeField]
     private Transform cameraTransform; // Camera's Transform
+    [SerializeField] 
+    private Renderer ghostRenderer; //ghost meshrender
+
 
 
     [Header("Parameters")]
@@ -78,6 +81,7 @@ public class GhostController : MonoBehaviour
         StartCoroutine(BehaviorRoutine());
         StartCoroutine(RageUpRoutine());
         StartCoroutine(MoveRoutine());
+        
 
     }
 
@@ -85,9 +89,17 @@ public class GhostController : MonoBehaviour
     {
         SetStatus(rage); 
         SetDistanceToPlayer();
+        UpdateVisibility();
         if (GetDistanceToPlayer() < 5f)
         {
             TeleportAwayFromPlayer();
+        }
+        if (status != Status.Hunt && isHunting)
+        {
+            StartCoroutine(BehaviorRoutine());
+            StartCoroutine(RageUpRoutine());
+            StartCoroutine(MoveRoutine());
+            isHunting = false;
         }
         if (status == Status.Hunt && !isHunting)
         {
@@ -111,6 +123,18 @@ public class GhostController : MonoBehaviour
             transform.position = PlayerPosition + randomDirection;
         }
     }
+    private void UpdateVisibility()
+    {
+        if (ghostRenderer == null) return;
+
+        // 當鬼在獵殺模式時顯形，否則隱形
+        ghostRenderer.enabled = (status == Status.Hunt);
+    }
+
+
+
+
+
 
     private IEnumerator BehaviorRoutine()
     {
