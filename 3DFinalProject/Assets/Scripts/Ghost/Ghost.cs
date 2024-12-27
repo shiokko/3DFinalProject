@@ -335,6 +335,4 @@ public class GhostController : MonoBehaviour
     { 
         return status; 
     }
-
-    
 }
