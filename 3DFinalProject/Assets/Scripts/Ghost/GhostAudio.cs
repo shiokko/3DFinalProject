@@ -12,6 +12,7 @@ public class GhostAudio : MonoBehaviour
     public AudioClip Badwords1 = default;
     public AudioClip Badwords2  = default;
     public AudioClip Badwords3  = default;
+    public AudioClip Dead = default;
 
     [SerializeField]
     private AudioSource audioSource = default;
@@ -30,7 +31,10 @@ public class GhostAudio : MonoBehaviour
     {
         audioSource.PlayOneShot(Cry);
     }
-
+    public void PlayDead()
+    {
+        audioSource.PlayOneShot(Dead);
+    }
     
     public void PlayLaugh()
     {

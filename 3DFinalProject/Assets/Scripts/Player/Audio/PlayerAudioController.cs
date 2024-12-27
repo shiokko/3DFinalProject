@@ -13,6 +13,8 @@ public class PlayerAudioController : MonoBehaviour
     private AudioClip corpseFlipClip; // Clip for corpse flipping sound
     [SerializeField]
     private AudioClip relaxingBreathClip; // Clip for relaxing breath sound
+    [SerializeField]
+    private AudioClip throwBue; // Clip for throw a bue
 
     void Start()
     {
@@ -27,19 +29,17 @@ public class PlayerAudioController : MonoBehaviour
     // Play corpse flip sound
     public void PlayCorpseFlip()
     {
-        if (corpseFlipClip != null)
-        {
-            audioSource.PlayOneShot(corpseFlipClip);
-        }
+        audioSource.PlayOneShot(corpseFlipClip);
     }
 
     // Play relaxing breath sound
     public void PlayRelaxingBreath()
+    {       
+        audioSource.PlayOneShot(relaxingBreathClip);  
+    }
+    public void PlayThrowBue()
     {
-        if (relaxingBreathClip != null)
-        {
-            audioSource.PlayOneShot(relaxingBreathClip);
-        }
+        audioSource.PlayOneShot(throwBue); 
     }
     
 }
