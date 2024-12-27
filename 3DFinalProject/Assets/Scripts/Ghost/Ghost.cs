@@ -1,3 +1,4 @@
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,6 +9,10 @@ public class GhostController : MonoBehaviour
     [Header("References")]
     [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private GameObject ghostface; // ghost face Prefab
+    [SerializeField]
+    private Transform cameraTransform; // Camera's Transform
 
 
     [Header("Parameters")]
@@ -67,10 +72,7 @@ public class GhostController : MonoBehaviour
     private void Start()
     {
         ghostAudio = GetComponent<GhostAudio>();
-        if (ghostAudio == null)
-        {
-            Debug.LogError("GhostAudio component is missing on this object!");
-        }
+        
         StartCoroutine(BehaviorRoutine()); 
         StartCoroutine(RageUpRoutine());  
         StartCoroutine(MoveRoutine());
@@ -219,7 +221,7 @@ public class GhostController : MonoBehaviour
         }
     }
     
-    public void OnCollisionEnter(Collision collision)
+    /*public void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("Collision");
         if (collision.gameObject.tag == "Player" && status == Status.Hunt)
@@ -228,6 +230,21 @@ public class GhostController : MonoBehaviour
             Kill();
         }
         else if (collision.gameObject.tag == "Player" && status != Status.Hunt)
+        {
+            TeleportAwayFromPlayer();
+            Debug.Log("Teleport because status != Hunt");
+        }
+        //Debug.Log("Touch");
+    }*/
+    public void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("Collision");
+        if (other.gameObject.tag == "Player" && status == Status.Hunt)
+        {
+            Debug.Log("touch");
+            Kill();
+        }
+        else if (other.gameObject.tag == "Player" && status != Status.Hunt)
         {
             TeleportAwayFromPlayer();
             Debug.Log("Teleport because status != Hunt");
@@ -245,7 +262,14 @@ public class GhostController : MonoBehaviour
         {
             //EndGame();
         }*/
-        Debug.Log("GameOver");
+        if (ghostface != null && cameraTransform != null)
+        {
+            Debug.Log("GameOver");
+            // instantiate prefab in front of camera
+            Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 5f; // 在 Camera 前方 5 單位
+            GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
+            
+        }
     }
     public void CalmDown()
     {
