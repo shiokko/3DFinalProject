@@ -8,7 +8,7 @@ public class GhostController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
-    private GameObject Player;
+    private PlayerController Player;
     [SerializeField]
     private GameObject ghostface; // ghost face Prefab
     [SerializeField]
@@ -224,25 +224,10 @@ public class GhostController : MonoBehaviour
         }
     }
     
-    /*public void OnCollisionEnter(Collision collision)
-    {
-        //Debug.Log("Collision");
-        if (collision.gameObject.tag == "Player" && status == Status.Hunt)
-        {
-            Debug.Log("touch");
-            Kill();
-        }
-        else if (collision.gameObject.tag == "Player" && status != Status.Hunt)
-        {
-            TeleportAwayFromPlayer();
-            Debug.Log("Teleport because status != Hunt");
-        }
-        //Debug.Log("Touch");
-    }*/
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision");
-        if (other.gameObject.tag == "Player" && status == Status.Hunt)
+        if (other.gameObject.tag == "Player" && status == Status.Hunt && Player.GetIsInvincible())
         {
             Debug.Log("touch");
             Kill();
