@@ -25,9 +25,20 @@ public class ShowRage : MonoBehaviour
     {
         // 
         rageNormalized = Mathf.Clamp(ghost.GetRage() / 100f, 0f, 1f);
+        Color baseColor = Color.white;
 
-        // 
-        Color baseColor = Color.Lerp(Color.white, Color.red, rageNormalized);
+        if (ghost.GetStatus() == GhostController.Status.Hunt)
+        {
+            baseColor = Color.Lerp(Color.white, Color.black, rageNormalized);
+        }
+        else if (ghost.GetStatus() == GhostController.Status.YellAt)
+        {
+            baseColor = Color.Lerp(Color.white, Color.red, rageNormalized);  
+        }
+        else if(ghost.GetStatus() == GhostController.Status.Scare)
+        {
+            baseColor = Color.Lerp(Color.white, Color.blue, rageNormalized);  
+        }
         meshRenderer.material.color = baseColor;
     }
 }

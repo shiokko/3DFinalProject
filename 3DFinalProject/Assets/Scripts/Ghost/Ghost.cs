@@ -41,13 +41,37 @@ public class GhostController : MonoBehaviour
     private float distance;
 
     private bool isHunting = false;
-
-    private enum Status
+  
+    private void Start()
     {
-        Follow = 0,
-        Scare = 1,
-        YellAt = 2,
-        Hunt = 3
+        ghostAudio = GetComponent<GhostAudio>();
+        StartCoroutine(BehaviorRoutine());
+        StartCoroutine(RageUpRoutine());
+        StartCoroutine(MoveRoutine());
+    }
+
+    private void Update()
+    {
+        SetStatus(rage);
+        SetDistanceToPlayer();
+        UpdateVisibility();
+        if (GetDistanceToPlayer() < 5f)
+        {
+            TeleportAwayFromPlayer();
+        }
+        if (status != Status.Hunt && isHunting)
+        {
+            StartCoroutine(BehaviorRoutine());
+            StartCoroutine(RageUpRoutine());
+            StartCoroutine(MoveRoutine());
+            isHunting = false;
+        }
+        if (status == Status.Hunt && !isHunting)
+        {
+            isHunting = true;
+            StopAllCoroutines();
+            StartCoroutine(HuntPlayer());
+        }
     }
 
     private void SetStatus(float rage)//update should call
@@ -74,40 +98,7 @@ public class GhostController : MonoBehaviour
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
 
-    private void Start()
-    {
-        ghostAudio = GetComponent<GhostAudio>();
-
-        StartCoroutine(BehaviorRoutine());
-        StartCoroutine(RageUpRoutine());
-        StartCoroutine(MoveRoutine());
-        
-
-    }
-
-    private void Update()
-    {
-        SetStatus(rage); 
-        SetDistanceToPlayer();
-        UpdateVisibility();
-        if (GetDistanceToPlayer() < 5f)
-        {
-            TeleportAwayFromPlayer();
-        }
-        if (status != Status.Hunt && isHunting)
-        {
-            StartCoroutine(BehaviorRoutine());
-            StartCoroutine(RageUpRoutine());
-            StartCoroutine(MoveRoutine());
-            isHunting = false;
-        }
-        if (status == Status.Hunt && !isHunting)
-        {
-            isHunting = true;
-            StopAllCoroutines(); 
-            StartCoroutine(HuntPlayer()); 
-        }
-    }
+    
     private void TeleportAwayFromPlayer()
     {
         if (status != Status.Hunt)
@@ -247,8 +238,16 @@ public class GhostController : MonoBehaviour
 
             yield return new WaitForSeconds(3f);
         }
+
     }
-    
+    public enum Status
+    {
+        Follow = 0,
+        Scare = 1,
+        YellAt = 2,
+        Hunt = 3
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision");
@@ -307,4 +306,11 @@ public class GhostController : MonoBehaviour
     {
         return distance;
     }
+    
+    public Status GetStatus()
+    { 
+        return status; 
+    }
+
+    
 }
