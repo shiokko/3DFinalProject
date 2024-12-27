@@ -10,9 +10,15 @@ public class GhostAudio : MonoBehaviour
     public AudioClip Scream = default;
     public AudioClip Flow = default;
     public AudioClip Badwords1 = default;
-    public AudioClip Badwords2  = default;
-    public AudioClip Badwords3  = default;
+    public AudioClip Badwords2 = default;
+    public AudioClip Badwords3 = default;
     public AudioClip Dead = default;
+    public AudioClip Wind = default;
+    public AudioClip HzNoise = default;
+    public AudioClip Coming = default;
+
+    // Dictionary to store audio clips
+    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
     [SerializeField]
     private AudioSource audioSource = default;
@@ -24,50 +30,69 @@ public class GhostAudio : MonoBehaviour
         {
             Debug.LogError("AudioSource component is missing from this object.");
         }
+
+        // Initialize the dictionary with the clips
+        audioClips.Add("Cry", Cry);
+        audioClips.Add("Laugh", Laugh);
+        audioClips.Add("Scream", Scream);
+        audioClips.Add("Flow", Flow);
+        audioClips.Add("Badwords1", Badwords1);
+        audioClips.Add("Badwords2", Badwords2);
+        audioClips.Add("Badwords3", Badwords3);
+        audioClips.Add("Dead", Dead);
+        audioClips.Add("Wind", Wind);
+        audioClips.Add("HzNoise", HzNoise);
+        audioClips.Add("Coming", Coming);
     }
 
-    
-    public void PlayCry()
+    // Play looping sound
+    public void PlayLooping(string soundName)
     {
-        audioSource.PlayOneShot(Cry);
-    }
-    public void PlayDead()
-    {
-        audioSource.PlayOneShot(Dead);
-    }
-    
-    public void PlayLaugh()
-    {
-        audioSource.PlayOneShot(Laugh);
-    }
-
-    
-    public void PlayScream()
-    {
-        audioSource.PlayOneShot(Scream);
+        if (audioSource != null && audioClips.ContainsKey(soundName))
+        {
+            audioSource.clip = audioClips[soundName];
+            audioSource.loop = true; // Set to loop
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"Sound '{soundName}' not found!");
+        }
     }
 
-    
-    public void PlayFlow()
+    // Stop looping sound
+    public void StopLooping()
     {
-        audioSource.PlayOneShot(Flow);
+        if (audioSource != null && audioSource.loop)
+        {
+            audioSource.Stop();
+            audioSource.loop = false; // Stop looping
+        }
     }
 
-    
-    public void PlayBadwords1()
+    // Play one-shot sound
+    public void PlayOneShot(string soundName)
     {
-        audioSource.PlayOneShot(Badwords1);
+        if (audioSource != null && audioClips.ContainsKey(soundName))
+        {
+            audioSource.PlayOneShot(audioClips[soundName]);
+        }
+        else
+        {
+            Debug.LogWarning($"Sound '{soundName}' not found!");
+        }
     }
 
-    
-    public void PlayBadwords2()
-    {
-        audioSource.PlayOneShot(Badwords2);
-    }
-
-    
-    public void PlayBadwords3()
-    {
-        audioSource.PlayOneShot(Badwords3);
-    }
+    // Specific methods for playing sounds
+    public void PlayCry() => PlayOneShot("Cry");
+    public void PlayDead() => PlayOneShot("Dead");
+    public void PlayLaugh() => PlayOneShot("Laugh");
+    public void PlayScream() => PlayOneShot("Scream");
+    public void PlayFlow() => PlayOneShot("Flow");
+    public void PlayBadwords1() => PlayOneShot("Badwords1");
+    public void PlayBadwords2() => PlayOneShot("Badwords2");
+    public void PlayBadwords3() => PlayOneShot("Badwords3");
+    public void PlayWind() => PlayOneShot("Wind");
+    public void PlayHzNoise() => PlayOneShot("HzNoise");
+    public void PlayComing() => PlayLooping("Coming");
 }

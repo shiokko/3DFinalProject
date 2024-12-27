@@ -15,7 +15,8 @@ public class GhostController : MonoBehaviour
     private Transform cameraTransform; // Camera's Transform
     [SerializeField] 
     private Renderer ghostRenderer; //ghost meshrender
-
+    [SerializeField]
+    private GhostAudio ghostAudio;
 
 
     [Header("Parameters")]
@@ -36,11 +37,11 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rageUp2ndStage = 1f;
 
-    [SerializeField]
-    private GhostAudio ghostAudio;
+    
     private float distance;
 
     private bool isHunting = false;
+    private bool isPlayingMusic = false;
   
     private void Start()
     {
@@ -118,7 +119,7 @@ public class GhostController : MonoBehaviour
     {
         if (ghostRenderer == null) return;
 
-        // 當鬼在獵殺模式時顯形，否則隱形
+        // 
         ghostRenderer.enabled = (status == Status.Hunt);
     }
 
@@ -133,11 +134,17 @@ public class GhostController : MonoBehaviour
         {
             switch (status)
             {
+                case Status.Follow:
+                    isPlayingMusic = false;
+                    ghostAudio.StopLooping();
+                    break;
                 case Status.Scare:
+                    ghostAudio.StopLooping();
                     yield return ScarePlayer();
                     break;
 
                 case Status.YellAt:
+                    ghostAudio.StopLooping();
                     yield return YellAtPlayer();
                     break;
             }
@@ -149,7 +156,7 @@ public class GhostController : MonoBehaviour
     private IEnumerator ScarePlayer()
     {
         int randomValue = Random.Range(0, 3);
-
+        isPlayingMusic = false;
         if (randomValue == 0)
         {
             ghostAudio.PlayCry();
@@ -172,7 +179,8 @@ public class GhostController : MonoBehaviour
     private IEnumerator YellAtPlayer()
     {
         int randomValue = Random.Range(0, 3);
-
+        isPlayingMusic = false;
+        
         if (randomValue == 0)
         {
             ghostAudio.PlayScream();
@@ -198,15 +206,17 @@ public class GhostController : MonoBehaviour
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 direction = (PlayerPosition - transform.position).normalized;
-
-
-           
             transform.position += direction * speed * Time.deltaTime;
-
-            // Look At Player
             transform.LookAt(PlayerPosition);
-            
-
+            if (!isPlayingMusic)
+            {
+                ghostAudio.PlayOneShot("HzNoise");
+                Debug.Log("1000Hz");
+                ghostAudio.PlayOneShot("Wind");
+                Debug.Log("wind");
+                ghostAudio.PlayLooping("Coming");
+                isPlayingMusic = true;
+            }
             yield return null; // wait for next frame
         }
     }
@@ -251,6 +261,20 @@ public class GhostController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision");
+        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible())
+        {
+            Debug.Log("touch");
+            Kill();
+        }
+        else if (other.gameObject.tag == "Player" && status != Status.Hunt)
+        {
+            TeleportAwayFromPlayer();
+            Debug.Log("Teleport because status != Hunt");
+        }
+        //Debug.Log("Touch");
+    }
+    public void OnTriggerStay(Collider other)
+    {
         if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible())
         {
             Debug.Log("touch");
