@@ -6233,6 +6233,7 @@ MonoBehaviour:
   audioSource: {fileID: 827309307}
   corpseFlipClip: {fileID: 8300000, guid: 72203fcad94a3a74ea0884ac4e859d75, type: 3}
   relaxingBreathClip: {fileID: 8300000, guid: 90745e07bd52b0849b103fe3284657bf, type: 3}
+  throwBue: {fileID: 8300000, guid: cce261e8b6f7c9a4d8577513e88eb334, type: 3}
 --- !u!82 &827309307
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27261,7 +27262,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -27320,6 +27321,7 @@ MonoBehaviour:
   Badwords1: {fileID: 8300000, guid: 1b744e80005df844a8458e68a08a8ae4, type: 3}
   Badwords2: {fileID: 8300000, guid: b03c8805ce66dc24aafdd82244b5af35, type: 3}
   Badwords3: {fileID: 8300000, guid: 46326e890a9d68e48ad17a1e93674b49, type: 3}
+  Dead: {fileID: 8300000, guid: e663c9839ed519f4d84a7826020b909a, type: 3}
   audioSource: {fileID: 8117482714092633240}
 --- !u!114 &8293691886607974569
 MonoBehaviour:
