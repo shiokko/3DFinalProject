@@ -77,6 +77,7 @@ public class GhostController : MonoBehaviour
 
         StartCoroutine(BehaviorRoutine());
         StartCoroutine(RageUpRoutine());
+        StartCoroutine(MoveRoutine());
 
     }
 
