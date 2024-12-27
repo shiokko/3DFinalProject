@@ -227,7 +227,7 @@ public class GhostController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision");
-        if (other.gameObject.tag == "Player" && status == Status.Hunt && Player.GetIsInvincible())
+        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible())
         {
             Debug.Log("touch");
             Kill();
