@@ -37,6 +37,8 @@ public class GhostController : MonoBehaviour
     private GhostAudio ghostAudio;
     private float distance;
 
+    private bool isHunting = false;
+
     private enum Status
     {
         Follow = 0,
@@ -72,10 +74,10 @@ public class GhostController : MonoBehaviour
     private void Start()
     {
         ghostAudio = GetComponent<GhostAudio>();
-        
-        StartCoroutine(BehaviorRoutine()); 
-        StartCoroutine(RageUpRoutine());  
-        StartCoroutine(MoveRoutine());
+
+        StartCoroutine(BehaviorRoutine());
+        StartCoroutine(RageUpRoutine());
+
     }
 
     private void Update()
@@ -85,6 +87,12 @@ public class GhostController : MonoBehaviour
         if (GetDistanceToPlayer() < 5f)
         {
             TeleportAwayFromPlayer();
+        }
+        if (status == Status.Hunt && !isHunting)
+        {
+            isHunting = true;
+            StopAllCoroutines(); 
+            StartCoroutine(HuntPlayer()); 
         }
     }
     private void TeleportAwayFromPlayer()
@@ -107,24 +115,19 @@ public class GhostController : MonoBehaviour
     {
         while (true)
         {
-            Vector3 PlayerPosition = Player.transform.position;
-
             switch (status)
             {
-                case Status.Scare: 
+                case Status.Scare:
                     yield return ScarePlayer();
                     break;
 
-                case Status.YellAt: 
+                case Status.YellAt:
                     yield return YellAtPlayer();
                     break;
-                case Status.Hunt:
-                    yield return HuntPlayer();
-                    break;
             }
-
-            yield return null; // wait next frame
+            yield return null; // wait for next frame
         }
+
     }
 
     private IEnumerator ScarePlayer()
@@ -266,7 +269,7 @@ public class GhostController : MonoBehaviour
         {
             Debug.Log("GameOver");
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 5f; // 在 Camera 前方 5 單位
+            Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f; //
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
             
         }
