@@ -1,8 +1,5 @@
-using StarterAssets;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class ItemController : MonoBehaviour
@@ -15,46 +12,35 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     private int initIncenseNum = 0;
 
-    [Header("Refernce")]
+    [Header("Dependencies")]
     [SerializeField]
     private GameObject Backpack;
     [SerializeField]
     private GameObject Player;
     [SerializeField]
-    private TextMeshProUGUI CurrentMessage;
-
-    private StarterAssetsInputs _input;
+    private GameObject[] ItemsUIslots = new GameObject[(int)GlobalVar.NUM_ITEM_TYPE];
 
     private int curItemIndex = 0;  // default to not taking anything
+    private int prevItemIndex;
 
     private int[] itemCount = new int[(int)GlobalVar.NUM_ITEM_TYPE];  // get currently how many items there are
-    private string[] itemNames = new string[(int)GlobalVar.NUM_ITEM_TYPE];  // just a temp UI, will use other implementation in the future
 
     // Start is called before the first frame update
     void Start()
     {
-        _input = Player.GetComponent<StarterAssetsInputs>();
-
         curItemIndex = 0;
-        CurrentMessage.enabled = true;
-        CurrentMessage.text = "Current Taking: Nothing";
+        prevItemIndex = 0;
 
         itemCount[(int)Items.CHARM] = InitCharmNum;
         itemCount[(int)Items.DIVINATION_BLOCK] = InitDivinationBlockNum;
         itemCount[(int)Items.INCENSE] = initIncenseNum;
         itemCount[(int)Items.WOOD_SWORD] = 0;
-
-        itemNames[0] = "Nothing";
-        itemNames[(int)Items.CHARM] = "Charm";
-        itemNames[(int)Items.DIVINATION_BLOCK] = "Divination Block";
-        itemNames[(int)Items.INCENSE] = "Incense";
-        itemNames[(int)Items.WOOD_SWORD] = "Wood Sword";
     }
 
     // Update is called once per frame
     void Update()
     {
-        int prevItemIndex = curItemIndex;
+        prevItemIndex = curItemIndex;
 
         GetInputs();
 
@@ -69,10 +55,8 @@ public class ItemController : MonoBehaviour
         // check if it's backpack mode
         if (Backpack.GetComponent<BackpackController>().IsBackpackMode())
         {
-            CurrentMessage.enabled = false;
             return;
         }
-        CurrentMessage.enabled = true;
 
         // for item switching
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
@@ -107,12 +91,36 @@ public class ItemController : MonoBehaviour
 
     private void SelectItem()
     {
+        // UI part
+        if(curItemIndex == 0)
+        {
+            // switch to take nothing
+            if (prevItemIndex != 0)   // in this case prevItemIndex should not be 0
+            {
+                ItemsUIslots[prevItemIndex].GetComponent<SlotManager>().ToggleSprite();
+            }
+            else
+            {
+                Debug.Log("something weong in SelectItem()");
+            }
+        }
+        else
+        {
+            // switching to current taking
+            ItemsUIslots[curItemIndex].GetComponent<SlotManager>().ToggleSprite();
+            if (prevItemIndex != 0) 
+            { 
+                ItemsUIslots[prevItemIndex].GetComponent<SlotManager>().ToggleSprite();
+            }
+        }
+
+        // player visiual part
         int i = 0;
         foreach (Transform item in transform)
         {
             if(i == 0)
             {
-                CurrentMessage.text = "Current Taking: Nothing";
+                // skip latern part
                 i++;
                 continue;
             }
@@ -122,12 +130,10 @@ public class ItemController : MonoBehaviour
                 if (itemCount[i] > 0)
                 {
                     item.gameObject.SetActive(true);
-                    CurrentMessage.text = "Current Taking: " + itemNames[i] + ", Remaining:" + itemCount[i];
                 }
                 else
                 {
                     item.gameObject.SetActive(false);
-                    CurrentMessage.text = "Want to Take: " + itemNames[i];
                 }
             }
             else
@@ -141,7 +147,7 @@ public class ItemController : MonoBehaviour
 
     private void UseItem()
     {
-        if(curItemIndex == 0 || itemCount[curItemIndex] == 0)  // only holding lantern, nothing can be used
+        if(curItemIndex == 0 || itemCount[curItemIndex] == 0)  // only holding lantern, or nothing can be used
         {
             return;
         }
@@ -163,12 +169,7 @@ public class ItemController : MonoBehaviour
             if (startAsking)
             {
                 // show mouse and disable screen rotation
-                _input.cursorInputForLook = false;
-                _input.cursorLocked = false;
-                _input.look = Vector2.zero;
-                _input.move = Vector2.zero;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                Player.GetComponent<PlayerController>().ResetCanMove();
 
                 successfullyUsed = true;
             }
@@ -196,8 +197,14 @@ public class ItemController : MonoBehaviour
 
         if (successfullyUsed)
         {
+            // for UI part
+            ItemsUIslots[curItemIndex].GetComponent<SlotManager>().DecreaseItemCount();
+
             itemCount[curItemIndex] --;
-            curItemIndex = 0;
+            // refresh player visiual part
+            // we will disable the current taking if count is 0
+            // we will toggle UI sprite twice, since currentItemIndex == prevItemIndex
+            SelectItem();
         }
     }
 
@@ -213,6 +220,9 @@ public class ItemController : MonoBehaviour
             return;
         }
 
+        // for UI part
+        ItemsUIslots[index].GetComponent<SlotManager>().IncreaseItemCount();
+
         itemCount[index] ++;
         if(curItemIndex == index)
         {
@@ -223,6 +233,9 @@ public class ItemController : MonoBehaviour
     // for After 請神 get the sword
     public void GetWoodSword()
     {
+        // for UI part
+        ItemsUIslots[(int)Items.WOOD_SWORD].GetComponent<SlotManager>().IncreaseItemCount();
+
         itemCount[(int)Items.WOOD_SWORD] = 1;
         Debug.Log("Wood Sword Get!!!");
 

@@ -15,6 +15,7 @@ TagManager:
   - AskArea
   - Ground
   - Ghost
+  - Deadbody
   layers:
   - Default
   - TransparentFX

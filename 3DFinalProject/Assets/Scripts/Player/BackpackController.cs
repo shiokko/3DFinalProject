@@ -1,151 +1,75 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 public class BackpackController : MonoBehaviour
 {
-    [Header("Reference")]
+    [Header("Dependencies")]
     [SerializeField]
-    private TextMeshProUGUI CurrentMessage;
-
-    private int curRemnantIndex;
-
-    private int[] remnantCount = new int[(int) GlobalVar.NUM_REMNANT_TYPE];  // get currently how many remnant there are
-    private string[] remnantNames = new string[(int)GlobalVar.NUM_REMNANT_TYPE];  // just a temp UI, will use other implementation in the future 
-
+    private GameObject Player;
     [SerializeField]
+    private GameObject BackpackUI;
+    [SerializeField]
+    private GameObject SelectedSlot;
+    [SerializeField]
+    private GameObject FungusTrigger;
+    [SerializeField]
+    private GameObject[] UIGrids = new GameObject[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+    [SerializeField]
+    private GameObject[] PrefabsUIRemnantSlots = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
+
     private bool backpackMode;
-
-    private StarterAssetsInputs _input;
+    private bool isChoosing;
 
     // Start is called before the first frame update
     void Start()
     {
-        _input = GetComponent<StarterAssetsInputs>();
-
         backpackMode = false;
-        CurrentMessage.enabled = true;
-        CurrentMessage.text = "[Backpack mode] Want to Take: COMB";
-
-        curRemnantIndex = 0;
-
-        // temp UI
-        remnantNames[(int)Remnants.FAN] = "Fan";
-        remnantNames[(int)Remnants.TOY] = "Toy";
-        remnantNames[(int)Remnants.GOLD] = "Gold";
-        remnantNames[(int)Remnants.JADE] = "Jade";
-        remnantNames[(int)Remnants.BOWL] = "Bowl";
-        remnantNames[(int)Remnants.HAT] = "Hat";
-        remnantNames[(int)Remnants.COMB] = "Comb";
-        remnantNames[(int)Remnants.CRUTCH] = "Crutch";
+        isChoosing = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        int prevRemnantIndex = curRemnantIndex;
-
         GetInputs();
-
-        if (prevRemnantIndex != curRemnantIndex)
-        {
-            SelectItem();
-        }
     }
 
     private void GetInputs()
     {
-        // for future backpack usage
-        //if (Input.GetKeyDown(KeyCode.Tab))
-        //{
-        //    _input.cursorInputForLook = !_input.cursorInputForLook;
-        //    _input.look = Vector2.zero;
-        //    //  canvas call backpack to drag drop
-        //}
-
-
-        // CAUTIOUS!! below implements are just temporary, I will use back drag drop afterward
         // toggle backpackMode
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             backpackMode = !backpackMode;
-        }
 
-        if (!backpackMode)
-        {
-            CurrentMessage.enabled = false;
-            return;
-        }
-        CurrentMessage.enabled = true;
-
-        // for item switching
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (curRemnantIndex >= (int)GlobalVar.NUM_REMNANT_TYPE - 1)
+            // show backpack UI
+            if (backpackMode)
             {
-                curRemnantIndex = (int)GlobalVar.NUM_REMNANT_TYPE - 1;
+                BackpackUI.SetActive(true);
+                Player.GetComponent<PlayerController>().ResetCanMove();
             }
             else
             {
-                curRemnantIndex++;
-            }
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (curRemnantIndex <= 0)
-            {
-                curRemnantIndex = 0;
-            }
-            else
-            {
-                curRemnantIndex--;
-            }
-        }
+                BackpackUI.SetActive(false);
+                Player.GetComponent<PlayerController>().SetCanMove();
 
-        // for item usage
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            UseItem();
-        }
-
-    }
-
-    private void SelectItem()
-    {
-        for(int i = 0; i < (int)GlobalVar.NUM_REMNANT_TYPE; i++)
-        {
-            if (i == curRemnantIndex)
-            {
-                if (remnantCount[i] > 0)
+                if (isChoosing)
                 {
-                    CurrentMessage.text = "[Backpack mode] Current Taking: " + remnantNames[i] + ", Remaining:" + remnantCount[i];
+                    // FungusTrigger enable the backpack mode,
+                    // and right now, player has chosen the desired remnant then tabbing out of backpack mode
+                    if(SelectedSlot.GetComponent<SelectedSlotController>().GetSelectedRemnantID() == -1)
+                    {
+                        FungusTrigger.GetComponent<FungusTrigger>().BroadCastPunishment();
+                    }
+                    else
+                    {
+                        // to check if player really select a remnant to ask
+                        FungusTrigger.GetComponent<FungusTrigger>().BroadCastRemnantSelected();
+                    }
+
+                    isChoosing = false;
                 }
-                else
-                {
-                    CurrentMessage.text = "[Backpack mode] Want to Take: " + remnantNames[i];
-                }
-            }
-        }
-    }
-
-    private void UseItem()
-    {
-        if (remnantCount[curRemnantIndex] == 0)  // nothing to use
-        {
-            return;
-        }
-
-        for(int i = 0; i < (int)GlobalVar.NUM_REMNANT_TYPE; i++)
-        {
-            if(i == curRemnantIndex)
-            {
-                // call method in god interaction HERE!
-
-                remnantCount[i] --;
-                CurrentMessage.text = "[Backpack mode] Want to Take: " + remnantNames[i];
-                backpackMode = false;
             }
         }
     }
@@ -161,16 +85,49 @@ public class BackpackController : MonoBehaviour
     // for First Person Raycast
     public void IncrementRemnantCount(int index)
     {
-        if (index < 0 || index >= remnantCount.Length)
+        if (index < 0 || index >= (int)GlobalVar.NUM_REMNANT_TYPE)
         {
             Debug.Log("index out of range in IncrementRemnantCount, passed wrong params");
             return;
         }
 
-        remnantCount[index]++;
-        if (curRemnantIndex == index)
+        if(index <= (int)Remnants.FAN)
         {
-            CurrentMessage.text = "[Backpack mode] Current Taking: " + remnantNames[index] + ", Remaining:" + remnantCount[index];
+            // category sex:
+            // add prefab to backpack, as a child of corresponding grid category
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[0].transform);
         }
+        else if (index <= (int)Remnants.CRUTCH)
+        {
+            // category age:
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[1].transform);
+        }
+        else if (index <= (int)Remnants.BOWL)
+        {
+            // category Hierarchy:
+            Instantiate(PrefabsUIRemnantSlots[index], UIGrids[2].transform);
+        }
+    }
+
+    // for FungusTrigger to open backpack, forcing user to choose remnant before asking
+    public void SetBackpackMode()
+    {
+        backpackMode = true;
+
+        // UI part
+        BackpackUI.SetActive(true);
+        Player.GetComponent<PlayerController>().ResetCanMove();
+    }
+
+    // for FungusTrigger to set when player really wants to take remnant out of backpack to "ask"
+    public void SetIsChoosing()
+    {
+        isChoosing = true;
+    }
+
+    // for FungusTrigger to get selected remnant id
+    public int GetSelectedRemnantID()
+    {
+        return SelectedSlot.GetComponent<SelectedSlotController>().GetSelectedRemnantID();
     }
 }

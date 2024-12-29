@@ -1,7 +1,8 @@
 // for passing between item controller and raycast hitter
 enum Items
 {
-    CHARM = 1,  // because lantern is indexas 0
+    LANTERN = 0,
+    CHARM,          // start from 1 because lantern is indexas 0
     DIVINATION_BLOCK,
     INCENSE,
     WOOD_SWORD
@@ -31,6 +32,12 @@ enum Gods
 
     CHANG_HOUNG,
     DI_ZHONG
+}
+
+enum Ghost
+{
+    SUICIDE = 1,  // start from 1 because land god is at 0
+    HOMICIDE
 }
 
 enum GlobalVar
