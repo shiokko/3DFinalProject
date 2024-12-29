@@ -42,6 +42,7 @@ public class GhostController : MonoBehaviour
 
     private bool isHunting = false;
     private bool isPlayingMusic = false;
+    private bool isEnd = false;
   
     private void Start()
     {
@@ -261,7 +262,7 @@ public class GhostController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision");
-        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible())
+        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible() && !isEnd)
         {
             Debug.Log("touch");
             Kill();
@@ -275,7 +276,7 @@ public class GhostController : MonoBehaviour
     }
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible())
+        if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible() && !isEnd)
         {
             Debug.Log("touch");
             Kill();
@@ -301,6 +302,7 @@ public class GhostController : MonoBehaviour
         if (ghostface != null && cameraTransform != null)
         {
             Debug.Log("GameOver");
+            isEnd = true;
             // instantiate prefab in front of camera
             Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f; //
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
