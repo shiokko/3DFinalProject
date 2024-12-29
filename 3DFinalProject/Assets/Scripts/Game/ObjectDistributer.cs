@@ -16,7 +16,7 @@ public class ObjectDistributer : MonoBehaviour
     [SerializeField]
     private GameObject GM;
 
-    [Header("Prefabs to spawn")]
+    [Header("Item Prefabs")]
     [SerializeField]
     private GameObject CharmPrefab;
     [SerializeField]
@@ -27,6 +27,10 @@ public class ObjectDistributer : MonoBehaviour
     [Header("Remnant Prefabs")]
     [SerializeField]
     private GameObject[] RemnantsPrefabs = new GameObject[(int)GlobalVar.NUM_REMNANT_TYPE];
+
+    [Header("Deadbody Prefabs")]
+    [SerializeField]
+    private GameObject[] DeadbodyPrefabs = new GameObject[(int)GlobalVar.NUM_GHOST_TYPE];
 
     [Header("Parameters")]
     [SerializeField]
@@ -56,22 +60,23 @@ public class ObjectDistributer : MonoBehaviour
     // the correct remnants
     private int[] correctRemnantsID;
 
+    // the correct deadbody
+    private int correctDeadbodyID;
+
     // Start is called before the first frame update
     void Start()
     {
         correctRemnantsID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
         // call this from Game Manager:
-        // _DeepCopyArray(correctRemnantsID, GM.GetComponent<GameManager>().GetCorrectRemnants());
-        int[] fakeData = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
-        fakeData[0] = (int)Remnants.COMB; fakeData[1] = (int)Remnants.TOY; fakeData[2] = (int)Remnants.GOLD;
-
-        _DeepCopyArray(correctRemnantsID, fakeData);
+         _DeepCopyArray(correctRemnantsID, GM.GetComponent<GameManager>().GetCorrectRemnants());
+        correctDeadbodyID = GM.GetComponent<GameManager>().GetCorrectDeadbody();
 
         CalculateAreas();
         //Debuger();
 
         DistributeItems();
         DistributeRemnants();
+        DistribureDeadbody();
     }
 
     // Update is called once per frame
@@ -180,6 +185,11 @@ public class ObjectDistributer : MonoBehaviour
 
             SpawnOutsideItems(RemnantsPrefabs[WrongRemnantID], 1);
         }
+    }
+
+    private void DistribureDeadbody()
+    {
+        SpawnOutsideItems(DeadbodyPrefabs[correctDeadbodyID - 1], 1);
     }
 
     private void SpawnOutsideItems(GameObject _prefab, int _prefabNum)

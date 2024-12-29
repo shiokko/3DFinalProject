@@ -1,5 +1,7 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +31,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject PrayBar;
 
+    private bool CanMove;
+    private StarterAssetsInputs _input;
+
     private bool canPray;
     private bool isPraying;
     private float prayCountDown;
@@ -45,11 +50,16 @@ public class PlayerController : MonoBehaviour
     private bool wantEnchanted;
     private int guessedGhostID;
 
+    private bool firstTouchDeadbody;
+
     private Vector3 angularVelocityRange = new Vector3(2, 2, 2);
 
     // Start is called before the first frame update
     void Start()
     {
+        _input = GetComponent<StarterAssetsInputs>();
+        CanMove = true;
+
         canPray = false;
         isPraying = false;
         prayCountDown = PrayTime;
@@ -67,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
         wantEnchanted = false;
         guessedGhostID = -1;
+
+        firstTouchDeadbody = true;
     }
 
     // Update is called once per frame
@@ -78,7 +90,14 @@ public class PlayerController : MonoBehaviour
         {
             wantEnchanted = true;
         }
-        
+
+        if (!CanMove)
+        {
+            // lock player movement every frame
+            _input.look = Vector2.zero;
+            _input.move = Vector2.zero;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -94,6 +113,15 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "AskArea")
         {
             canAskGod = true;
+        }
+        else if (other.tag == "Deadbody")
+        {
+            if (firstTouchDeadbody)
+            {
+                GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
+
+                firstTouchDeadbody = false;
+            }
         }
     }
 
@@ -211,6 +239,31 @@ public class PlayerController : MonoBehaviour
     }
 
     // public function here
+    // for everyone
+    public void SetCanMove()
+    {
+        CanMove = true;
+
+        // hide mouse and enable screen rotation
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        _input.cursorInputForLook = true;
+        _input.cursorLocked = true;
+    }
+
+    public void ResetCanMove()
+    {
+        CanMove = false;
+
+        // show mouse and disable screen rotation
+        _input.cursorInputForLook = false;
+        _input.cursorLocked = false;
+        _input.look = Vector2.zero;
+        _input.move = Vector2.zero;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     // for item controller
     public void SetInvincible()
     {
