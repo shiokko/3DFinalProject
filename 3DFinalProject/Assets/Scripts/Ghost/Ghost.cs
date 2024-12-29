@@ -307,7 +307,6 @@ public class GhostController : MonoBehaviour
             // instantiate prefab in front of camera
             Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f; //
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
-            
         }
     }
     public void CalmDown()
