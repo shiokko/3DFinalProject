@@ -1,27 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI; // 引入 UI 命名空間
 
 public class ShowRage : MonoBehaviour
 {
-    public GameObject Ghost; // 鬼的遊戲物件
-    public Text rageText;    // 用於顯示怒氣的 UI Text
+    [SerializeField]
+    private GhostController ghost;  
+    [SerializeField]
+    private MeshRenderer meshRenderer;  
 
-    private GhostController ghostController; // 鬼腳本的引用
+    private float rageNormalized;
 
     void Start()
     {
-        // 從 Ghost 遊戲物件獲取 GhostController 腳本
-        ghostController = Ghost.GetComponent<GhostController>();
+ 
     }
 
     void Update()
     {
-        // 獲取鬼的怒氣值
-        float currentRage = ghostController.GetRage();
+        
+        UpdateMaterialBaseMap();
+    }
 
-        // 更新 Text 顯示
-        rageText.text = "Rage: " + currentRage.ToString("F0"); // F0 格式化為無小數點
+    void UpdateMaterialBaseMap()
+    {
+        // 
+        rageNormalized = Mathf.Clamp(ghost.GetRage() / 100f, 0f, 1f);
+        Color baseColor = Color.white;
+
+        if (ghost.GetStatus() == GhostController.Status.Hunt)
+        {
+            baseColor = Color.Lerp(Color.white, Color.black, rageNormalized);
+        }
+        else if (ghost.GetStatus() == GhostController.Status.YellAt)
+        {
+            baseColor = Color.Lerp(Color.white, Color.red, rageNormalized);  
+        }
+        else if(ghost.GetStatus() == GhostController.Status.Scare)
+        {
+            baseColor = Color.Lerp(Color.white, Color.blue, rageNormalized);  
+        }
+        meshRenderer.material.color = baseColor;
     }
 }
