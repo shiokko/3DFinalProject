@@ -1,4 +1,3 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using Fungus;
@@ -11,14 +10,14 @@ public class FungusTrigger : MonoBehaviour
     private Flowchart _flowchart;
     [SerializeField]
     private GameObject Player;
-
-    private StarterAssetsInputs _input;
+    [SerializeField]
+    private GameObject Backpack;
 
     private int remnantID;
 
     void Start()
     {
-        _input = Player.GetComponent<StarterAssetsInputs>();
+
     }
 
     // Update is called once per frame
@@ -26,10 +25,8 @@ public class FungusTrigger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            _input.cursorInputForLook = false;
-            _input.cursorLocked = false;
+            // show cursor and disable playe movement
+            Player.GetComponent<PlayerController>().ResetCanMove();
 
             Flowchart.BroadcastFungusMessage("write");
         }
@@ -45,8 +42,6 @@ public class FungusTrigger : MonoBehaviour
             FindGhostTemple(Q2);
         else if (Q1 == 3)
             FindRenmant(Q2);
-        else
-            IsRenmantCorrect();
     }
 
     private int GetCardinalDirection(float angle)
@@ -80,8 +75,9 @@ public class FungusTrigger : MonoBehaviour
     }
 
     private void FindDeadBody(int dir) {
-        GameObject deadbody = GameObject.Find("deadbody");
-        Vector3 direction = deadbody.transform.position - this.transform.position;
+        GameObject deadbody = GameObject.FindGameObjectWithTag("Deadbody");
+        GameObject temple = GameObject.Find("Temple");
+        Vector3 direction = deadbody.transform.position - temple.transform.position;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360;
         int cardinalDirection = GetCardinalDirection(angle);
@@ -94,7 +90,8 @@ public class FungusTrigger : MonoBehaviour
     private void FindGhostTemple(int dir)
     {
         GameObject ghostTemple = GameObject.Find("ghost_temple");
-        Vector3 direction = ghostTemple.transform.position - this.transform.position;
+        GameObject temple = GameObject.Find("Temple");
+        Vector3 direction = ghostTemple.transform.position - temple.transform.position;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360;
         int cardinalDirection = GetCardinalDirection(angle);
@@ -109,8 +106,9 @@ public class FungusTrigger : MonoBehaviour
     private void FindRenmant(int dir)
     {
         GameObject[] renmant = GameObject.FindGameObjectsWithTag("Remnant");
+        GameObject temple = GameObject.Find("Temple");
         foreach (GameObject R in renmant) {
-            Vector3 direction = R.transform.position - this.transform.position;
+            Vector3 direction = R.transform.position - temple.transform.position;
             float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
             if (angle < 0) angle += 360;
             int cardinalDirection = GetCardinalDirection(angle);
@@ -123,10 +121,19 @@ public class FungusTrigger : MonoBehaviour
         negative();
     }
 
+    private void RemnantCorrectEntry()
+    {
+        // before telling whether the remnant is correct, force user to choose one remnant to ask
+        Backpack.GetComponent<BackpackController>().SetBackpackMode();
+        Backpack.GetComponent<BackpackController>().SetIsChoosing();
+    }
+
     private void IsRenmantCorrect()
     {
-        bool temp = GameObject.Find("GameManager").GetComponent<GameManager>().IsCorrect(remnantID);
-        if (temp)
+        remnantID = Backpack.GetComponent<BackpackController>().GetSelectedRemnantID();
+
+        bool isCorrect = GameObject.Find("GameManager").GetComponent<GameManager>().IsCorrect(remnantID);
+        if (isCorrect)
             positive();
         else 
             negative();
@@ -141,13 +148,21 @@ public class FungusTrigger : MonoBehaviour
         Flowchart.BroadcastFungusMessage("Ask");
     }
 
+    public void BroadCastRemnantSelected()
+    {
+        Flowchart.BroadcastFungusMessage("AskCorrectRemnant");
+    }
+
+    public void BroadCastPunishment()
+    {
+        Flowchart.BroadcastFungusMessage("Punishment");
+    }
+
     // for controlling inputs, lock the mouse, enable screen rotation
     public void FungusModeOver()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        _input.cursorInputForLook = true;
-        _input.cursorLocked = true;
+        // hide mouse and enable screen rotation
+        Player.GetComponent<PlayerController>().SetCanMove();
     }
 
     public void SetRenmant_ID(int R) { 

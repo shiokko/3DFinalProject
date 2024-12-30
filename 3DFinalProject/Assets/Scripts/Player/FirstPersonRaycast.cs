@@ -48,6 +48,7 @@ public class FirstPersonRaycast : MonoBehaviour
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
+                    // user wants to grab stuff
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         TakeItem(hit.collider.gameObject);
@@ -60,11 +61,14 @@ public class FirstPersonRaycast : MonoBehaviour
             }
             else
             {
+                // destory current indicator first
                 Destroy(indicator);
+
                 if (hit.collider.gameObject.tag == "Remnant" || hit.collider.gameObject.tag == "Item")
                 {
                     indicator = Instantiate(RayIndicatorOn);
 
+                    // user wants to grab stuff
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         TakeItem(hit.collider.gameObject);
