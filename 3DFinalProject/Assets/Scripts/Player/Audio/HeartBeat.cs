@@ -32,21 +32,19 @@ public class HeartBeat : MonoBehaviour
         {
             if (!heartbeatAudio.isPlaying)
             {
-                heartbeatAudio.Play(); // 如果音效未播放，開始播放
+                heartbeatAudio.Play();
             }
 
-            // 根據怒氣計算音效音調
             float normalizedRage = Mathf.Clamp01((rage - rageThreshold) / (100f - rageThreshold));
             heartbeatAudio.pitch = Mathf.Lerp(minPitch, maxPitch, normalizedRage);
 
-            // 根據怒氣計算音效音量
             heartbeatAudio.volume = Mathf.Lerp(minVolume, maxVolume, normalizedRage);
         }
         else
         {
             if (heartbeatAudio.isPlaying)
             {
-                heartbeatAudio.Stop(); // 如果怒氣低於閾值，停止播放
+                heartbeatAudio.Stop();
             }
         }
     }
