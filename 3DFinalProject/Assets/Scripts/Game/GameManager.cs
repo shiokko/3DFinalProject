@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
     private Flowchart _flowchart;
     [SerializeField]
     private GameObject[] GhostTemples;
+    [SerializeField]
+    private GameObject AbortUI;
+    [SerializeField]
+    private GameObject HelpUI;
+    [SerializeField]
+    private GameObject Player;
 
     [Header("Parameters")]
     [SerializeField]
@@ -42,6 +48,8 @@ public class GameManager : MonoBehaviour
             CorrectAns[i] = false;
         }
 
+        AbortUI.SetActive(false);
+
         CreateCorrectAns();
         DecideCorrectGhostTemple();
     }
@@ -54,7 +62,25 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // player wants to leave mid game
+            if (AbortUI.activeSelf)
+            {
+                AbortUI.SetActive(false);
+                Player.GetComponent<PlayerController>().SetCanMove();
+            }
+            else
+            {
+                AbortUI.SetActive(true);
+                Player.GetComponent<PlayerController>().ResetCanMove();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.F1))
+        {
+            // player want to see Help Manual
+            HelpUI.SetActive(!HelpUI.activeSelf);
+        }
     }
 
     private void CreateCorrectAns()
@@ -155,6 +181,12 @@ public class GameManager : MonoBehaviour
     public void GoToGameOverScene()
     {
         SceneManager.LoadScene("GameOver");
+    }
+
+    public void ResetAbortScreen()
+    {
+        AbortUI.SetActive(false);
+        Player.GetComponent<PlayerController>().SetCanMove();
     }
 
     // for player asking god
