@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2901188264377435831}
   - component: {fileID: 5894657688766019045}
   - component: {fileID: 8873588892857903544}
+  - component: {fileID: -4742755126857258537}
   m_Layer: 0
   m_Name: Suicide
   m_TagString: Deadbody
@@ -84,7 +85,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -112,7 +113,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -130,6 +131,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadBody_ID: 1
+--- !u!114 &-4742755126857258537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111951335485893761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08c83da347afb4b932494509585825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landed: 0
 --- !u!1 &180400529447871252
 GameObject:
   m_ObjectHideFlags: 0

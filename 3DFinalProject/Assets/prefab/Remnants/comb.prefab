@@ -127,8 +127,9 @@ GameObject:
   - component: {fileID: 7003642870342678078}
   - component: {fileID: 839380469390815148}
   - component: {fileID: -3991995557339999887}
+  - component: {fileID: -782551776520398838}
   m_Layer: 0
-  m_Name: Comb
+  m_Name: comb
   m_TagString: Remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,12 +166,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0.07, z: 0.12}
+  m_Size: {x: 1.4, y: 0.29, z: 0.2}
+  m_Center: {x: 0, y: 0.04, z: 0.12}
 --- !u!54 &839380469390815148
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -193,7 +194,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -211,3 +212,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   r_ID: 0
+--- !u!114 &-782551776520398838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8386564583945553619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08c83da347afb4b932494509585825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landed: 0

@@ -16,6 +16,7 @@ TagManager:
   - Ground
   - Ghost
   - Deadbody
+  - OmitEnv
   layers:
   - Default
   - TransparentFX
