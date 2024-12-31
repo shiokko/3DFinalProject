@@ -12,7 +12,7 @@ public class ObjectDistributer : MonoBehaviour
     [SerializeField]
     private GameObject GodTempleFloor;
     [SerializeField]
-    private GameObject GhostTempleFloor;
+    private GameObject[] GhostTempleFloors;
     [SerializeField]
     private Transform Player;
     [SerializeField]
@@ -65,6 +65,9 @@ public class ObjectDistributer : MonoBehaviour
     private Vector3[] ghostTempleArea = new Vector3[2]
 ;    private Vector3[] forbiddenArea = new Vector3[2];
 
+    // the correct ghost temple
+    private int correctGhostTempleIndex;
+
     // the correct remnants
     private int[] correctRemnantsID;
 
@@ -78,6 +81,7 @@ public class ObjectDistributer : MonoBehaviour
         // call this from Game Manager:
          _DeepCopyArray(correctRemnantsID, GM.GetComponent<GameManager>().GetCorrectRemnants());
         correctDeadbodyID = GM.GetComponent<GameManager>().GetCorrectDeadbody();
+        correctGhostTempleIndex = GM.GetComponent<GameManager>().GetCorrectGhostTempleIndex();
 
         CalculateAreas();
         Debuger();
@@ -120,13 +124,13 @@ public class ObjectDistributer : MonoBehaviour
         godTempleArea[1] = new Vector3(centralPoint.x + width / 2, GodTempleFloor.transform.position.y + height, centralPoint.z + length / 2);
 
         // calculate Ghost temple area
-        centralPoint = GhostTempleFloor.transform.position;
-        width = GhostTempleFloor.GetComponent<MeshRenderer>().bounds.size.x;
-        length = GhostTempleFloor.GetComponent<MeshRenderer>().bounds.size.z;
-        height = GhostTempleFloor.GetComponent<MeshRenderer>().bounds.size.y / 2;
+        centralPoint = GhostTempleFloors[correctGhostTempleIndex].transform.position;
+        width = GhostTempleFloors[correctGhostTempleIndex].GetComponent<MeshRenderer>().bounds.size.x;
+        length = GhostTempleFloors[correctGhostTempleIndex].GetComponent<MeshRenderer>().bounds.size.z;
+        height = GhostTempleFloors[correctGhostTempleIndex].GetComponent<MeshRenderer>().bounds.size.y / 2;
 
-        ghostTempleArea[0] = new Vector3(centralPoint.x - width / 2, GhostTempleFloor.transform.position.y + height, centralPoint.z - length / 2);
-        ghostTempleArea[1] = new Vector3(centralPoint.x + width / 2, GhostTempleFloor.transform.position.y + height, centralPoint.z + length / 2);
+        ghostTempleArea[0] = new Vector3(centralPoint.x - width / 2, GhostTempleFloors[correctGhostTempleIndex].transform.position.y + height, centralPoint.z - length / 2);
+        ghostTempleArea[1] = new Vector3(centralPoint.x + width / 2, GhostTempleFloors[correctGhostTempleIndex].transform.position.y + height, centralPoint.z + length / 2);
 
         // calculate forbidden area
         centralPoint = Player.transform.position;

@@ -2,13 +2,14 @@ using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField]
     private Flowchart _flowchart;
+    [SerializeField]
+    private GameObject[] GhostTemples;
 
     [Header("Parameters")]
     [SerializeField]
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     private int[] correctRemnantID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     private int correctGhostID;
 
+    private int correctGhostTempleIndex;
+
     private int bonusScore;
     private void Awake()
     {
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
         gameOver = false;
 
         CreateCorrectAns();
+        DecideCorrectGhostTemple();
     }
     // Start is called before the first frame update
     void Start()
@@ -61,10 +65,35 @@ public class GameManager : MonoBehaviour
         Debug.Log("Correct Remnant Id: " + correctRemnantID[0] + ", " + correctRemnantID[1] + ", " + correctRemnantID[2]);
     }
 
+    private void DecideCorrectGhostTemple()
+    {
+        correctGhostTempleIndex = Random.Range(0, GhostTemples.Length);
+
+        for(int i = 0; i < GhostTemples.Length; i++)
+        {
+            if(i != correctGhostTempleIndex)
+            {
+                // disable this temple
+                GhostTemples[i].SetActive(false);
+            }
+        }
+    }
+
 
     // public functios here
 
+    // for everyone
+    public bool GameOver()
+    {
+        return gameOver;
+    }
+
     // for obj distributer to distribute the correct remnants
+    public int GetCorrectGhostTempleIndex()
+    {
+        return correctGhostTempleIndex;
+    }
+
     public int[] GetCorrectRemnants()
     {
         return correctRemnantID;        

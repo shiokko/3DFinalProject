@@ -5,6 +5,7 @@ enum Items
     CHARM,          // start from 1 because lantern is indexas 0
     DIVINATION_BLOCK,
     INCENSE,
+    JADECOIN,
     WOOD_SWORD
 }
 
@@ -44,6 +45,6 @@ enum GlobalVar
 {
     NUM_REMNANT_TYPE = 8,
     NUM_REMNANT_CATEGORY = 3,
-    NUM_ITEM_TYPE = 5,
+    NUM_ITEM_TYPE = 6,
     NUM_GHOST_TYPE = 2,
 }

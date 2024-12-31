@@ -24,12 +24,16 @@ public class PlayerController : MonoBehaviour
     private float InvincibleTime = 10f;
     [SerializeField]
     private float PrayTime = 5f;
+    [SerializeField]
+    private float DeadSpinSpeed = 1f;
 
     [Header("UI interface")]
     [SerializeField]
     private GameObject InvincibleBar;
     [SerializeField]
     private GameObject PrayBar;
+
+    private bool isKilled = false;
 
     private bool CanMove;
     private StarterAssetsInputs _input;
@@ -84,6 +88,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isKilled)
+        {
+            _input.move = Vector2.zero;
+            return;
+        }
+
         CheckInvincible();
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -98,6 +108,7 @@ public class PlayerController : MonoBehaviour
             _input.move = Vector2.zero;
         }
 
+        //Debug.Log(transform.rotation.eulerAngles.y);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -238,6 +249,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator DeadRoutine()
+    {
+        float lastDirection = transform.rotation.eulerAngles.y;
+        float dir = lastDirection;
+
+        if(lastDirection >= 180)
+        {
+            while(dir > lastDirection - 180)
+            {
+                // rotate anti clock wise
+                _input.look.x = -DeadSpinSpeed;
+                dir = transform.rotation.eulerAngles.y;
+
+                yield return null;
+            }
+        }
+        else
+        {
+            while (dir < lastDirection + 180)
+            {
+                // rotate clock wise
+                _input.look.x = DeadSpinSpeed;
+                dir = transform.rotation.eulerAngles.y;
+
+                yield return null;
+            }
+        }
+
+        _input.look.x = 0;
+    }
+
     // public function here
     // for everyone
     public void SetCanMove()
@@ -262,6 +304,11 @@ public class PlayerController : MonoBehaviour
         _input.move = Vector2.zero;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public bool Iskilled()
+    {
+        return isKilled;
     }
 
     // for item controller
@@ -316,6 +363,17 @@ public class PlayerController : MonoBehaviour
         return isInvincible;
     }
 
+    // for ghost to call when touches player
+    public void Killed()
+    {
+        isKilled = true;
+
+        // disable player movement first
+        ResetCanMove();
+
+        // rotate 180 degrees
+        StartCoroutine(DeadRoutine());
+    }
 
     // for Fungus trigger call to throw  Divination Block
 

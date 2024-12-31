@@ -37,7 +37,6 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rageUp2ndStage = 1f;
 
-    
     private float distance;
 
     private bool isHunting = false;
@@ -100,7 +99,6 @@ public class GhostController : MonoBehaviour
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
 
-    
     private void TeleportAwayFromPlayer()
     {
         if (status != Status.Hunt)
@@ -123,11 +121,6 @@ public class GhostController : MonoBehaviour
         // 
         ghostRenderer.enabled = (status == Status.Hunt);
     }
-
-
-
-
-
 
     private IEnumerator BehaviorRoutine()
     {
@@ -294,6 +287,7 @@ public class GhostController : MonoBehaviour
     {
         rage += 25;
     }
+
     public void Kill() //Call this function when Ghost in status Hunt and touch Player
     {
         /*if (!Player.GetIsInvincible()) //player isn't invincible
@@ -303,12 +297,22 @@ public class GhostController : MonoBehaviour
         if (ghostface != null && cameraTransform != null)
         {
             Debug.Log("GameOver");
+            Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
+
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f; //
+            Vector3 spawnPosition = cameraTransform.position - cameraTransform.forward * 1f;
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
         }
     }
+
+    public void ShowGhostFace()
+    {
+        // instantiate prefab in front of camera
+        //Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f;
+        //GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
+    }
+
     public void CalmDown()
     {
         if(rage > 50)

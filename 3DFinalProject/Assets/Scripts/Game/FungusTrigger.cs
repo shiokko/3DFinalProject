@@ -89,11 +89,12 @@ public class FungusTrigger : MonoBehaviour
 
     private void FindGhostTemple(int dir)
     {
-        GameObject ghostTemple = GameObject.Find("ghost_temple");
+        GameObject ghostTemple = GameObject.FindGameObjectWithTag("GhostTemple");
         GameObject temple = GameObject.Find("Temple");
         Vector3 direction = ghostTemple.transform.position - temple.transform.position;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360;
+
         int cardinalDirection = GetCardinalDirection(angle);
         if (dir == cardinalDirection)
             positive();

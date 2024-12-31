@@ -17,6 +17,7 @@ TagManager:
   - Ghost
   - Deadbody
   - OmitEnv
+  - GhostTemple
   layers:
   - Default
   - TransparentFX
