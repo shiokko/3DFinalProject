@@ -22,9 +22,17 @@ public class DropController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (!landed && other.tag == "env") 
+    //    {
+    //        landed = true;
+    //    }
+    //}
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!landed && other.tag == "env") 
+        if (!landed && collision.gameObject.tag == "env")
         {
             landed = true;
         }
