@@ -2,6 +2,7 @@ using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,11 +27,20 @@ public class GameManager : MonoBehaviour
 
     private int correctGhostTempleIndex;
 
-    private int bonusScore;
+    // All Public Static variables here for scene passing
+    public static int BonusScore;
+    public static bool Win;
+    public static bool[] CorrectAns = new bool[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+
     private void Awake()
     {
-        bonusScore = 0;
+        BonusScore = 0;
         gameOver = false;
+        Win = false;
+        for (int i = 0; i < CorrectAns.Length; i++)
+        {
+            CorrectAns[i] = false;
+        }
 
         CreateCorrectAns();
         DecideCorrectGhostTemple();
@@ -44,10 +54,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver)
-        {
-            // terminate current game, preparing for the next one
-        }
+        
     }
 
     private void CreateCorrectAns()
@@ -79,7 +86,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     // public functios here
 
     // for everyone
@@ -108,36 +114,47 @@ public class GameManager : MonoBehaviour
     // for player controller to call after using the wood sword
     public void EndGame(int purifiedGhostID)
     {
-        bonusScore = 0;
+        BonusScore = 0;
         if (purifiedGhostID == correctGhostID)
         {
+            Win = true;
             Flowchart.BroadcastFungusMessage("win");
         }
         else
         {
+            Win = false;
             Flowchart.BroadcastFungusMessage("lose");
         }
 
         if (correctRemnantID[0] == _flowchart.GetIntegerVariable("sex"))
         {
             Debug.Log("sex");
-            bonusScore++;
+            CorrectAns[0] = true;
+            BonusScore++;
         }
 
         if (correctRemnantID[1] == _flowchart.GetIntegerVariable("age"))
         {
             Debug.Log("age");
-            bonusScore++;
+            CorrectAns[1] = true;
+            BonusScore++;
         }
 
         if (correctRemnantID[2] == _flowchart.GetIntegerVariable("state"))
         {
             Debug.Log("state");
-            bonusScore++;
+            CorrectAns[2] = true;
+            BonusScore++;
         }
 
-        Debug.Log("Bonus Score : " + bonusScore);
+        Debug.Log("Bonus Score : " + BonusScore);
         gameOver = true;
+    }
+
+    // for scene switching
+    public void GoToGameOverScene()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 
     // for player asking god

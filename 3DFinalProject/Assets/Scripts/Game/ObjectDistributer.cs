@@ -84,7 +84,7 @@ public class ObjectDistributer : MonoBehaviour
         correctGhostTempleIndex = GM.GetComponent<GameManager>().GetCorrectGhostTempleIndex();
 
         CalculateAreas();
-        Debuger();
+        //Debuger();
 
         DistributeItems();
         DistributeRemnants();

@@ -278,6 +278,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _input.look.x = 0;
+        // call GM to end the game, GM.Win will == false
+        GM.GetComponent<GameManager>().GoToGameOverScene();
     }
 
     // public function here

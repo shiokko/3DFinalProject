@@ -12,6 +12,8 @@ public class FungusTrigger : MonoBehaviour
     private GameObject Player;
     [SerializeField]
     private GameObject Backpack;
+    [SerializeField]
+    private GameObject GM;
 
     private int remnantID;
 
@@ -164,6 +166,12 @@ public class FungusTrigger : MonoBehaviour
     {
         // hide mouse and enable screen rotation
         Player.GetComponent<PlayerController>().SetCanMove();
+    }
+
+    // for switch scenes because of game ended by player try to purify the ghost
+    public void GameOver()
+    {
+        GM.GetComponent<GameManager>().GoToGameOverScene();
     }
 
     public void SetRenmant_ID(int R) { 
