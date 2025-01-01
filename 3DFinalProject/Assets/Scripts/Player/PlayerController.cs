@@ -232,6 +232,10 @@ public class PlayerController : MonoBehaviour
             startAskGod = false;
             isAskingGod = false;
         }
+        else if (other.tag == "Water")
+        { 
+            GM.GetComponent<GameManager>().GoToGameOverScene();
+        }
     }
 
     private void CheckInvincible()
