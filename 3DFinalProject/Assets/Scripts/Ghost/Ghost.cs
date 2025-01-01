@@ -14,13 +14,17 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private GameObject GodTempleFloor;
     [SerializeField]
-    private GameObject ghostface; // ghost face Prefab
+    private GameObject Ghostface; // ghost face Prefab
     [SerializeField]
-    private Transform cameraTransform; // Camera's Transform
+    private Transform CameraTransform; // Camera's Transform
     [SerializeField] 
-    private Renderer ghostRenderer; //ghost meshrender
+    private Renderer GhostRenderer_body; //ghost meshrender
     [SerializeField]
-    private GhostAudio ghostAudio;
+    private Renderer GhostRenderer_pants;
+    [SerializeField]
+    private Renderer GhostRenderer_top;
+    [SerializeField]
+    private GhostAudio GhostAudio;
 
 
     [Header("Parameters")]
@@ -57,7 +61,7 @@ public class GhostController : MonoBehaviour
     {
         CalculateTempleArea();
 
-        ghostAudio = GetComponent<GhostAudio>();
+        GhostAudio = GetComponent<GhostAudio>();
         StartCoroutine(BehaviorRoutine());
         StartCoroutine(RageUpRoutine());
         StartCoroutine(MoveRoutine());
@@ -159,9 +163,12 @@ public class GhostController : MonoBehaviour
     }
     private void UpdateVisibility()
     {
-        if (ghostRenderer == null) return;
-
-        ghostRenderer.enabled = (status == Status.Hunt);
+        if (GhostRenderer_body != null) 
+            GhostRenderer_body.enabled = (status == Status.Hunt);
+        if (GhostRenderer_pants != null) 
+            GhostRenderer_pants.enabled = (status == Status.Hunt);
+        if (GhostRenderer_top != null)  
+            GhostRenderer_top.enabled = (status == Status.Hunt);
     }
 
     private IEnumerator BehaviorRoutine()
@@ -172,15 +179,15 @@ public class GhostController : MonoBehaviour
             {
                 case Status.Follow:
                     isPlayingMusic = false;
-                    ghostAudio.StopLooping();
+                    GhostAudio.StopLooping();
                     break;
                 case Status.Scare:
-                    ghostAudio.StopLooping();
+                    GhostAudio.StopLooping();
                     yield return ScarePlayer();
                     break;
 
                 case Status.YellAt:
-                    ghostAudio.StopLooping();
+                    GhostAudio.StopLooping();
                     yield return YellAtPlayer();
                     break;
             }
@@ -195,17 +202,17 @@ public class GhostController : MonoBehaviour
         isPlayingMusic = false;
         if (randomValue == 0)
         {
-            ghostAudio.PlayCry();
+            GhostAudio.PlayCry();
             Debug.Log("HU");
         }
         else if (randomValue == 1)
         {
-            ghostAudio.PlayFlow();
+            GhostAudio.PlayFlow();
             Debug.Log("HEHE");
         }
         else
         {
-            ghostAudio.PlayLaugh();
+            GhostAudio.PlayLaugh();
             Debug.Log("HU and HEHE");
         }
 
@@ -219,17 +226,17 @@ public class GhostController : MonoBehaviour
         
         if (randomValue == 0)
         {
-            ghostAudio.PlayScream();
+            GhostAudio.PlayScream();
             Debug.Log("FK");
         }
         else if (randomValue == 1)
         {
-            ghostAudio.PlayBadwords1();
+            GhostAudio.PlayBadwords1();
             Debug.Log("GD");
         }
         else
         {
-            ghostAudio.PlayBadwords2();
+            GhostAudio.PlayBadwords2();
             Debug.Log("FKYM");
         }
 
@@ -244,11 +251,11 @@ public class GhostController : MonoBehaviour
             Vector3 direction = (PlayerPosition - transform.position).normalized;
             if (!isPlayingMusic)
             {
-                ghostAudio.PlayOneShot("HzNoise");
+                GhostAudio.PlayOneShot("HzNoise");
                 Debug.Log("1000Hz");
-                ghostAudio.PlayOneShot("Wind");
+                GhostAudio.PlayOneShot("Wind");
                 Debug.Log("wind");
-                ghostAudio.PlayLooping("Coming");
+                GhostAudio.PlayLooping("Coming");
                 isPlayingMusic = true;
             }
 
@@ -342,15 +349,15 @@ public class GhostController : MonoBehaviour
         {
             //EndGame();
         }*/
-        if (ghostface != null && cameraTransform != null)
+        if (Ghostface != null && CameraTransform != null)
         {
             Debug.Log("GameOver");
             Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
 
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = cameraTransform.position - cameraTransform.forward * GhostFaceDistance;
-            GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
+            Vector3 spawnPosition = CameraTransform.position - CameraTransform.forward * GhostFaceDistance;
+            GameObject spawnedHint = Instantiate(Ghostface, spawnPosition, Quaternion.identity);
         }
     }
 
