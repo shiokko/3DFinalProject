@@ -2,13 +2,21 @@ using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField]
     private Flowchart _flowchart;
+    [SerializeField]
+    private GameObject[] GhostTemples;
+    [SerializeField]
+    private GameObject AbortUI;
+    [SerializeField]
+    private GameObject HelpUI;
+    [SerializeField]
+    private GameObject Player;
 
     [Header("Parameters")]
     [SerializeField]
@@ -23,13 +31,27 @@ public class GameManager : MonoBehaviour
     private int[] correctRemnantID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     private int correctGhostID;
 
-    private int bonusScore;
+    private int correctGhostTempleIndex;
+
+    // All Public Static variables here for scene passing
+    public static int BonusScore;
+    public static bool Win;
+    public static bool[] CorrectAns = new bool[(int)GlobalVar.NUM_REMNANT_CATEGORY];
+
     private void Awake()
     {
-        bonusScore = 0;
+        BonusScore = 0;
         gameOver = false;
+        Win = false;
+        for (int i = 0; i < CorrectAns.Length; i++)
+        {
+            CorrectAns[i] = false;
+        }
+
+        AbortUI.SetActive(false);
 
         CreateCorrectAns();
+        DecideCorrectGhostTemple();
     }
     // Start is called before the first frame update
     void Start()
@@ -40,9 +62,24 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameOver)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // terminate current game, preparing for the next one
+            // player wants to leave mid game
+            if (AbortUI.activeSelf)
+            {
+                AbortUI.SetActive(false);
+                Player.GetComponent<PlayerController>().SetCanMove();
+            }
+            else
+            {
+                AbortUI.SetActive(true);
+                Player.GetComponent<PlayerController>().ResetCanMove();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.F1))
+        {
+            // player want to see Help Manual
+            HelpUI.SetActive(!HelpUI.activeSelf);
         }
     }
 
@@ -61,10 +98,34 @@ public class GameManager : MonoBehaviour
         Debug.Log("Correct Remnant Id: " + correctRemnantID[0] + ", " + correctRemnantID[1] + ", " + correctRemnantID[2]);
     }
 
+    private void DecideCorrectGhostTemple()
+    {
+        correctGhostTempleIndex = Random.Range(0, GhostTemples.Length);
+
+        for(int i = 0; i < GhostTemples.Length; i++)
+        {
+            if(i != correctGhostTempleIndex)
+            {
+                // disable this temple
+                GhostTemples[i].SetActive(false);
+            }
+        }
+    }
 
     // public functios here
 
+    // for everyone
+    public bool GameOver()
+    {
+        return gameOver;
+    }
+
     // for obj distributer to distribute the correct remnants
+    public int GetCorrectGhostTempleIndex()
+    {
+        return correctGhostTempleIndex;
+    }
+
     public int[] GetCorrectRemnants()
     {
         return correctRemnantID;        
@@ -79,36 +140,53 @@ public class GameManager : MonoBehaviour
     // for player controller to call after using the wood sword
     public void EndGame(int purifiedGhostID)
     {
-        bonusScore = 0;
+        BonusScore = 0;
         if (purifiedGhostID == correctGhostID)
         {
+            Win = true;
             Flowchart.BroadcastFungusMessage("win");
         }
         else
         {
+            Win = false;
             Flowchart.BroadcastFungusMessage("lose");
         }
 
         if (correctRemnantID[0] == _flowchart.GetIntegerVariable("sex"))
         {
             Debug.Log("sex");
-            bonusScore++;
+            CorrectAns[0] = true;
+            BonusScore++;
         }
 
         if (correctRemnantID[1] == _flowchart.GetIntegerVariable("age"))
         {
             Debug.Log("age");
-            bonusScore++;
+            CorrectAns[1] = true;
+            BonusScore++;
         }
 
         if (correctRemnantID[2] == _flowchart.GetIntegerVariable("state"))
         {
             Debug.Log("state");
-            bonusScore++;
+            CorrectAns[2] = true;
+            BonusScore++;
         }
 
-        Debug.Log("Bonus Score : " + bonusScore);
+        Debug.Log("Bonus Score : " + BonusScore);
         gameOver = true;
+    }
+
+    // for scene switching
+    public void GoToGameOverScene()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
+    public void ResetAbortScreen()
+    {
+        AbortUI.SetActive(false);
+        Player.GetComponent<PlayerController>().SetCanMove();
     }
 
     // for player asking god

@@ -6,9 +6,9 @@ public class PlayerAudioController : MonoBehaviour
 {
     // AudioSource component to play sounds
     [SerializeField]
-    private AudioSource audioSource = default;
+    private AudioSource _AudioSource = default;
 
-    // Audio clips for corpse flipping and relaxing breathing
+    [Header("Audio Clips")]
     [SerializeField]
     private AudioClip corpseFlipClip; // Clip for corpse flipping sound
     [SerializeField]
@@ -19,7 +19,7 @@ public class PlayerAudioController : MonoBehaviour
     void Start()
     {
         // Ensure AudioSource is assigned
-        audioSource = GetComponent<AudioSource>();
+        _AudioSource = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -29,17 +29,17 @@ public class PlayerAudioController : MonoBehaviour
     // Play corpse flip sound
     public void PlayCorpseFlip()
     {
-        audioSource.PlayOneShot(corpseFlipClip);
+        _AudioSource.PlayOneShot(corpseFlipClip);
     }
 
     // Play relaxing breath sound
     public void PlayRelaxingBreath()
-    {       
-        audioSource.PlayOneShot(relaxingBreathClip);  
+    {
+        _AudioSource.PlayOneShot(relaxingBreathClip);  
     }
     public void PlayThrowBue()
     {
-        audioSource.PlayOneShot(throwBue); 
+        _AudioSource.PlayOneShot(throwBue); 
     }
     
 }

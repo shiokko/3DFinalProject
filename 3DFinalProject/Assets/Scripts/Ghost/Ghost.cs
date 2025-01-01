@@ -1,14 +1,18 @@
 using Fungus;
+using sc.terrain.proceduralpainter;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GhostController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField]
     private PlayerController Player;
+    [SerializeField]
+    private GameObject GodTempleFloor;
     [SerializeField]
     private GameObject ghostface; // ghost face Prefab
     [SerializeField]
@@ -25,6 +29,8 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rage;
     [SerializeField]
+    private float OutsideTempleOffset = 10f;
+    [SerializeField]
     private float scareCooldown = 5f;  //CD for Yell & Scare
     [SerializeField]
     private float speed = 3f;
@@ -36,8 +42,11 @@ public class GhostController : MonoBehaviour
     private float rageUp1stStage = 0.5f;
     [SerializeField]
     private float rageUp2ndStage = 1f;
+    [SerializeField]
+    private float GhostFaceDistance = 2f;
 
-    
+    private Vector3[] godTempleArea = new Vector3[2];
+
     private float distance;
 
     private bool isHunting = false;
@@ -46,6 +55,8 @@ public class GhostController : MonoBehaviour
   
     private void Start()
     {
+        CalculateTempleArea();
+
         ghostAudio = GetComponent<GhostAudio>();
         StartCoroutine(BehaviorRoutine());
         StartCoroutine(RageUpRoutine());
@@ -76,6 +87,37 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    private void CalculateTempleArea()
+    {
+        // calculate God temple area
+        Vector3 centralPoint = GodTempleFloor.transform.position;
+        float width = GodTempleFloor.GetComponent<MeshRenderer>().bounds.size.x;
+        float length = GodTempleFloor.GetComponent<MeshRenderer>().bounds.size.z;
+        float height = GodTempleFloor.GetComponent<MeshRenderer>().bounds.size.y / 2;
+
+        godTempleArea[0] = new Vector3(centralPoint.x - width / 2, GodTempleFloor.transform.position.y + height, centralPoint.z - length / 2);
+        godTempleArea[1] = new Vector3(centralPoint.x + width / 2, GodTempleFloor.transform.position.y + height, centralPoint.z + length / 2);
+    }
+
+    private bool CheckInGodTemple(Vector3 futurePos)
+    {
+        // add border offset to avoid spawn in walls, inward borders
+        // templeTL(BR) stands for god temple top left(botton right)
+        float templeTL_x = godTempleArea[0].x - OutsideTempleOffset;
+        float templeTL_z = godTempleArea[0].z - OutsideTempleOffset;
+        float templeBR_x = godTempleArea[1].x + OutsideTempleOffset;
+        float templeBR_z = godTempleArea[1].z + OutsideTempleOffset;
+
+        if (futurePos.x > templeTL_x && futurePos.z > templeTL_z && futurePos.x < templeBR_x && futurePos.z < templeBR_z)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void SetStatus(float rage)//update should call
     {
         if (rage >= 100) status = Status.Hunt;
@@ -100,7 +142,6 @@ public class GhostController : MonoBehaviour
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
 
-    
     private void TeleportAwayFromPlayer()
     {
         if (status != Status.Hunt)
@@ -120,14 +161,8 @@ public class GhostController : MonoBehaviour
     {
         if (ghostRenderer == null) return;
 
-        // 
         ghostRenderer.enabled = (status == Status.Hunt);
     }
-
-
-
-
-
 
     private IEnumerator BehaviorRoutine()
     {
@@ -207,8 +242,6 @@ public class GhostController : MonoBehaviour
         {
             Vector3 PlayerPosition = Player.transform.position;
             Vector3 direction = (PlayerPosition - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime;
-            transform.LookAt(PlayerPosition);
             if (!isPlayingMusic)
             {
                 ghostAudio.PlayOneShot("HzNoise");
@@ -218,6 +251,14 @@ public class GhostController : MonoBehaviour
                 ghostAudio.PlayLooping("Coming");
                 isPlayingMusic = true;
             }
+
+            // check if future position will be in temple
+            if ( !CheckInGodTemple(transform.position + direction * speed * Time.deltaTime) )
+            {
+                transform.position += direction * speed * Time.deltaTime;
+                transform.LookAt(PlayerPosition);
+            }
+
             yield return null; // wait for next frame
         }
     }
@@ -294,6 +335,7 @@ public class GhostController : MonoBehaviour
     {
         rage += 25;
     }
+
     public void Kill() //Call this function when Ghost in status Hunt and touch Player
     {
         /*if (!Player.GetIsInvincible()) //player isn't invincible
@@ -303,12 +345,22 @@ public class GhostController : MonoBehaviour
         if (ghostface != null && cameraTransform != null)
         {
             Debug.Log("GameOver");
+            Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
+
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f; //
+            Vector3 spawnPosition = cameraTransform.position - cameraTransform.forward * GhostFaceDistance;
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
         }
     }
+
+    public void ShowGhostFace()
+    {
+        // instantiate prefab in front of camera
+        //Vector3 spawnPosition = cameraTransform.position + cameraTransform.forward * 1f;
+        //GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
+    }
+
     public void CalmDown()
     {
         if(rage > 50)

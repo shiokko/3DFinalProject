@@ -12,6 +12,8 @@ public class FungusTrigger : MonoBehaviour
     private GameObject Player;
     [SerializeField]
     private GameObject Backpack;
+    [SerializeField]
+    private GameObject GM;
 
     private int remnantID;
 
@@ -89,11 +91,12 @@ public class FungusTrigger : MonoBehaviour
 
     private void FindGhostTemple(int dir)
     {
-        GameObject ghostTemple = GameObject.Find("ghost_temple");
+        GameObject ghostTemple = GameObject.FindGameObjectWithTag("GhostTemple");
         GameObject temple = GameObject.Find("Temple");
         Vector3 direction = ghostTemple.transform.position - temple.transform.position;
         float angle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         if (angle < 0) angle += 360;
+
         int cardinalDirection = GetCardinalDirection(angle);
         if (dir == cardinalDirection)
             positive();
@@ -139,6 +142,12 @@ public class FungusTrigger : MonoBehaviour
             negative();
     }
 
+    // for turn off player's is asking mode after running all dialogues
+    private void FinishAnswering()
+    {
+        Player.GetComponent<PlayerController>().ResetIsAskingGod();
+    }
+
 
     // public function here
 
@@ -163,6 +172,12 @@ public class FungusTrigger : MonoBehaviour
     {
         // hide mouse and enable screen rotation
         Player.GetComponent<PlayerController>().SetCanMove();
+    }
+
+    // for switch scenes because of game ended by player try to purify the ghost
+    public void GameOver()
+    {
+        GM.GetComponent<GameManager>().GoToGameOverScene();
     }
 
     public void SetRenmant_ID(int R) { 

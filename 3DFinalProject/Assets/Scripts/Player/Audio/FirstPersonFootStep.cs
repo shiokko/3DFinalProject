@@ -8,7 +8,7 @@ public class FirstPersonFootStep : MonoBehaviour
 {
     [Header("Foot Step Params")]
     [SerializeField]
-    private float baseFootStepSpeed = 0.5f;
+    private float baseFootStepSpeed = 0.35f;
     [SerializeField]
     private float walkMultiplyer = 1.6f;
 

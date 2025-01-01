@@ -95,8 +95,9 @@ GameObject:
   - component: {fileID: 1784551172520177655}
   - component: {fileID: 1437461639003813403}
   - component: {fileID: 5240837702046525731}
+  - component: {fileID: 6210213480121916742}
   m_Layer: 0
-  m_Name: Gold
+  m_Name: gold
   m_TagString: Remnant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,6 +117,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1304918157999791632}
+  - {fileID: 8768730961291189065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1784551172520177655
@@ -161,7 +163,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -179,3 +181,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   r_ID: 5
+--- !u!114 &6210213480121916742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613012555987348418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e08c83da347afb4b932494509585825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landed: 0
+--- !u!1001 &6500853818833247488
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 920936241098057692}
+    m_Modifications:
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938916274416388420, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_Name
+      value: Particle System (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cf0a1fe6ff932644dbdecac395d51637, type: 3}
+--- !u!4 &8768730961291189065 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+    type: 3}
+  m_PrefabInstance: {fileID: 6500853818833247488}
+  m_PrefabAsset: {fileID: 0}

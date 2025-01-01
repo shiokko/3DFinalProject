@@ -34,12 +34,20 @@ public class ItemController : MonoBehaviour
         itemCount[(int)Items.CHARM] = InitCharmNum;
         itemCount[(int)Items.DIVINATION_BLOCK] = InitDivinationBlockNum;
         itemCount[(int)Items.INCENSE] = initIncenseNum;
+        itemCount[(int)Items.JADECOIN] = 1;
+        // for UI part
+        ItemsUIslots[(int)Items.JADECOIN].GetComponent<SlotManager>().IncreaseItemCount(); // set hade coin to 1
         itemCount[(int)Items.WOOD_SWORD] = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Player.GetComponent<PlayerController>().Iskilled())
+        {
+            return;
+        }
+
         prevItemIndex = curItemIndex;
 
         GetInputs();

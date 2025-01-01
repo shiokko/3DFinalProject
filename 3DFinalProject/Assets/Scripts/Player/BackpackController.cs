@@ -33,6 +33,16 @@ public class BackpackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Player.GetComponent<PlayerController>().Iskilled())
+        {
+            if (backpackMode)
+            {
+                backpackMode = false;
+                BackpackUI.SetActive(false);
+            }
+            return;
+        }
+
         GetInputs();
     }
 
