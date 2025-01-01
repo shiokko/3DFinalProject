@@ -142,6 +142,12 @@ public class FungusTrigger : MonoBehaviour
             negative();
     }
 
+    // for turn off player's is asking mode after running all dialogues
+    private void FinishAnswering()
+    {
+        Player.GetComponent<PlayerController>().ResetIsAskingGod();
+    }
+
 
     // public function here
 

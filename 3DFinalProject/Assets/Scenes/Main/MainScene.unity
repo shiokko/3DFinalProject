@@ -24148,74 +24148,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.862911, y: 4.0133324, z: 2.9199998}
   m_Center: {x: -0.38842964, y: 2.0933328, z: 0.053333163}
---- !u!1001 &1196121371
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1263302206925458970, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_Name
-      value: New Charm
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.5988493
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 38.35624
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928655568616166560, guid: 5eb880126225a2d49bfa447aaac25261,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5eb880126225a2d49bfa447aaac25261, type: 3}
 --- !u!1 &1202670000
 GameObject:
   m_ObjectHideFlags: 0
@@ -44543,7 +44475,7 @@ Transform:
   m_Children:
   - {fileID: 1324540106261314960}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.03, y: 180, z: 0}
 --- !u!114 &688293998362607252
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -48056,6 +47988,7 @@ GameObject:
   - component: {fileID: 9095279933974404806}
   - component: {fileID: 9095279933974404805}
   - component: {fileID: 9095279933974404804}
+  - component: {fileID: 9095279933974404809}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -49230,6 +49163,7 @@ MonoBehaviour:
   description: 
   eventHandler: {fileID: 3485185117905456145}
   commandList:
+  - {fileID: 9095279933974404809}
   - {fileID: 1994244375960292600}
   suppressAllAutoSelections: 0
 --- !u!114 &4199188951395447636
@@ -50849,7 +50783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 358.118, y: -170.49252}
+  scrollPos: {x: 528.6097, y: -127.8696}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 468
@@ -50861,9 +50795,8 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 9095279933974404808}
-  selectedCommands:
-  - {fileID: 9095279933974404804}
+  - {fileID: 4196310232607163847}
+  selectedCommands: []
   variables:
   - {fileID: 6647217959083391796}
   - {fileID: 4214253280022456572}
@@ -52506,7 +52439,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 136.29324
-    y: 533.871
+    y: 532.2316
     width: 113.93439
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -55607,12 +55540,15 @@ MonoBehaviour:
   GM: {fileID: 1551008108}
   FungusTrigger: {fileID: 3005340666083294776}
   ItemHolder: {fileID: 3687266766964000835}
+  Camera: {fileID: 356188859149573697}
+  PlayerFollowCamera: {fileID: 7816084456831041730}
   DivinationBlockSpawnPoint: {fileID: 3384678656998828217}
   DivinationBlockPrefab: {fileID: 8168929803205838037, guid: 9b490319f6b56ad408784c9d09d36d68,
     type: 3}
   InvincibleTime: 10
   PrayTime: 5
-  DeadSpinSpeed: 1
+  DeadSpinSpeed: 60
+  DeadWaitForSecond: 0.5
   InvincibleBar: {fileID: 7365544942425456081}
   PrayBar: {fileID: 3854439657680971957}
 --- !u!114 &8077806007055851653
@@ -55634,7 +55570,7 @@ MonoBehaviour:
   ghostRenderer: {fileID: 4493694451153608734}
   ghostAudio: {fileID: 6715245117775712086}
   status: 0
-  rage: 0
+  rage: 100
   scareCooldown: 5
   speed: 3
   savedDistance: 20
@@ -57561,6 +57497,23 @@ MonoBehaviour:
   commandList:
   - {fileID: 9095279933974404804}
   suppressAllAutoSelections: 0
+--- !u!114 &9095279933974404809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3044942731502368353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 158
+  indentLevel: 0
+  targetObject: {fileID: 3005340666083294776}
+  methodName: FinishAnswering
+  delay: 0
 --- !u!114 &9100559385206128410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57860,4 +57813,3 @@ SceneRoots:
   - {fileID: 749621653}
   - {fileID: 1401696145}
   - {fileID: 1868721974}
-  - {fileID: 1196121371}

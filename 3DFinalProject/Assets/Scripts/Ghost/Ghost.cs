@@ -36,6 +36,8 @@ public class GhostController : MonoBehaviour
     private float rageUp1stStage = 0.5f;
     [SerializeField]
     private float rageUp2ndStage = 1f;
+    [SerializeField]
+    private float GhostFaceDistance = 2f;
 
     private float distance;
 
@@ -301,7 +303,7 @@ public class GhostController : MonoBehaviour
             isEnd = true;
 
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = cameraTransform.position - cameraTransform.forward * 1f;
+            Vector3 spawnPosition = cameraTransform.position - cameraTransform.forward * GhostFaceDistance;
             GameObject spawnedHint = Instantiate(ghostface, spawnPosition, Quaternion.identity);
         }
     }

@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject ItemHolder;
     [SerializeField]
+    private GameObject Camera;
+    [SerializeField]
+    private GameObject PlayerFollowCamera;
+    [SerializeField]
     private GameObject DivinationBlockSpawnPoint;
     [SerializeField]
     private GameObject DivinationBlockPrefab;
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private float PrayTime = 5f;
     [SerializeField]
     private float DeadSpinSpeed = 1f;
+    [SerializeField]
+    private float DeadWaitForSecond = 0.5f;
 
     [Header("UI interface")]
     [SerializeField]
@@ -39,17 +45,18 @@ public class PlayerController : MonoBehaviour
     private StarterAssetsInputs _input;
 
     private bool canPray;
-    private bool isPraying;
+    private bool startPraying;
     private float prayCountDown;
 
     private bool isInvincible;
     private float invCountDown;
 
     private bool canAskGod;
+    private bool startAskGod;
     private bool isAskingGod;
 
     private bool canPurify;
-    private bool isPurifying;
+    private bool startPurifying;
 
     private bool wantEnchanted;
     private int guessedGhostID;
@@ -65,7 +72,7 @@ public class PlayerController : MonoBehaviour
         CanMove = true;
 
         canPray = false;
-        isPraying = false;
+        startPraying = false;
         prayCountDown = PrayTime;
         PrayBar.SetActive(false);
 
@@ -74,10 +81,11 @@ public class PlayerController : MonoBehaviour
         InvincibleBar.SetActive(false);
 
         canAskGod = false;
+        startAskGod = false;
         isAskingGod = false;
 
         canPurify = false;
-        isPurifying = false;
+        startPurifying = false;
 
         wantEnchanted = false;
         guessedGhostID = -1;
@@ -140,7 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         if(other.tag == "PrayArea")
         {
-            if (isPraying)
+            if (startPraying)
             {
                 // enable UI slide bar
                 if (PrayBar.activeSelf == false)
@@ -159,7 +167,7 @@ public class PlayerController : MonoBehaviour
                     // call function here to lower the ghost's anger
                     GameObject.Find("Ghost").GetComponent<GhostController>().CalmDown();
 
-                    isPraying = false;
+                    startPraying = false;
                     prayCountDown = PrayTime;
                     PrayBar.SetActive(false);
                 }
@@ -167,14 +175,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.tag == "PurifyArea")
         {
-            if(isPurifying)
+            if(startPurifying)
             {
                 // call end game methods here
                 if(guessedGhostID != -1)
                 {
                     GM.GetComponent<GameManager>().EndGame(guessedGhostID);
 
-                    isPurifying = false;
+                    startPurifying = false;
                 }
             }
         }
@@ -192,12 +200,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.tag == "AskArea")
         {
-            if (isAskingGod)
+            if (startAskGod)
             {
                 // activate fungus related dialogue
                 FungusTrigger.GetComponent<FungusTrigger>().BroadCastAsk();
 
-                isAskingGod = false;
+                startAskGod = false;
+
+                // we are going to reset isAskingGod after the whole fungus message ends
             }
         }
     }
@@ -207,18 +217,19 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "PrayArea")
         {
             canPray = false;
-            isPraying = false;
+            startPraying = false;
             prayCountDown = PrayTime;
             PrayBar.SetActive(false);
         }
         else if (other.tag == "PurifyArea")
         {
             canPurify = false;
-            isPurifying = false;
+            startPurifying = false;
         }
         else if (other.tag == "AskArea")
         {
             canAskGod = false;
+            startAskGod = false;
             isAskingGod = false;
         }
     }
@@ -251,33 +262,40 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DeadRoutine()
     {
-        float lastDirection = transform.rotation.eulerAngles.y;
-        float dir = lastDirection;
+        // move the camera to look straight forward
+        // disable player follow cam first
+        PlayerFollowCamera.SetActive(false);
 
+        // start rotating
+        float lastDirection = Camera.transform.rotation.eulerAngles.y;
+        float dir = lastDirection;
+        
         if(lastDirection >= 180)
         {
-            while(dir > lastDirection - 180)
+            while(Camera.transform.rotation.eulerAngles.y > lastDirection - 180)
             {
                 // rotate anti clock wise
-                _input.look.x = -DeadSpinSpeed;
-                dir = transform.rotation.eulerAngles.y;
+                Camera.transform.eulerAngles = new Vector3(0, Camera.transform.eulerAngles.y - DeadSpinSpeed * Time.deltaTime
+                                                            , Camera.transform.eulerAngles.z);
 
                 yield return null;
             }
         }
         else
         {
-            while (dir < lastDirection + 180)
+            while (Camera.transform.rotation.eulerAngles.y < lastDirection + 180)
             {
                 // rotate clock wise
-                _input.look.x = DeadSpinSpeed;
-                dir = transform.rotation.eulerAngles.y;
+                Camera.transform.eulerAngles = new Vector3(0, Camera.transform.eulerAngles.y + DeadSpinSpeed * Time.deltaTime
+                                                            , Camera.transform.eulerAngles.z);
 
                 yield return null;
             }
         }
 
         _input.look.x = 0;
+        yield return new WaitForSeconds(DeadWaitForSecond);
+        
         // call GM to end the game, GM.Win will == false
         GM.GetComponent<GameManager>().GoToGameOverScene();
     }
@@ -324,7 +342,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canPray)
         {
-            isPraying = true;
+            startPraying = true;
             return true;
         }
         else
@@ -335,8 +353,14 @@ public class PlayerController : MonoBehaviour
 
     public bool SetAskGod()
     {
+        if (isAskingGod)
+        {
+            return false;
+        }
+
         if (canAskGod)
         {
+            startAskGod = true;
             isAskingGod = true;
             return true;
         }
@@ -350,7 +374,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canPurify)
         {
-            isPurifying = true;
+            startPurifying = true;
             return true;
         }
         else
@@ -411,5 +435,11 @@ public class PlayerController : MonoBehaviour
             Random.Range(-angularVelocityRange.y, angularVelocityRange.y) * 10,
             Random.Range(-angularVelocityRange.z, angularVelocityRange.z) * 4
         );
+    }
+
+    // for fungus trigger to turn off is asking god after the whole dialogue is over
+    public void ResetIsAskingGod()
+    {
+        isAskingGod = false;
     }
 }
