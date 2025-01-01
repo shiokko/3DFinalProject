@@ -47,7 +47,11 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rageUp2ndStage = 1f;
     [SerializeField]
-    private float GhostFaceDistance = 2f;
+    private float GhostFaceDistance_x = 1f;
+    [SerializeField]
+    private float GhostFaceDistance_y = 1.45606f;
+    [SerializeField]
+    private float GhostFaceDistance_z = 0.5f;
 
     private Vector3[] godTempleArea = new Vector3[2];
 
@@ -56,6 +60,8 @@ public class GhostController : MonoBehaviour
     private bool isHunting = false;
     private bool isPlayingMusic = false;
     private bool isEnd = false;
+
+    private GameObject ghostFace;
   
     private void Start()
     {
@@ -88,6 +94,10 @@ public class GhostController : MonoBehaviour
             isHunting = true;
             StopAllCoroutines();
             StartCoroutine(HuntPlayer());
+        }
+        if (isEnd)
+        {
+            ghostFace.transform.rotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y - 180, 0);
         }
     }
 
@@ -354,10 +364,18 @@ public class GhostController : MonoBehaviour
             Debug.Log("GameOver");
             Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
-
+            GhostAudio.StopLooping();
             // instantiate prefab in front of camera
-            Vector3 spawnPosition = CameraTransform.position - CameraTransform.forward * GhostFaceDistance;
-            GameObject spawnedHint = Instantiate(Ghostface, spawnPosition, Quaternion.identity);
+            Vector3 spawnPosition = CameraTransform.position - CameraTransform.forward * GhostFaceDistance_z;
+            
+            Quaternion spawnRotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y, 0);
+
+
+            spawnPosition.y -= GhostFaceDistance_y;
+            
+            ghostFace = Instantiate(Ghostface, spawnPosition, spawnRotation);
+            
+
         }
     }
 
