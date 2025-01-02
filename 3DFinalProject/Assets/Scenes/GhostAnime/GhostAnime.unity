@@ -54443,7 +54443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 8074551451575291666}
   GodTempleFloor: {fileID: 1598507394}
-  Ghostface: {fileID: 919132149155446097, guid: 698c988ebd00fa3488d67c7b34365647,
+  Ghostface: {fileID: 919132149155446097, guid: 79d1067b12541d345820e5016f219738,
     type: 3}
   CameraTransform: {fileID: 669408105841331304}
   GhostRenderer_body: {fileID: 4106721974064700394}
