@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         {
             // player want to see Help Manual
             //HelpUI.SetActive(!HelpUI.activeSelf);
-            if (AbortUI.activeSelf)
+            if (HelpUI.activeSelf)
             {
                 HelpUI.SetActive(false);
                 Player.GetComponent<PlayerController>().SetCanMove();
