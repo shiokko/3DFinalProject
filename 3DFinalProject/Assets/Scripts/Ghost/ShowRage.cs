@@ -15,7 +15,7 @@ public class ShowRage : MonoBehaviour
 
     void Start()
     {
-        FindActiveGhost();
+        FindActiveGhost();  
     }
 
     void Update()
