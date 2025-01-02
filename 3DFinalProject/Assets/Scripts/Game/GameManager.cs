@@ -1,4 +1,5 @@
 using Fungus;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     private int[] remnantsInAge;
     [SerializeField]
     private int[] remnantsInHierarchy;
+
+    
     
     private bool gameOver;
 
@@ -139,12 +142,20 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    private void LetGhostSleep()
+    {
+        for (int i = 0; i < ghost.Count; i++)
+        {
+            ghost[i].gameObject.SetActive(false); 
+        }
+    }
 
     // public functios here
 
     // for everyone
     public bool GameOver()
     {
+        LetGhostSleep();
         return gameOver;
     }
 
