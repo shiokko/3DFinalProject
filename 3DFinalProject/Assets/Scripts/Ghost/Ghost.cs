@@ -79,6 +79,7 @@ public class GhostController : MonoBehaviour
         SetStatus(rage);
         SetDistanceToPlayer();
         UpdateVisibility();
+        ClossToPlayer();
         if (GetDistanceToPlayer() < 5f)
         {
             TeleportAwayFromPlayer();
@@ -162,7 +163,21 @@ public class GhostController : MonoBehaviour
     {
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
-
+    private void ClossToPlayer()
+    {
+        if (distance > 50)
+        {
+            Vector3 PlayerPosition = Player.transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            while (randomDirection.y < 3 || randomDirection.y > 5)
+            {
+                randomDirection = Random.insideUnitSphere.normalized * savedDistance;
+            }
+            randomDirection.y = appearHight;
+            Debug.Log("Teleporte");
+            transform.position = PlayerPosition + randomDirection;
+        }
+    }
     private void TeleportAwayFromPlayer()
     {
         if (status != Status.Hunt)
