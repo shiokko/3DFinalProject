@@ -54459,7 +54459,7 @@ MonoBehaviour:
   appearHight: 3
   rageUp1stStage: 0.25
   rageUp2ndStage: 0.5
-  GhostFaceDistance_x: 0.1
+  GhostFaceDistance_x: 0.18
   GhostFaceDistance_y: 1.45606
   GhostFaceDistance_z: 0.8
 --- !u!4 &6515000916981028147

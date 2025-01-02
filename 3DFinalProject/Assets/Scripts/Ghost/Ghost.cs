@@ -370,10 +370,12 @@ public class GhostController : MonoBehaviour
             
             Quaternion spawnRotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y, 0);
 
-
+            spawnPosition += Vector3.Cross(Vector3.up, CameraTransform.forward).normalized * GhostFaceDistance_x;
             spawnPosition.y -= GhostFaceDistance_y;
             
             ghostFace = Instantiate(Ghostface, spawnPosition, spawnRotation);
+
+            
             
 
         }
