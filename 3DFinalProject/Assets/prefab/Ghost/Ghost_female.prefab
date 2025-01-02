@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   GodTempleFloor: {fileID: 0}
-  Ghostface: {fileID: 2852836910749054878, guid: 7794b0b3a5bc6ff44b467704e1b95acd,
+  Ghostface: {fileID: 919132149155446097, guid: 0c8470ba9a4dec14ca9db909c42ac5ce,
     type: 3}
   CameraTransform: {fileID: 0}
   GhostRenderer_body: {fileID: 9118571943100270258}
@@ -372,12 +372,14 @@ MonoBehaviour:
   rage: 0
   OutsideTempleOffset: 10
   scareCooldown: 5
-  speed: 3
+  speed: 15
   savedDistance: 20
   appearHight: 3
   rageUp1stStage: 0.5
   rageUp2ndStage: 1
-  GhostFaceDistance: 2
+  GhostFaceDistance_x: 0.18
+  GhostFaceDistance_y: 1.45606
+  GhostFaceDistance_z: 0.8
 --- !u!114 &5449893795163817249
 MonoBehaviour:
   m_ObjectHideFlags: 0

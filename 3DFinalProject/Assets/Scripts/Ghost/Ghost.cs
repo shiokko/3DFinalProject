@@ -35,9 +35,9 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float OutsideTempleOffset = 10f;
     [SerializeField]
-    private float scareCooldown = 5f;  //CD for Yell & Scare
+    private float scareCooldown = 20f;  //CD for Yell & Scare
     [SerializeField]
-    private float speed = 3f;
+    private float speed = 15f;
     [SerializeField]
     private float savedDistance = 20f;
     [SerializeField]
@@ -98,6 +98,7 @@ public class GhostController : MonoBehaviour
         if (isEnd)
         {
             ghostFace.transform.rotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y - 180, 0);
+
         }
     }
 
@@ -362,6 +363,7 @@ public class GhostController : MonoBehaviour
         if (Ghostface != null && CameraTransform != null)
         {
             Debug.Log("GameOver");
+            rage = 0;
             Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
             GhostAudio.StopLooping();
