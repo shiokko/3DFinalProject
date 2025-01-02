@@ -1,0 +1,14 @@
+Font: Bakudai  Style: Medium
+Point Size: 24   SP/PD Ratio: 20.8%
+
+Characters included: 171/172
+Missing characters: 1
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+ID: 10	Hex: A	Char [
+]
+
+Characters excluded from packing:
+----------------------------------------

@@ -38872,13 +38872,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25276
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.87
       objectReference: {fileID: 0}
     - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.61
+      value: 3.36
       objectReference: {fileID: 0}
     - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
@@ -38924,6 +38929,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnchantArea (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.1694962
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 14.46337
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2.0908148
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.002374649
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 2.231685
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.12064571
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44263,7 +44298,7 @@ PrefabInstance:
     - target: {fileID: 1372557824995306783, guid: 3a5d9093cf3cf3d41a005def8e246471,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.61
+      value: 3.12
       objectReference: {fileID: 0}
     - target: {fileID: 1372557824995306783, guid: 3a5d9093cf3cf3d41a005def8e246471,
         type: 3}
@@ -44304,6 +44339,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.2368418
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 16.710827
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.9791074
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.009646018
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 3.355406
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927881858649192548, guid: 3a5d9093cf3cf3d41a005def8e246471,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.0862433
       objectReference: {fileID: 0}
     - target: {fileID: 9007459956335718646, guid: 3a5d9093cf3cf3d41a005def8e246471,
         type: 3}
@@ -49409,6 +49474,57 @@ PrefabInstance:
       propertyPath: m_Name
       value: HelpScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 1048641226101500412, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364175168859070762, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_text
+      value: "WASD\u79FB\u52D5            \n\n\u6ED1\u9F20\u6EFE\u8F2A\u9078\u53D6\u7269\u54C1 
+        \n\ntab\u958B\u555F\u80CC\u5305\n\n\u6ED1\u9F20\u5DE6\u9375\u4F7F\u7528\u7269\u54C1\n\n\u7A7A\u683C\u9375\u8DF3\u8E8D"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553120337298724123, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_text
+      value: "\u6728\u528D:\n\u53EF\u4EE5\u53BB\u5BAE\u5EDF\u4E2D\u5C0B\u627E\u5C0D\u61C9\u8A72\u9B3C\u9B42\u7684\u795E\u660E\u5F97\u5230\u7528\u4F86\u9A45\u9B3C\u7684\u795D\u798F\r\n\u7372\u5F97\u795D\u798F\u5F8C\u62FF\u53BB\u9B3C\u5EDF\u524D\u8D85\u5EA6\u9B3C\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841158792707857503, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_text
+      value: "\u7DDA\u9999:\n\u53EF\u4EE5\u53BB\u9B3C\u5EDF\u524D\u62DC\u62DC\u964D\u4F4E\u9B3C\u9B42\u6012\u6C23\u503C\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128402657534933282, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 351
+      objectReference: {fileID: 0}
+    - target: {fileID: 5684745641212120810, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6913470961132626458, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456044749505366822, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 314
+      objectReference: {fileID: 0}
+    - target: {fileID: 8602763389786491655, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8852418004127573201, guid: da8d15c1d9914cd48bdc3420e3dc935e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54419,7 +54535,7 @@ PrefabInstance:
     - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.61
+      value: 3.26
       objectReference: {fileID: 0}
     - target: {fileID: 2866695223119397165, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
@@ -54465,6 +54581,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnchantArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.4550862
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 15.408901
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.9689981
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.19873172
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 2.7044442
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.07633209
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
