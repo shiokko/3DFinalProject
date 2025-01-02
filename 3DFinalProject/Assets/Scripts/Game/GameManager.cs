@@ -111,7 +111,13 @@ public class GameManager : MonoBehaviour
             ghost[i].gameObject.SetActive(i == index); // for correct ghost sex
         }
     }
-
+    private void LetGhostSleep()
+    {
+        for (int i = 0; i < ghost.Count; i++)
+        {
+            ghost[i].gameObject.SetActive(false);
+        }
+    }
 
     private void CreateCorrectAns()
     {
@@ -142,11 +148,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     // public functios here
 
     // for everyone
     public bool GameOver()
     {
+        LetGhostSleep();
         return gameOver;
     }
 
