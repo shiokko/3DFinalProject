@@ -43,30 +43,31 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float appearHight = 3f;
     [SerializeField]
-    private float rageUp1stStage = 0.5f;
+    private float rageUp1stStage = 0.25f;
     [SerializeField]
-    private float rageUp2ndStage = 1f;
+    private float rageUp2ndStage = 0.5f;
     [SerializeField]
     private float GhostFaceDistance_x = 0.18f;
     [SerializeField]
     private float GhostFaceDistance_y = 1.45606f;
     [SerializeField]
-    private float GhostFaceDistance_z = 0.8f;
+    private float GhostFaceDistance_z = 0.9f;
 
     private Vector3[] godTempleArea = new Vector3[2];
 
     private float distance;
-
+    private float time;
     private bool isHunting = false;
     private bool isPlayingMusic = false;
     private bool isEnd = false;
+    
 
     private GameObject ghostFace;
   
     private void Start()
     {
         CalculateTempleArea();
-
+        time = 0;
         GhostAudio = GetComponent<GhostAudio>();
         StartCoroutine(BehaviorRoutine());
         StartCoroutine(RageUpRoutine());
@@ -84,6 +85,7 @@ public class GhostController : MonoBehaviour
         }
         if (status != Status.Hunt && isHunting)
         {
+
             StartCoroutine(BehaviorRoutine());
             StartCoroutine(RageUpRoutine());
             StartCoroutine(MoveRoutine());
@@ -98,7 +100,11 @@ public class GhostController : MonoBehaviour
         if (isEnd)
         {
             ghostFace.transform.rotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y - 180, 0);
-
+        }
+        if (time > 200 && rage < 25 && !isEnd)
+        {
+            Debug.Log("Fuck");
+            rage = 25;
         }
     }
 
@@ -191,13 +197,16 @@ public class GhostController : MonoBehaviour
                 case Status.Follow:
                     isPlayingMusic = false;
                     GhostAudio.StopLooping();
+                    yield return FollowPlayer();
                     break;
                 case Status.Scare:
+                    isPlayingMusic = false;
                     GhostAudio.StopLooping();
                     yield return ScarePlayer();
                     break;
 
                 case Status.YellAt:
+                    isPlayingMusic = false;
                     GhostAudio.StopLooping();
                     yield return YellAtPlayer();
                     break;
@@ -206,7 +215,12 @@ public class GhostController : MonoBehaviour
         }
 
     }
-
+    private IEnumerator FollowPlayer()
+    {
+        time++;
+        //Debug.Log(time);
+        yield return new WaitForSeconds(1f);
+    }
     private IEnumerator ScarePlayer()
     {
         int randomValue = Random.Range(0, 3);
@@ -352,6 +366,7 @@ public class GhostController : MonoBehaviour
 
     public void BeAngry() //Rage up 25 point when Player touch the deadbody
     {
+        Debug.Log("Angry");
         rage += 25;
     }
 
@@ -365,10 +380,10 @@ public class GhostController : MonoBehaviour
         {
             Debug.Log("GameOver");
             rage = 0;
+            GhostAudio.StopLooping();
+            GhostAudio.PlayDead();
             Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
-            GhostAudio.StopLooping();
-            GhostAudio.PlayOneShot("Dead");
             // instantiate prefab in front of camera
             Vector3 spawnPosition = CameraTransform.position - CameraTransform.forward * GhostFaceDistance_z;
             
@@ -394,9 +409,9 @@ public class GhostController : MonoBehaviour
 
     public void CalmDown()
     {
-        if(rage > 50)
+        if(rage > 25)
         {
-            rage = 50;
+            rage = 25;
         }
     }
     public float GetRage()

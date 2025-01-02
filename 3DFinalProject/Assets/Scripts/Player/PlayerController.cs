@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     private GameObject DivinationBlockPrefab;
     [SerializeField]
     private GameObject CharmFire;
+    [SerializeField]
+    private PlayerAudioController PlayerAudio;
+    [SerializeField]
+    private List<GhostController> ghosts;
 
     [Header("Parameters")]
     [SerializeField]
@@ -31,7 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float PrayTime = 5f;
     [SerializeField]
-    private float DeadSpinSpeed = 1f;
+    private float DeadSpinSpeed = 2f;
     [SerializeField]
     private float DeadWaitForSecond = 0.5f;
 
@@ -96,6 +100,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*if (Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("J");
+            PlayerAudio.PlayThrowBue();
+        }*/
+
+
         if (isKilled)
         {
             _input.move = Vector2.zero;
@@ -137,7 +148,16 @@ public class PlayerController : MonoBehaviour
         {
             if (firstTouchDeadbody)
             {
-                GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
+                foreach (var ghost in ghosts)
+                {
+                    if (ghost.gameObject.activeSelf)
+                    {
+                        Debug.Log("First touch Deadbody");
+                        GameObject.Find(ghost.name).GetComponent<GhostController>().BeAngry();
+                        break;
+                    }
+                }
+                //GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
 
                 firstTouchDeadbody = false;
             }
@@ -165,7 +185,14 @@ public class PlayerController : MonoBehaviour
                 {
                     // pray over
                     // call function here to lower the ghost's anger
-                    GameObject.Find("Ghost").GetComponent<GhostController>().CalmDown();
+                    foreach (var ghost in ghosts)
+                    {
+                        if (ghost.gameObject.activeSelf)
+                        {
+                            GameObject.Find(ghost.name).GetComponent<GhostController>().CalmDown();
+                        }
+                    }
+                    
 
                     startPraying = false;
                     prayCountDown = PrayTime;
@@ -368,6 +395,7 @@ public class PlayerController : MonoBehaviour
         {
             startAskGod = true;
             isAskingGod = true;
+        
             return true;
         }
         else

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class GhostAudio : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class GhostAudio : MonoBehaviour
 
     [SerializeField]
     private AudioSource audioSource = default;
+
+    private float deadPitch = 2f;
 
     void Start()
     {
@@ -71,11 +74,15 @@ public class GhostAudio : MonoBehaviour
     }
 
     // Play one-shot sound
-    public void PlayOneShot(string soundName)
+    public void PlayOneShot(string soundName, float pitch = 1f)
     {
         if (audioSource != null && audioClips.ContainsKey(soundName))
         {
+
+            // Set the pitch and play the sound
+            audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClips[soundName]);
+
         }
         else
         {
@@ -85,7 +92,6 @@ public class GhostAudio : MonoBehaviour
 
     // Specific methods for playing sounds
     public void PlayCry() => PlayOneShot("Cry");
-    public void PlayDead() => PlayOneShot("Dead");
     public void PlayLaugh() => PlayOneShot("Laugh");
     public void PlayScream() => PlayOneShot("Scream");
     public void PlayFlow() => PlayOneShot("Flow");
@@ -95,4 +101,6 @@ public class GhostAudio : MonoBehaviour
     public void PlayWind() => PlayOneShot("Wind");
     public void PlayHzNoise() => PlayOneShot("HzNoise");
     public void PlayComing() => PlayLooping("Coming");
+    public void PlayDead() => PlayOneShot("Dead", deadPitch);
+    
 }

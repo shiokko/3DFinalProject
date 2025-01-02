@@ -6,6 +6,10 @@ public class DropController : MonoBehaviour
 {
     [SerializeField]
     private bool landed;
+    [SerializeField]
+    private float DropSpeed = 0.5f;
+    [SerializeField]
+    private float Height;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +21,7 @@ public class DropController : MonoBehaviour
     {
         if (!landed)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - DropSpeed, transform.position.z);
         }
     }
 
