@@ -24,7 +24,7 @@ public class GhostAudio : MonoBehaviour
     [SerializeField]
     private AudioSource audioSource = default;
 
-    private float deadPitch = 2f;
+    private float deadPitch = 2.5f;
 
     void Start()
     {

@@ -20617,6 +20617,16 @@ PrefabInstance:
       objectReference: {fileID: 1598507394}
     - target: {fileID: 1823453096160686919, guid: 3f0626c1ba0c53144b376bd32c1daed1,
         type: 3}
+      propertyPath: rageUp1stStage
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1823453096160686919, guid: 3f0626c1ba0c53144b376bd32c1daed1,
+        type: 3}
+      propertyPath: rageUp2ndStage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1823453096160686919, guid: 3f0626c1ba0c53144b376bd32c1daed1,
+        type: 3}
       propertyPath: CameraTransform
       value: 
       objectReference: {fileID: 669408105841331304}
@@ -56326,7 +56336,7 @@ MonoBehaviour:
   - {fileID: 394962959}
   InvincibleTime: 10
   PrayTime: 5
-  DeadSpinSpeed: 90
+  DeadSpinSpeed: 180
   DeadWaitForSecond: 3
   PrayBar: {fileID: 3854439657680971957}
 --- !u!114 &8080059346132826055
