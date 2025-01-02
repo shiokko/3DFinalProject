@@ -338,6 +338,7 @@ public class GhostController : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && status == Status.Hunt && !Player.GetIsInvincible() && !isEnd)
         {
+            isEnd = true;
             Debug.Log("touch");
             Kill();
         }
