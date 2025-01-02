@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private GameObject DivinationBlockSpawnPoint;
     [SerializeField]
     private GameObject DivinationBlockPrefab;
+    [SerializeField]
+    private GameObject CharmFire;
 
     [Header("Parameters")]
     [SerializeField]
@@ -34,8 +36,6 @@ public class PlayerController : MonoBehaviour
     private float DeadWaitForSecond = 0.5f;
 
     [Header("UI interface")]
-    [SerializeField]
-    private GameObject InvincibleBar;
     [SerializeField]
     private GameObject PrayBar;
 
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         isInvincible = false;
         invCountDown = InvincibleTime;
-        InvincibleBar.SetActive(false);
+        CharmFire.SetActive(false);
 
         canAskGod = false;
         startAskGod = false;
@@ -232,6 +232,10 @@ public class PlayerController : MonoBehaviour
             startAskGod = false;
             isAskingGod = false;
         }
+        else if (other.tag == "Water")
+        { 
+            GM.GetComponent<GameManager>().GoToGameOverScene();
+        }
     }
 
     private void CheckInvincible()
@@ -239,23 +243,25 @@ public class PlayerController : MonoBehaviour
         if(isInvincible == true)
         {
             // enable UI slide bar
-            if(InvincibleBar.activeSelf == false)
+            if(CharmFire.activeSelf == false)
             {
-                InvincibleBar.SetActive(true);
-                InvincibleBar.GetComponent<BarController>().InitBar(InvincibleTime, InvincibleTime);
+                CharmFire.SetActive(true);
+                CharmFire.GetComponent<FireControll>().Init();
+                //InvincibleBar.GetComponent<BarController>().InitBar(InvincibleTime, InvincibleTime);
             }
 
             // count down
             invCountDown -= Time.deltaTime;
-            InvincibleBar.GetComponent<BarController>().SetVal(invCountDown);
+            CharmFire.GetComponent<FireControll>().Ignite(InvincibleTime - invCountDown);
+            //InvincibleBar.GetComponent<BarController>().SetVal(invCountDown);
 
             if (invCountDown <= 0)
             {
                 // inv mode over
                 isInvincible = false;
                 invCountDown = InvincibleTime;
-
-                InvincibleBar.SetActive(false);
+                ItemHolder.GetComponent<ItemController>().CharmUsed();
+                CharmFire.SetActive(false);
             }
         }
     }
