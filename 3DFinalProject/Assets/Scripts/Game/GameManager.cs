@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private GameObject HelpUI;
     [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private List<GhostController> ghost;
 
     [Header("Parameters")]
     [SerializeField]
@@ -25,13 +27,14 @@ public class GameManager : MonoBehaviour
     private int[] remnantsInAge;
     [SerializeField]
     private int[] remnantsInHierarchy;
-
+    
     private bool gameOver;
 
     private int[] correctRemnantID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     private int correctGhostID;
 
     private int correctGhostTempleIndex;
+
 
     // All Public Static variables here for scene passing
     public static int BonusScore;
@@ -56,7 +59,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (correctRemnantID[0] == 0) // female
+        {
+            ActivateGhost(0); 
+        }
+        else 
+        {
+            ActivateGhost(1); // male
+        }
     }
 
     // Update is called once per frame
@@ -92,6 +102,14 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    private void ActivateGhost(int index)
+    {
+        for (int i = 0; i < ghost.Count; i++)
+        {
+            ghost[i].gameObject.SetActive(i == index); // for correct ghost sex
+        }
+    }
+
 
     private void CreateCorrectAns()
     {
