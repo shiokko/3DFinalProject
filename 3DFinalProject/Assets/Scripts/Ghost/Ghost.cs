@@ -47,11 +47,11 @@ public class GhostController : MonoBehaviour
     [SerializeField]
     private float rageUp2ndStage = 1f;
     [SerializeField]
-    private float GhostFaceDistance_x = 1f;
+    private float GhostFaceDistance_x = 0.18f;
     [SerializeField]
     private float GhostFaceDistance_y = 1.45606f;
     [SerializeField]
-    private float GhostFaceDistance_z = 0.5f;
+    private float GhostFaceDistance_z = 0.8f;
 
     private Vector3[] godTempleArea = new Vector3[2];
 
@@ -365,17 +365,18 @@ public class GhostController : MonoBehaviour
             Player.GetComponent<PlayerController>().Killed();
             isEnd = true;
             GhostAudio.StopLooping();
+            GhostAudio.PlayOneShot("Dead");
             // instantiate prefab in front of camera
             Vector3 spawnPosition = CameraTransform.position - CameraTransform.forward * GhostFaceDistance_z;
             
             Quaternion spawnRotation = Quaternion.Euler(0, CameraTransform.eulerAngles.y, 0);
 
-            spawnPosition += Vector3.Cross(Vector3.up, CameraTransform.forward).normalized * GhostFaceDistance_x;
+            
             spawnPosition.y -= GhostFaceDistance_y;
             
             ghostFace = Instantiate(Ghostface, spawnPosition, spawnRotation);
 
-            
+            ghostFace.transform.position -= Vector3.Cross(Vector3.up, CameraTransform.forward).normalized * GhostFaceDistance_x;
             
 
         }

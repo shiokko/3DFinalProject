@@ -54451,7 +54451,7 @@ MonoBehaviour:
   GhostRenderer_top: {fileID: 0}
   GhostAudio: {fileID: 5361080207636698517}
   status: 0
-  rage: 90
+  rage: 99
   OutsideTempleOffset: 10
   scareCooldown: 5
   speed: 15
