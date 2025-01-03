@@ -14,6 +14,7 @@ public class FungusTrigger : MonoBehaviour
     private GameObject Backpack;
     [SerializeField]
     private GameObject GM;
+    [SerializeField] PlayerAudioController PlayerAudio;
 
     private int remnantID;
 
@@ -68,11 +69,13 @@ public class FungusTrigger : MonoBehaviour
 
     private void positive() {
         Player.GetComponent<PlayerController>().Throw(true);
+        PlayerAudio.PlayThrowBue();
         Debug.Log("positive");
     }
 
     private void negative() {
         Player.GetComponent<PlayerController>().Throw(false);
+        PlayerAudio.PlayThrowBue();
         Debug.Log("negative");
     }
 

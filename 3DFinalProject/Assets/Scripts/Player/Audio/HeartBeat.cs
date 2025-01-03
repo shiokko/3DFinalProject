@@ -5,7 +5,9 @@ using UnityEngine;
 public class HeartBeat : MonoBehaviour
 {
     [SerializeField] 
-    private GhostController ghost; // 
+    private List<GhostController> ghosts; // 
+    [SerializeField]
+    private GhostController TargetGhost;
     [SerializeField] 
     private AudioSource heartbeatAudio; // 
     [SerializeField] 
@@ -21,31 +23,57 @@ public class HeartBeat : MonoBehaviour
 
     void Start()
     {
-        
+        FindActiveGhost();
     }
 
     void Update()
     {
-        float rage = ghost.GetRage();
-
-        if (rage > rageThreshold)
+        FindActiveGhost();
+        if (TargetGhost != null)
         {
-            if (!heartbeatAudio.isPlaying)
+            float rage = TargetGhost.GetRage();
+
+            if (rage > rageThreshold)
             {
-                heartbeatAudio.Play();
+                if (!heartbeatAudio.isPlaying)
+                {
+                    heartbeatAudio.Play();
+                }
+
+                float normalizedRage = Mathf.Clamp01((rage - rageThreshold) / (100f - rageThreshold));
+                heartbeatAudio.pitch = Mathf.Lerp(minPitch, maxPitch, normalizedRage);
+
+                heartbeatAudio.volume = Mathf.Lerp(minVolume, maxVolume, normalizedRage);
             }
+            else
+            {
+                if (heartbeatAudio.isPlaying)
+                {
+                    heartbeatAudio.Stop();
+                }
+            }
+        }
+    }
+    void FindActiveGhost()
+    {
+        // Loop through the list and find the active ghost
+        if (TargetGhost != null) return;
+        foreach (var ghost in ghosts)
+        {
+            if (ghost.gameObject.activeSelf) // Check if the ghost is active
+            {
+                TargetGhost = ghost;
+                break;
+            }
+        }
 
-            float normalizedRage = Mathf.Clamp01((rage - rageThreshold) / (100f - rageThreshold));
-            heartbeatAudio.pitch = Mathf.Lerp(minPitch, maxPitch, normalizedRage);
-
-            heartbeatAudio.volume = Mathf.Lerp(minVolume, maxVolume, normalizedRage);
+        if (TargetGhost == null)
+        {
+            Debug.Log("No active ghost found!");
         }
         else
         {
-            if (heartbeatAudio.isPlaying)
-            {
-                heartbeatAudio.Stop();
-            }
+            Debug.Log("Active ghost found: " + TargetGhost.name);
         }
     }
 }

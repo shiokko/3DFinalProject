@@ -24,6 +24,7 @@ public class ItemController : MonoBehaviour
     private int prevItemIndex;
 
     private int[] itemCount = new int[(int)GlobalVar.NUM_ITEM_TYPE];  // get currently how many items there are
+    private bool itemlock = false;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +68,7 @@ public class ItemController : MonoBehaviour
         }
 
         // for item switching
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && !itemlock)
         {
             if (curItemIndex >= transform.childCount - 1)
             {
@@ -78,7 +79,7 @@ public class ItemController : MonoBehaviour
                 curItemIndex++;
             }
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0 && !itemlock)
         {
             if (curItemIndex <= 0)
             {
@@ -91,7 +92,7 @@ public class ItemController : MonoBehaviour
         }
 
         // for item usage
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !itemlock)
         {
             UseItem();
         }
@@ -166,7 +167,8 @@ public class ItemController : MonoBehaviour
         {
             // make player invincible
             Player.GetComponent<PlayerController>().SetInvincible();
-            successfullyUsed = true;
+            itemlock = true;
+            //successfullyUsed = true;
         }
         else if(curItemIndex == (int)Items.DIVINATION_BLOCK)
         {
@@ -216,7 +218,14 @@ public class ItemController : MonoBehaviour
         }
     }
 
+    public void CharmUsed() 
+    {
+        itemlock = false;
+        ItemsUIslots[(int)Items.CHARM].GetComponent<SlotManager>().DecreaseItemCount();
 
+        itemCount[(int)Items.CHARM]--;
+        SelectItem();
+    }
     // Public function here
 
     // for First Person Raycast

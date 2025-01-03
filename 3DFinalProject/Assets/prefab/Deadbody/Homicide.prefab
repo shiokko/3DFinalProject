@@ -2555,6 +2555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landed: 0
+  DropSpeed: 0.5
 --- !u!1 &4971761903058299366
 GameObject:
   m_ObjectHideFlags: 0

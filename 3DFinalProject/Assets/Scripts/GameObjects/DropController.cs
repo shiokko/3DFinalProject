@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DropController : MonoBehaviour
 {
     [SerializeField]
     private bool landed;
+    [SerializeField]
+    private float DropSpeed = 0.5f;
+
+    private float Height = 40;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +22,11 @@ public class DropController : MonoBehaviour
     {
         if (!landed)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - DropSpeed, transform.position.z);
+        }
+        if (transform.position.y < 25)
+        {
+            transform.position = new Vector3(transform.position.x, Height, transform.position.z);
         }
     }
 

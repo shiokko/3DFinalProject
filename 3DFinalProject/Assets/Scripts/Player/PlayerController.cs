@@ -22,6 +22,12 @@ public class PlayerController : MonoBehaviour
     private GameObject DivinationBlockSpawnPoint;
     [SerializeField]
     private GameObject DivinationBlockPrefab;
+    [SerializeField]
+    private GameObject CharmFire;
+    [SerializeField]
+    private PlayerAudioController PlayerAudio;
+    [SerializeField]
+    private List<GhostController> ghosts;
 
     [Header("Parameters")]
     [SerializeField]
@@ -29,13 +35,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float PrayTime = 5f;
     [SerializeField]
-    private float DeadSpinSpeed = 1f;
+    private float DeadSpinSpeed = 2f;
     [SerializeField]
     private float DeadWaitForSecond = 0.5f;
 
     [Header("UI interface")]
-    [SerializeField]
-    private GameObject InvincibleBar;
     [SerializeField]
     private GameObject PrayBar;
 
@@ -78,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
         isInvincible = false;
         invCountDown = InvincibleTime;
-        InvincibleBar.SetActive(false);
+        CharmFire.SetActive(false);
 
         canAskGod = false;
         startAskGod = false;
@@ -96,6 +100,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*if (Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("J");
+            PlayerAudio.PlayThrowBue();
+        }*/
+
+
         if (isKilled)
         {
             _input.move = Vector2.zero;
@@ -137,7 +148,16 @@ public class PlayerController : MonoBehaviour
         {
             if (firstTouchDeadbody)
             {
-                GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
+                foreach (var ghost in ghosts)
+                {
+                    if (ghost.gameObject.activeSelf)
+                    {
+                        Debug.Log("First touch Deadbody");
+                        GameObject.Find(ghost.name).GetComponent<GhostController>().BeAngry();
+                        break;
+                    }
+                }
+                //GameObject.Find("Ghost").GetComponent<GhostController>().BeAngry();
 
                 firstTouchDeadbody = false;
             }
@@ -165,7 +185,14 @@ public class PlayerController : MonoBehaviour
                 {
                     // pray over
                     // call function here to lower the ghost's anger
-                    GameObject.Find("Ghost").GetComponent<GhostController>().CalmDown();
+                    foreach (var ghost in ghosts)
+                    {
+                        if (ghost.gameObject.activeSelf)
+                        {
+                            GameObject.Find(ghost.name).GetComponent<GhostController>().CalmDown();
+                        }
+                    }
+                    
 
                     startPraying = false;
                     prayCountDown = PrayTime;
@@ -232,6 +259,10 @@ public class PlayerController : MonoBehaviour
             startAskGod = false;
             isAskingGod = false;
         }
+        else if (other.tag == "Water")
+        { 
+            GM.GetComponent<GameManager>().GoToGameOverScene();
+        }
     }
 
     private void CheckInvincible()
@@ -239,23 +270,25 @@ public class PlayerController : MonoBehaviour
         if(isInvincible == true)
         {
             // enable UI slide bar
-            if(InvincibleBar.activeSelf == false)
+            if(CharmFire.activeSelf == false)
             {
-                InvincibleBar.SetActive(true);
-                InvincibleBar.GetComponent<BarController>().InitBar(InvincibleTime, InvincibleTime);
+                CharmFire.SetActive(true);
+                CharmFire.GetComponent<FireControll>().Init();
+                //InvincibleBar.GetComponent<BarController>().InitBar(InvincibleTime, InvincibleTime);
             }
 
             // count down
             invCountDown -= Time.deltaTime;
-            InvincibleBar.GetComponent<BarController>().SetVal(invCountDown);
+            CharmFire.GetComponent<FireControll>().Ignite(InvincibleTime - invCountDown);
+            //InvincibleBar.GetComponent<BarController>().SetVal(invCountDown);
 
             if (invCountDown <= 0)
             {
                 // inv mode over
                 isInvincible = false;
                 invCountDown = InvincibleTime;
-
-                InvincibleBar.SetActive(false);
+                ItemHolder.GetComponent<ItemController>().CharmUsed();
+                CharmFire.SetActive(false);
             }
         }
     }
@@ -362,6 +395,7 @@ public class PlayerController : MonoBehaviour
         {
             startAskGod = true;
             isAskingGod = true;
+        
             return true;
         }
         else

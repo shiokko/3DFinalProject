@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private GameObject HelpUI;
     [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private List<GhostController> ghost;
 
     [Header("Parameters")]
     [SerializeField]
@@ -26,12 +28,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int[] remnantsInHierarchy;
 
+    
+    
     private bool gameOver;
 
     private int[] correctRemnantID = new int[(int)GlobalVar.NUM_REMNANT_CATEGORY];
     private int correctGhostID;
 
     private int correctGhostTempleIndex;
+
 
     // All Public Static variables here for scene passing
     public static int BonusScore;
@@ -56,7 +61,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (correctRemnantID[0] == 0) // female
+        {
+            ActivateGhost(0); 
+        }
+        else 
+        {
+            ActivateGhost(1); // male
+        }
     }
 
     // Update is called once per frame
@@ -79,7 +91,31 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F1))
         {
             // player want to see Help Manual
-            HelpUI.SetActive(!HelpUI.activeSelf);
+            //HelpUI.SetActive(!HelpUI.activeSelf);
+            if (HelpUI.activeSelf)
+            {
+                HelpUI.SetActive(false);
+                Player.GetComponent<PlayerController>().SetCanMove();
+            }
+            else
+            {
+                HelpUI.SetActive(true);
+                Player.GetComponent<PlayerController>().ResetCanMove();
+            }
+        }
+    }
+    private void ActivateGhost(int index)
+    {
+        for (int i = 0; i < ghost.Count; i++)
+        {
+            ghost[i].gameObject.SetActive(i == index); // for correct ghost sex
+        }
+    }
+    private void LetGhostSleep()
+    {
+        for (int i = 0; i < ghost.Count; i++)
+        {
+            ghost[i].gameObject.SetActive(false);
         }
     }
 
@@ -112,11 +148,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     // public functios here
 
     // for everyone
     public bool GameOver()
     {
+        LetGhostSleep();
         return gameOver;
     }
 
