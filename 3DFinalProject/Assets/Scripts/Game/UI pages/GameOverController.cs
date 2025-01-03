@@ -20,13 +20,13 @@ public class GameOverController : MonoBehaviour
 
         if (GameManager.Win)
         {
-            _titleText.text = "CONGRATS! YOU JUST PURIFIED THE GHOST";
+            _titleText.text = "除靈成功\r\n你活下來了!!";
             _bonusPointText.enabled = true;
-            _bonusPointText.text = "The Bonus Score is: " + GameManager.BonusScore;
+            _bonusPointText.text = "分數: " + GameManager.BonusScore;
         }
         else
         {
-            _titleText.text = "GGWP, TRY AGAIN!";
+            _titleText.text = "您死了";
             _bonusPointText.enabled = false;
         }
     }
