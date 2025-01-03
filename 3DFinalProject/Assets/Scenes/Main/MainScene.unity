@@ -22069,8 +22069,8 @@ MonoBehaviour:
   DeadbodyPrefabs:
   - {fileID: 111951335485893761, guid: 4f89f77a6648fd8409f64a5b1c546475, type: 3}
   - {fileID: 4947132355805675001, guid: 64649992aa8896743b055b4cfd6563dc, type: 3}
-  ForbiddenWidthFromPlayer: 20
-  ForbiddenLengthFromPlayer: 20
+  ForbiddenWidthFromPlayer: 50
+  ForbiddenLengthFromPlayer: 50
   templeBorderOffset: 3
   ghostTempleBorderOffset: 0.1
   NumWrongRemnants: 2
@@ -52030,6 +52030,11 @@ MonoBehaviour:
   Player: {fileID: 7500805866257535433}
   ShakeIntensity: 0.02
   ShakeFrequency: 3
+  shakeOffsetY: 0
+  counter: 0
+  lastPosition: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  initialPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5690956775868554000
 MonoBehaviour:
   m_ObjectHideFlags: 2
