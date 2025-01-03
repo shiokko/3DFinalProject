@@ -29,6 +29,7 @@ public class FirstPersonFootStep : MonoBehaviour
         footStepTimer = 0;
 
         _isGrounded = GameObject.Find("PlayerCapsule").GetComponent<FirstPersonController>().Grounded;
+
     }
 
     // Update is called once per frame
