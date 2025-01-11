@@ -251,7 +251,10 @@ public class ItemController : MonoBehaviour
     public void GetWoodSword()
     {
         // for UI part
-        ItemsUIslots[(int)Items.WOOD_SWORD].GetComponent<SlotManager>().IncreaseItemCount();
+        if(itemCount[(int)Items.WOOD_SWORD] < 1)
+        {
+            ItemsUIslots[(int)Items.WOOD_SWORD].GetComponent<SlotManager>().IncreaseItemCount();
+        }
 
         itemCount[(int)Items.WOOD_SWORD] = 1;
         Debug.Log("Wood Sword Get!!!");

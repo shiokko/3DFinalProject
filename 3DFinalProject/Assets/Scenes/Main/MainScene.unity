@@ -39862,6 +39862,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnchantArea (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6427273257747780680, guid: f7eccbb3297bac047b39236e624b1559,
+        type: 3}
+      propertyPath: g_ID
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7215734028566449118, guid: f7eccbb3297bac047b39236e624b1559,
         type: 3}
       propertyPath: m_Size.x
