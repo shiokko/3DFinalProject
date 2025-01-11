@@ -22210,9 +22210,9 @@ MonoBehaviour:
   templeBorderOffset: 3
   ghostTempleBorderOffset: 0.1
   NumWrongRemnants: 2
-  CharmNum: 50
-  IncenseNum: 50
-  DivinationBlockNum: 10
+  CharmNum: 20
+  IncenseNum: 20
+  DivinationBlockNum: 15
   dropHeightOffest: 30
   dropHeightTempleOffest: 5
   dropHeightGhostTempleOffest: 2

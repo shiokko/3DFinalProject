@@ -4717,6 +4717,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2560127352457070153, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4769,6 +4784,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Particle System (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411995998041836238, guid: cf0a1fe6ff932644dbdecac395d51637,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
