@@ -22632,8 +22632,8 @@ MonoBehaviour:
   - {fileID: 2304757810684491399, guid: 0f18ee35c44ddc94581f74145979abac, type: 3}
   - {fileID: 361012210525090288, guid: fc0ff36dc57a66a44893962453d4f77d, type: 3}
   DeadbodyPrefabs:
-  - {fileID: 111951335485893761, guid: 4f89f77a6648fd8409f64a5b1c546475, type: 3}
-  - {fileID: 4947132355805675001, guid: 64649992aa8896743b055b4cfd6563dc, type: 3}
+  - {fileID: 111951335485893761, guid: 64649992aa8896743b055b4cfd6563dc, type: 3}
+  - {fileID: 4947132355805675001, guid: 4f89f77a6648fd8409f64a5b1c546475, type: 3}
   ForbiddenWidthFromPlayer: 150
   ForbiddenLengthFromPlayer: 150
   templeBorderOffset: 3
