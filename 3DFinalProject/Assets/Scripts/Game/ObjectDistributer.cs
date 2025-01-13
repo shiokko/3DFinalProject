@@ -241,7 +241,7 @@ public class ObjectDistributer : MonoBehaviour
 
     private Vector3 GetRandomTreePosition()
     {
-        // 獲取地形的樹實例數據
+
         TreeInstance[] trees = Terrain.terrainData.treeInstances;
         if (trees.Length == 0)
         {
@@ -249,14 +249,12 @@ public class ObjectDistributer : MonoBehaviour
             return Vector3.zero;
         }
 
-        // 隨機選擇一棵樹
         int randomIndex = Random.Range(0, trees.Length);
         TreeInstance randomTree = trees[randomIndex];
 
-        // 計算樹的世界座標
         Vector3 treeWorldPosition = Vector3.Scale(randomTree.position, Terrain.terrainData.size);
         treeWorldPosition += Terrain.transform.position;
-        treeWorldPosition = new Vector3(treeWorldPosition.x + 2, treeWorldPosition.y + 3, treeWorldPosition.z);
+        treeWorldPosition = new Vector3(treeWorldPosition.x + 1, treeWorldPosition.y + 3, treeWorldPosition.z);
         return treeWorldPosition;
     }
 
