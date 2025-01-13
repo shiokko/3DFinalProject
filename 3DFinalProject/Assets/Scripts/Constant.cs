@@ -37,8 +37,8 @@ enum Gods
 
 enum Ghost
 {
-    SUICIDE = 1,  // start from 1 because land god is at 0
-    HOMICIDE
+    HOMICIDE = 1,  // start from 1 because land god is at 0
+    SUICIDE,
 }
 
 enum GlobalVar

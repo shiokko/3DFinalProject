@@ -17,6 +17,8 @@ public class ObjectDistributer : MonoBehaviour
     private Transform Player;
     [SerializeField]
     private GameObject GM;
+    [SerializeField]
+    private Terrain Terrain;
 
     [Header("Item Prefabs")]
     [SerializeField]
@@ -233,7 +235,27 @@ public class ObjectDistributer : MonoBehaviour
 
     private void DistributeDeadbody()
     {
-        SpawnOutsideItems(DeadbodyPrefabs[correctDeadbodyID - 1], 1);
+        //SpawnOutsideItems(DeadbodyPrefabs[correctDeadbodyID - 1], 1);
+        Instantiate(DeadbodyPrefabs[correctDeadbodyID - 1], GetRandomTreePosition(), transform.rotation);
+    }
+
+    private Vector3 GetRandomTreePosition()
+    {
+
+        TreeInstance[] trees = Terrain.terrainData.treeInstances;
+        if (trees.Length == 0)
+        {
+            Debug.LogWarning("Terrain 上沒有樹！");
+            return Vector3.zero;
+        }
+
+        int randomIndex = Random.Range(0, trees.Length);
+        TreeInstance randomTree = trees[randomIndex];
+
+        Vector3 treeWorldPosition = Vector3.Scale(randomTree.position, Terrain.terrainData.size);
+        treeWorldPosition += Terrain.transform.position;
+        treeWorldPosition = new Vector3(treeWorldPosition.x + 1, treeWorldPosition.y + 3, treeWorldPosition.z);
+        return treeWorldPosition;
     }
 
     private void SpawnOutsideItems(GameObject _prefab, int _prefabNum)
