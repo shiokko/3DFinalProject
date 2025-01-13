@@ -20,7 +20,7 @@ public class FungusTrigger : MonoBehaviour
 
     void Start()
     {
-
+        Flowchart.BroadcastFungusMessage("Init");
     }
 
     // Update is called once per frame

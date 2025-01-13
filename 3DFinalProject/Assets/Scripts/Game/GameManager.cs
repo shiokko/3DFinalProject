@@ -151,13 +151,6 @@ public class GameManager : MonoBehaviour
 
     // public functios here
 
-    // for everyone
-    public bool GameOver()
-    {
-        LetGhostSleep();
-        return gameOver;
-    }
-
     // for obj distributer to distribute the correct remnants
     public int GetCorrectGhostTempleIndex()
     {
@@ -192,21 +185,18 @@ public class GameManager : MonoBehaviour
 
         if (correctRemnantID[0] == _flowchart.GetIntegerVariable("sex"))
         {
-            Debug.Log("sex");
             CorrectAns[0] = true;
             BonusScore++;
         }
 
         if (correctRemnantID[1] == _flowchart.GetIntegerVariable("age"))
         {
-            Debug.Log("age");
             CorrectAns[1] = true;
             BonusScore++;
         }
 
         if (correctRemnantID[2] == _flowchart.GetIntegerVariable("state"))
         {
-            Debug.Log("state");
             CorrectAns[2] = true;
             BonusScore++;
         }
