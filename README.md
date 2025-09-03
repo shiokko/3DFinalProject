@@ -74,4 +74,4 @@ https://www.youtube.com/watch?v=aPp9yFlChsM
 
 ## 投影片
 
-https://github.com/shiokko/3DFinalProject
+https://www.canva.com/design/DAGZFsQBFgk/2aPsWIq61Mgd4RwcfX_7vw/edit
