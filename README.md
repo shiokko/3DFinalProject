@@ -68,3 +68,10 @@
 - **Conifers [BOTD]：** https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076
 - **Rock and Boulders 2：** https://assetstore.unity.com/packages/3d/props/exterior/rock-and-boulders-2-6947
 - **SeedMesh vegetation Shaders：** https://assetstore.unity.com/packages/vfx/shaders/seedmesh-vegetation-shaders-232690 
+## 影片連結
+
+https://www.youtube.com/watch?v=aPp9yFlChsM
+
+## 投影片
+
+https://www.canva.com/design/DAGZFsQBFgk/2aPsWIq61Mgd4RwcfX_7vw/edit
